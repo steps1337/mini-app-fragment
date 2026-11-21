@@ -7,42 +7,23 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-main: #0f1115;
-            --bg-card: #1c1f26;
-            --bg-nav: #17191e;
-            --text-main: #ffffff;
-            --text-muted: #8b92a5;
-            --accent-blue: #3b82f6;
-            --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-            --border-color: #2a2e38;
-            --green: #10b981;
+            --bg-main: #0f1115; --bg-card: #1c1f26; --bg-nav: #17191e;
+            --text-main: #ffffff; --text-muted: #8b92a5;
+            --accent-blue: #3b82f6; --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --border-color: #2a2e38; --green: #10b981;
         }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 80px; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            padding-bottom: 80px;
-            overflow-x: hidden;
-        }
-
-        /* Экраны */
         .screen { display: none; padding: 16px; animation: fadeIn 0.2s ease; }
         .screen.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Шапка */
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .header h1 { font-size: 24px; font-weight: 700; }
-        
-        /* ЭКРАН 1: ГЛАВНАЯ */
-        .balance-card {
-            background: var(--accent-gradient);
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
+
+        /* ГЛАВНАЯ */
+        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; }
         .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
         .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); }
         .user-name { font-size: 18px; font-weight: 600; }
@@ -53,25 +34,22 @@
         .btn-white { background: white; color: black; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; }
         .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; }
 
-        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; position: relative; border: 1px solid var(--border-color); }
+        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); }
         .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
-        .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+        .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
         .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; width: 70%; }
         .btn-small { background: #2a2e38; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; float: right; cursor: pointer; }
 
-        /* ЭКРАН 2: СДЕЛКИ */
+        /* СДЕЛКИ */
         .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
         .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; }
         .search-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-        
-        .tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
-        .tab { background: var(--bg-card); color: var(--text-muted); padding: 10px 16px; border-radius: 20px; font-size: 14px; white-space: nowrap; border: 1px solid transparent; cursor: pointer; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+        .tab { background: var(--bg-card); color: var(--text-muted); padding: 10px 16px; border-radius: 20px; font-size: 14px; border: 1px solid transparent; cursor: pointer; }
         .tab.active { background: var(--accent-blue); color: white; }
-
         .info-box { background: var(--bg-card); padding: 16px; border-radius: 12px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; border: 1px solid var(--border-color); }
         .info-box a { color: var(--accent-blue); text-decoration: none; }
-
-        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); position: relative; }
+        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); }
         .deal-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .deal-id { color: var(--text-muted); font-size: 12px; }
         .deal-price { font-weight: 700; font-size: 16px; }
@@ -79,20 +57,18 @@
         .deal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
         .deal-status { display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; background: rgba(16, 185, 129, 0.1); color: var(--green); }
         .deal-status.pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-
         .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; }
         .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-        .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; font-size: 16px; }
+        .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; }
         .empty-state .sub { font-size: 13px; }
 
-        /* ЭКРАН 3: ПРОФИЛЬ */
+        /* ПРОФИЛЬ */
         .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); }
         .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; }
         .stat-item { flex: 1; border-right: 1px solid var(--border-color); }
         .stat-item:last-child { border-right: none; }
         .stat-val { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
-        
         .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; }
         .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
         .menu-row:last-child { border-bottom: none; }
@@ -101,45 +77,31 @@
         .menu-row-right { color: var(--green); font-size: 14px; font-weight: 600; }
         .badge { background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-        /* МОДАЛЬНЫЕ ОКНА */
+        /* МОДАЛКИ */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; z-index: 100; }
         .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--bg-main); width: 100%; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; padding-bottom: 40px; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        .modal-content { background: var(--bg-main); width: 100%; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; padding-bottom: 40px; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
         .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; padding-left: 12px; border-left: 2px solid var(--accent-blue); }
-        .role-btn { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 16px; border-radius: 12px; text-align: left; font-size: 16px; font-weight: 600; margin-bottom: 12px; transition: 0.2s; cursor: pointer; }
-        .role-btn:active { background: var(--border-color); }
+        .role-btn { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 16px; border-radius: 12px; text-align: left; font-size: 16px; font-weight: 600; margin-bottom: 12px; cursor: pointer; }
         .modal-close { text-align: center; color: var(--text-muted); margin-top: 16px; font-size: 14px; padding: 10px; cursor: pointer; }
-        
         .field-label { font-size: 13px; color: var(--text-muted); margin: 12px 0 8px; }
         .field-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 12px; color: white; font-size: 15px; outline: none; margin-bottom: 4px; }
         .btn-primary { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 16px; cursor: pointer; }
 
-        /* НИЖНЕЕ МЕНЮ */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--bg-nav);
-            display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--border-color);
-            padding-bottom: env(safe-area-inset-bottom); z-index: 50;
-        }
+        /* НАВИГАЦИЯ */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--bg-nav); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--border-color); z-index: 50; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; gap: 4px; flex: 1; cursor: pointer; }
         .nav-item.active { color: var(--accent-blue); }
         .nav-icon { font-size: 20px; }
-        
-        .nav-plus { 
-            width: 56px; height: 56px; background: var(--accent-blue); border-radius: 50%; 
-            display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: 300;
-            margin-top: -30px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer;
-        }
+        .nav-plus { width: 56px; height: 56px; background: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; margin-top: -30px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <!-- ЭКРАН 1: ГЛАВНАЯ -->
     <div id="screen-home" class="screen active">
-        <div class="header">
-            <h1>Fragment</h1>
-        </div>
+        <div class="header"><h1>Fragment</h1></div>
         <div class="balance-card">
             <div class="user-info">
                 <img id="home-avatar" src="https://ui-avatars.com/api/?name=U&background=3b82f6&color=fff" class="avatar" alt="Avatar">
@@ -150,7 +112,6 @@
             </div>
             <div class="balance-label">Баланс</div>
             <div class="balance-amount" id="user-balance">0,00 ₽</div>
-            
             <div class="balance-actions">
                 <button class="btn-white" onclick="loadBalance()">Обновить</button>
                 <button class="btn-transparent">Вывести</button>
@@ -164,33 +125,17 @@
         </div>
     </div>
 
-    <!-- ЭКРАН 2: СДЕЛКИ -->
     <div id="screen-deals" class="screen">
-        <div class="header">
-            <h1>Сделки</h1>
-        </div>
+        <div class="header"><h1>Сделки</h1></div>
         <div class="search-bar">
-            <input type="text" class="search-input" id="deal-search" placeholder="Поиск: код, игра, ник, описание..." oninput="renderDeals()">
+            <input type="text" class="search-input" id="deal-search" placeholder="Поиск..." oninput="renderDeals()">
             <button class="search-btn" onclick="loadDeals()">Найти</button>
         </div>
-        
         <div class="tabs">
             <div class="tab active">Мои сделки</div>
             <div class="tab">Приглашения</div>
         </div>
-
-        <div class="info-box">
-            Строка — открыть сделку. Синяя подсказка под названием — что сделать сейчас. <a href="#">Подробнее</a>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active" style="background: #2a2e38; border-color: var(--accent-blue);">Все</div>
-            <div class="tab">Активные</div>
-            <div class="tab">Нужен ответ</div>
-        </div>
-
         <div id="deals-list"></div>
-        
         <div id="deals-empty" class="empty-state">
             <div class="icon">📭</div>
             <div class="title">Пока нет сделок</div>
@@ -198,99 +143,58 @@
         </div>
     </div>
 
-    <!-- ЭКРАН 3: ПРОФИЛЬ -->
     <div id="screen-profile" class="screen">
-        <div class="header">
-            <h1>Профиль</h1>
-        </div>
-        
+        <div class="header"><h1>Профиль</h1></div>
         <div class="profile-header">
             <img id="profile-avatar" src="https://ui-avatars.com/api/?name=U&background=3b82f6&color=fff" class="avatar" style="width: 60px; height: 60px;" alt="Avatar">
             <div>
                 <div class="user-name" id="profile-name" style="font-size: 20px;">Пользователь</div>
                 <div class="user-tag" id="profile-username">@username</div>
-                <!-- ИЗМЕНЕНО НА 1 УРОВЕНЬ -->
                 <div class="badge" style="margin-top: 6px;">✓ 1 уровень</div>
             </div>
         </div>
-
         <div class="profile-stats">
-            <div class="stat-item">
-                <div class="stat-val" id="stat-total">0</div>
-                <div class="stat-label">Сделки</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-val" id="stat-done">0</div>
-                <div class="stat-label">Успешных</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-val">5.0</div>
-                <div class="stat-label">Рейтинг</div>
-            </div>
+            <div class="stat-item"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Сделки</div></div>
+            <div class="stat-item"><div class="stat-val" id="stat-done">0</div><div class="stat-label">Успешных</div></div>
+            <div class="stat-item"><div class="stat-val">5.0</div><div class="stat-label">Рейтинг</div></div>
         </div>
-
         <div class="menu-list">
             <div class="menu-row">
                 <div>
                     <div class="menu-row-title">Номер подтверждён</div>
-                    <!-- ИЗМЕНЕНО НА 1 УРОВЕНЬ -->
                     <div class="menu-row-sub">Telegram-контакт подтверждён · 1 уровень</div>
                 </div>
                 <div class="menu-row-right">ГОТОВО</div>
             </div>
-            <div class="menu-row">
-                <div>
-                    <div class="menu-row-title">Кошелёк</div>
-                    <div class="menu-row-sub">Пополнение и вывод средств</div>
-                </div>
-            </div>
-            <div class="menu-row">
-                <div>
-                    <div class="menu-row-title">Чат с поддержкой</div>
-                    <div class="menu-row-sub">Помощник в боте - только этот чат</div>
-                </div>
-            </div>
+            <div class="menu-row"><div><div class="menu-row-title">Кошелёк</div><div class="menu-row-sub">Пополнение и вывод средств</div></div></div>
+            <div class="menu-row"><div><div class="menu-row-title">Чат с поддержкой</div><div class="menu-row-sub">Помощник в боте</div></div></div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО: НОВАЯ СДЕЛКА -->
     <div class="modal-overlay" id="new-deal-modal">
         <div class="modal-content">
             <div class="modal-title">Новая сделка</div>
-            <div class="modal-desc">
-                После отправки заявки второй участник получит уведомление в боте и должен принять условия. <a href="#">Подробнее</a>
-            </div>
-            
-            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-                Шаг 1 — ваша роль
-            </div>
+            <div class="modal-desc">После отправки заявки второй участник получит уведомление в боте и должен принять условия.</div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Шаг 1 — ваша роль</div>
             <button class="role-btn" onclick="showStep2('seller')">Я продаю</button>
             <button class="role-btn" onclick="showStep2('buyer')">Я покупаю</button>
-            
             <div class="modal-close" onclick="closeModal('new-deal-modal')">Закрыть</div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО: ШАГ 2 (ДАННЫЕ) -->
     <div class="modal-overlay" id="deal-step2-modal">
         <div class="modal-content">
             <div class="modal-title">Детали сделки</div>
-            <div class="modal-desc" id="step2-desc">
-                Заполните данные о сделке.
-            </div>
-            
+            <div class="modal-desc" id="step2-desc">Заполните данные о сделке.</div>
             <div class="field-label">Сумма, ₽</div>
             <input type="number" class="field-input" id="deal-amount" placeholder="Например, 500" min="1">
-
-            <div class="field-label">Описание (что продаём)</div>
+            <div class="field-label">Описание</div>
             <input type="text" class="field-input" id="deal-desc" placeholder="Например, НФТ подарок">
-
             <button class="btn-primary" onclick="createDeal()">Создать сделку</button>
             <div class="modal-close" onclick="closeModal('deal-step2-modal')">Назад</div>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО: ПРИНЯТЬ СДЕЛКУ -->
     <div class="modal-overlay" id="accept-deal-modal">
         <div class="modal-content">
             <div class="modal-title">Принять сделку</div>
@@ -302,36 +206,20 @@
         </div>
     </div>
 
-    <!-- НИЖНЕЕ МЕНЮ -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home', this)">
-            <span class="nav-icon">🏠</span>
-            <span>Главная</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('deals', this)">
-            <span class="nav-icon">💼</span>
-            <span>Сделки</span>
-        </div>
-        
-        <!-- Кнопка Плюс -->
+        <div class="nav-item active" onclick="switchTab('home', this)"><span class="nav-icon">🏠</span><span>Главная</span></div>
+        <div class="nav-item" onclick="switchTab('deals', this)"><span class="nav-icon">💼</span><span>Сделки</span></div>
         <div class="nav-plus" onclick="openModal()">+</div>
-        
-        <div class="nav-item" onclick="openAcceptModal()">
-            <span class="nav-icon">📥</span>
-            <span>Принять</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('profile', this)">
-            <span class="nav-icon">👤</span>
-            <span>Профиль</span>
-        </div>
+        <div class="nav-item" onclick="openAcceptModal()"><span class="nav-icon">📥</span><span>Принять</span></div>
+        <div class="nav-item" onclick="switchTab('profile', this)"><span class="nav-icon">👤</span><span>Профиль</span></div>
     </div>
 
     <script>
-        // ====== КОНФИГ ======
-        // Если тестируете на телефоне, замените на ваш ngrok URL
+        // ВАЖНО: Замените на ваш публичный API (например, https://ваш-сервер.com)
+        // Если оставить localhost, на телефоне баланс всегда будет 0,00 ₽, 
+        // а сделки не будут создаваться (но ошибки сети не будет).
         const API_BASE = "http://localhost:8080"; 
         
-        // ====== TELEGRAM ======
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -343,7 +231,6 @@
         const userName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'Пользователь';
         const userTag = user.username ? '@' + user.username : '@guest';
 
-        // Подстановка данных пользователя
         document.getElementById('home-name').textContent = userName;
         document.getElementById('home-username').textContent = userTag;
         document.getElementById('profile-name').textContent = userName;
@@ -352,217 +239,48 @@
         document.getElementById('home-avatar').src = avatarUrl;
         document.getElementById('profile-avatar').src = avatarUrl;
 
-        // ====== НАВИГАЦИЯ ======
         function switchTab(tabName, element) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('screen-' + tabName).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             if (element) element.classList.add('active');
-            
             if (tabName === 'deals') loadDeals();
             if (tabName === 'profile') loadStats();
-            if (tabName === 'home') loadBalance(); 
+            if (tabName === 'home') loadBalance();
         }
 
-        // ====== МОДАЛКИ ======
         let currentRole = '';
-
-        function openModal() {
-            document.getElementById('new-deal-modal').classList.add('active');
-            tg.HapticFeedback?.impactOccurred('medium');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-        }
-
+        function openModal() { document.getElementById('new-deal-modal').classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         function showStep2(role) {
             currentRole = role;
             closeModal('new-deal-modal');
-            document.getElementById('step2-desc').innerText = role === 'seller' 
-                ? 'Вы продавец. Покупатель заплатит с баланса.' 
-                : 'Вы покупатель. Продавец отдаст товар или услугу.';
+            document.getElementById('step2-desc').innerText = role === 'seller' ? 'Вы продавец. Покупатель заплатит с баланса.' : 'Вы покупатель. Продавец отдаст товар.';
             document.getElementById('deal-step2-modal').classList.add('active');
         }
+        function openAcceptModal() { document.getElementById('accept-deal-modal').classList.add('active'); }
 
-        function openAcceptModal() {
-            document.getElementById('accept-deal-modal').classList.add('active');
-        }
-
-        // ====== API ======
         async function api(path, opts = {}) {
             const res = await fetch(API_BASE + path, {
                 headers: { 'Content-Type': 'application/json' },
                 ...opts
             });
-            if (!res.ok) {
-                const text = await res.text();
-                throw new Error(text || `HTTP ${res.status}`);
-            }
+            if (!res.ok) throw new Error(await res.text());
             return res.json();
         }
 
-        // ====== ЗАГРУЗКА БАЛАНСА ======
         async function loadBalance() {
             try {
                 const data = await api(`/user?user_id=${userId}`);
                 document.getElementById('user-balance').innerText = 
                     data.balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
             } catch (e) {
-                console.error("Ошибка загрузки баланса:", e);
-                document.getElementById('user-balance').innerText = "Ошибка сети";
+                console.error("Ошибка загрузки баланса (используется 0):", e);
+                document.getElementById('user-balance').innerText = "0,00 ₽";
             }
         }
 
-        // ====== СОЗДАНИЕ СДЕЛКИ ======
         async function createDeal() {
             const amount = parseFloat(document.getElementById('deal-amount').value);
             const desc = document.getElementById('deal-desc').value.trim();
-
-            if (!amount || amount <= 0) {
-                tg.showAlert('Введите корректную сумму');
-                return;
-            }
-
-            try {
-                const resp = await api('/deal', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        owner_id: userId,
-                        owner_name: userName,
-                        role: currentRole,
-                        amount: amount,
-                        description: desc
-                    })
-                });
-
-                document.getElementById('deal-amount').value = '';
-                document.getElementById('deal-desc').value = '';
-                closeModal('deal-step2-modal');
-
-                tg.HapticFeedback?.notificationOccurred('success');
-                tg.showAlert(
-                    `Сделка создана!\n\nID: ${resp.id}\n\n` +
-                    `Отправьте этот ID партнёру — он введёт его в разделе «Принять».`
-                );
-
-                loadBalance(); 
-                switchTab('deals', document.querySelectorAll('.nav-item')[1]);
-                loadDeals();
-            } catch (e) {
-                tg.showAlert('Ошибка: ' + e.message);
-            }
-        }
-
-        // ====== ПРИНЯТИЕ СДЕЛКИ ======
-        async function acceptDeal() {
-            const id = document.getElementById('accept-deal-id').value.trim().toUpperCase();
-            if (!id) {
-                tg.showAlert('Введите ID сделки');
-                return;
-            }
-            try {
-                await api(`/deal/${id}/accept`, {
-                    method: 'POST',
-                    body: JSON.stringify({ partner_id: userId, partner_name: userName })
-                });
-                document.getElementById('accept-deal-id').value = '';
-                closeModal('accept-deal-modal');
-                tg.HapticFeedback?.notificationOccurred('success');
-                tg.showAlert('Сделка принята!');
-                loadDeals();
-            } catch (e) {
-                tg.showAlert('Ошибка: ' + e.message);
-            }
-        }
-
-        // ====== ЗАГРУЗКА СДЕЛОК ======
-        async function loadDeals() {
-            const listEl = document.getElementById('deals-list');
-            const emptyEl = document.getElementById('deals-empty');
-            listEl.innerHTML = ''; 
-
-            try {
-                const deals = await api(`/deals?user_id=${userId}`);
-                window._allDeals = deals; 
-                renderDeals();
-                updateStats(deals);
-            } catch (e) {
-                console.error(e);
-                emptyEl.style.display = 'block';
-                emptyEl.querySelector('.title').innerText = 'Ошибка загрузки';
-                emptyEl.querySelector('.sub').innerText = e.message;
-            }
-        }
-
-        // ====== РЕНДЕР СПИСКА ======
-        function renderDeals() {
-            const listEl = document.getElementById('deals-list');
-            const emptyEl = document.getElementById('deals-empty');
-            const query = (document.getElementById('deal-search')?.value || '').toLowerCase();
-
-            let deals = window._allDeals || [];
-            if (query) {
-                deals = deals.filter(d => 
-                    d.id.toLowerCase().includes(query) || 
-                    (d.description && d.description.toLowerCase().includes(query)) ||
-                    d.owner_name.toLowerCase().includes(query)
-                );
-            }
-
-            listEl.innerHTML = '';
-
-            if (deals.length === 0) {
-                emptyEl.style.display = 'block';
-                emptyEl.querySelector('.title').innerText = 'Пока нет сделок';
-                emptyEl.querySelector('.sub').innerText = 'Нажмите «+», чтобы создать первую';
-                return;
-            }
-            emptyEl.style.display = 'none';
-
-            deals.forEach(deal => {
-                const isOwner = deal.owner_id === userId;
-                const partnerName = isOwner ? 'Вы' : deal.owner_name;
-                const roleText = deal.role === 'seller' ? 'Продавец' : 'Покупатель';
-                
-                const statusText = deal.status === 'pending' ? 'Ожидает принятия' : 
-                                   deal.status === 'active' ? 'В работе' : 'Завершена';
-                const statusClass = deal.status === 'pending' ? 'pending' : '';
-
-                const card = document.createElement('div');
-                card.className = 'deal-card';
-                card.innerHTML = `
-                    <div class="deal-header">
-                        <div class="deal-id">${deal.id}</div>
-                        <div class="deal-price">${deal.amount.toLocaleString('ru-RU')} ₽</div>
-                    </div>
-                    <div class="deal-title">${roleText}: ${partnerName}</div>
-                    <div class="deal-sub">${deal.description || 'Без описания'} · вы ${isOwner ? (deal.role === 'seller' ? 'продавец' : 'покупатель') : 'партнёр'}</div>
-                    <div class="deal-status ${statusClass}">${deal.status === 'pending' ? '⏳' : '✓'} ${statusText}</div>
-                `;
-                listEl.appendChild(card);
-            });
-        }
-
-        // ====== СТАТИСТИКА ДЛЯ ПРОФИЛЯ ======
-        function updateStats(deals) {
-            const total = deals.length;
-            const done = deals.filter(d => d.status === 'completed').length;
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-done').innerText = done;
-        }
-
-        function loadStats() {
-            if (window._allDeals) {
-                updateStats(window._allDeals);
-            } else {
-                loadDeals(); 
-            }
-        }
-
-        // ====== ИНИЦИАЛИЗАЦИЯ ======
-        loadBalance();
-        loadDeals();
-    </script>
-</body>
-</html>
+            if (!amount || amount <= 0
