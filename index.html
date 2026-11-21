@@ -3,227 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Fragment Mini App</title>
-    
-    <!-- ОБЯЗАТЕЛЬНЫЙ СКРИПТ ДЛЯ РАБОТЫ В TELEGRAM -->
+    <title>Fragment Market Clone</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    
     <style>
-        /* Стилизуем под тёмную тему Fragment */
         :root {
-            --bg-color: #17212b;
-            --card-bg: #232e3c;
-            --text-color: #ffffff;
-            --text-muted: #8895a7;
-            --accent-color: #2ea6ff;
-            --accent-hover: #1c8adb;
-            --btn-secondary: #2b394a;
+            --bg-main: #0f1115;
+            --bg-card: #1c1f26;
+            --bg-nav: #17191e;
+            --text-main: #ffffff;
+            --text-muted: #8b92a5;
+            --accent-blue: #3b82f6;
+            --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            --border-color: #2a2e38;
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
         body {
-            margin: 0;
-            padding: 16px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            box-sizing: border-box;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            padding-bottom: 80px; /* Место для нижнего меню */
+            overflow-x: hidden;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 24px;
-            margin-top: 10px;
-        }
+        /* --- Экраны --- */
+        .screen { display: none; padding: 16px; animation: fadeIn 0.2s ease; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .header h1 {
-            font-size: 24px;
-            margin: 0 0 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+        /* --- Шапка --- */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header h1 { font-size: 24px; font-weight: 700; }
+        .header-icons { display: flex; gap: 12px; }
+        .icon-btn { background: var(--bg-card); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 
-        .header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin: 0;
+        /* --- Главная: Карточка баланса --- */
+        .balance-card {
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
+        .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); }
+        .user-name { font-size: 18px; font-weight: 600; }
+        .user-tag { font-size: 14px; opacity: 0.8; }
+        .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 4px; }
+        .balance-amount { font-size: 36px; font-weight: 800; margin-bottom: 20px; }
+        .balance-actions { display: flex; gap: 12px; }
+        .btn-white { background: white; color: black; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; }
+        .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; }
 
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+        /* --- Главная: Баннер --- */
+        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; position: relative; border: 1px solid var(--border-color); }
+        .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
+        .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.2; }
+        .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; width: 70%; }
+        .btn-small { background: #2a2e38; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; float: right; }
 
-        .balance-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .balance-label {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .balance-value {
-            font-size: 28px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .btn-secondary {
-            background-color: var(--btn-secondary);
-            color: white;
-            margin-top: 10px;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .menu-item {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .menu-item:active {
-            background-color: var(--btn-secondary);
-        }
-
-        .menu-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .menu-text {
-            font-size: 14px;
-            font-weight: 500;
-        }
+        /* --- Сделки --- */
+        .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+        .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; }
+        .search-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 12px; font-weight: 600; }
         
-        /* Скрываем контент до инициализации */
-        #app {
-            display: none;
-            flex-direction: column;
-            flex: 1;
+        .tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; }
+        .tab { background: var(--bg-card); color: var(--text-muted); padding: 10px 16px; border-radius: 20px; font-size: 14px; white-space: nowrap; border: 1px solid transparent; }
+        .tab.active { background: var(--accent-blue); color: white; }
+
+        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #10b981; }
+        .deal-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .deal-id { color: var(--text-muted); font-size: 12px; }
+        .deal-price { font-weight: 700; font-size: 16px; }
+        .deal-title { font-size: 15px; margin-bottom: 8px; }
+        .deal-status { display: inline-block; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+
+        /* --- Профиль --- */
+        .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); }
+        .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; }
+        .stat-item { flex: 1; border-right: 1px solid var(--border-color); }
+        .stat-item:last-child { border-right: none; }
+        .stat-val { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: var(--text-muted); }
+        
+        .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); }
+        .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
+        .menu-row:last-child { border-bottom: none; }
+        .menu-row-title { font-size: 15px; font-weight: 500; }
+        .menu-row-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+        .menu-row-right { color: #10b981; font-size: 14px; font-weight: 600; }
+
+        /* --- Модальное окно (Новая сделка) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; z-index: 100; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--bg-main); width: 100%; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; padding-bottom: 40px; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+        .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; padding-left: 12px; border-left: 2px solid var(--accent-blue); }
+        .role-btn { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); color: white; padding: 16px; border-radius: 12px; text-align: left; font-size: 16px; font-weight: 600; margin-bottom: 12px; transition: 0.2s; }
+        .role-btn:active { background: var(--border-color); }
+        .modal-close { text-align: center; color: var(--text-muted); margin-top: 16px; font-size: 14px; padding: 10px; }
+
+        /* --- Нижнее меню --- */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--bg-nav);
+            display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--border-color);
+            padding-bottom: env(safe-area-inset-bottom); z-index: 50;
+        }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; gap: 4px; flex: 1; cursor: pointer; }
+        .nav-item.active { color: var(--accent-blue); }
+        .nav-icon { font-size: 20px; }
+        
+        .nav-plus { 
+            width: 56px; height: 56px; background: var(--accent-blue); border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; font-weight: 300;
+            margin-top: -30px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div id="app">
+    <!-- ЭКРАН 1: ГЛАВНАЯ -->
+    <div id="screen-home" class="screen active">
         <div class="header">
-            <h1>💎 My Fragment</h1>
-            <p>Маркетплейс цифровых товаров</p>
+            <h1>Fragment</h1>
+            <div class="header-icons">
+                <button class="icon-btn">🌙</button>
+                <button class="icon-btn">🔔</button>
+            </div>
         </div>
 
-        <div class="card">
-            <div class="balance-row">
-                <span class="balance-label">Ваш баланс</span>
-                <span class="balance-value" id="balance">0 <span style="font-size: 18px;">⭐</span></span>
+        <div class="balance-card">
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=User&background=random" class="avatar" alt="Avatar">
+                <div>
+                    <div class="user-name">Пользователь</div>
+                    <div class="user-tag">@username</div>
+                </div>
             </div>
-            <button class="btn btn-primary" onclick="handleBuyStars()">Купить Stars</button>
+            <div class="balance-label">Баланс</div>
+            <div class="balance-amount">0,00 ₽</div>
+            <div class="balance-actions">
+                <button class="btn-white">Пополнить</button>
+                <button class="btn-transparent">Вывести</button>
+            </div>
         </div>
 
-        <div class="menu-grid">
-            <div class="menu-item" onclick="handleMenu('deals')">
-                <div class="menu-icon">🤝</div>
-                <div class="menu-text">Сделки</div>
+        <div class="banner">
+            <div class="banner-tag">● СДЕЛКА</div>
+            <div class="banner-title">Сначала товар,<br>потом деньги</div>
+            <div class="banner-desc">Оплата держится сервисом, пока покупатель не подтвердит.</div>
+            <button class="btn-small" onclick="openModal()">Создать</button>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 2: СДЕЛКИ -->
+    <div id="screen-deals" class="screen">
+        <div class="header">
+            <h1>Сделки</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Поиск...">
+            <button class="search-btn">Найти</button>
+        </div>
+        <div class="tabs">
+            <div class="tab active">Мои сделки</div>
+            <div class="tab">Приглашения</div>
+        </div>
+        <div class="tabs">
+            <div class="tab active" style="background: #2a2e38; border-color: #3b82f6;">Все</div>
+            <div class="tab">Активные</div>
+            <div class="tab">Нужен ответ</div>
+        </div>
+
+        <div class="deal-card">
+            <div class="deal-header">
+                <div class="deal-id">8LR2UB</div>
+                <div class="deal-price">526,00 ₽</div>
             </div>
-            <div class="menu-item" onclick="handleMenu('wallet')">
-                <div class="menu-icon">👛</div>
-                <div class="menu-text">Кошелёк</div>
+            <div class="deal-title">Продавец: @BsumRN</div>
+            <div class="deal-status">✓ Сделка завершена</div>
+        </div>
+
+        <div class="deal-card">
+            <div class="deal-header">
+                <div class="deal-id">1LQAWJ</div>
+                <div class="deal-price">1 400,00 ₽</div>
             </div>
-            <div class="menu-item" onclick="handleMenu('profile')">
-                <div class="menu-icon">👤</div>
-                <div class="menu-text">Профиль</div>
+            <div class="deal-title">Продавец: @linaqqwv</div>
+            <div class="deal-status">✓ Сделка завершена</div>
+        </div>
+    </div>
+
+    <!-- ЭКРАН 3: ПРОФИЛЬ -->
+    <div id="screen-profile" class="screen">
+        <div class="header">
+            <h1>Профиль</h1>
+        </div>
+        
+        <div class="profile-header">
+            <img src="https://ui-avatars.com/api/?name=User&background=random" class="avatar" style="width: 60px; height: 60px;" alt="Avatar">
+            <div>
+                <div class="user-name" style="font-size: 20px;">Пользователь</div>
+                <div class="user-tag">@username</div>
             </div>
-            <div class="menu-item" onclick="handleMenu('support')">
-                <div class="menu-icon">🛠</div>
-                <div class="menu-text">Поддержка</div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-val">0</div>
+                <div class="stat-label">Сделки</div>
             </div>
+            <div class="stat-item">
+                <div class="stat-val">0</div>
+                <div class="stat-label">Успешных</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-val">5.0</div>
+                <div class="stat-label">Рейтинг</div>
+            </div>
+        </div>
+
+        <div class="menu-list">
+            <div class="menu-row">
+                <div>
+                    <div class="menu-row-title">Номер подтверждён</div>
+                    <div class="menu-row-sub">Telegram-контакт</div>
+                </div>
+                <div class="menu-row-right">ГОТОВО</div>
+            </div>
+            <div class="menu-row">
+                <div>
+                    <div class="menu-row-title">Кошелёк</div>
+                    <div class="menu-row-sub">Пополнение и вывод средств</div>
+                </div>
+            </div>
+            <div class="menu-row">
+                <div>
+                    <div class="menu-row-title">Чат с поддержкой</div>
+                    <div class="menu-row-sub">Помощник в боте</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО (Новая сделка) -->
+    <div class="modal-overlay" id="new-deal-modal">
+        <div class="modal-content">
+            <div class="modal-title">Новая сделка</div>
+            <div class="modal-desc">
+                После отправки заявки второй участник получит уведомление в боте и должен принять условия.
+            </div>
+            <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Шаг 1 — ваша роль</div>
+            
+            <button class="role-btn" onclick="closeModal()">Я продаю</button>
+            <button class="role-btn" onclick="closeModal()">Я покупаю</button>
+            
+            <div class="modal-close" onclick="closeModal()">Закрыть</div>
+        </div>
+    </div>
+
+    <!-- НИЖНЕЕ МЕНЮ -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <span class="nav-icon">🏠</span>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('deals', this)">
+            <span class="nav-icon">💼</span>
+            <span>Сделки</span>
+        </div>
+        
+        <!-- Кнопка Плюс -->
+        <div class="nav-plus" onclick="openModal()">+</div>
+        
+        <div class="nav-item">
+            <span class="nav-icon">💬</span>
+            <span>Чаты</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('profile', this)">
+            <span class="nav-icon">👤</span>
+            <span>Профиль</span>
         </div>
     </div>
 
     <script>
         // Инициализация Telegram WebApp
         const tg = window.Telegram.WebApp;
-        
-        // Сообщаем Telegram, что приложение готово
         tg.ready();
-        // Разворачиваем на весь экран
         tg.expand();
-        
-        // Настраиваем цвета шапки под тему Telegram
-        tg.setHeaderColor('#17212b');
-        tg.setBackgroundColor('#17212b');
+        tg.setHeaderColor('#0f1115');
+        tg.setBackgroundColor('#0f1115');
 
-        // Показываем интерфейс после инициализации
-        document.getElementById('app').style.display = 'flex';
-
-        // Получаем данные пользователя (можно использовать для отправки на сервер)
-        const user = tg.initDataUnsafe?.user;
-        console.log("Пользователь:", user);
-
-        // --- ФУНКЦИИ ОБРАБОТКИ КЛИКОВ ---
-        
-        function handleBuyStars() {
-            // Пример: Отправляем событие в бота
-            tg.showPopup({
-                title: 'Покупка Stars',
-                message: 'Здесь будет интеграция с платежной системой. Пока это демо.',
-                buttons: [{id: 'ok', type: 'default', text: 'OK'}]
+        // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК ---
+        function switchTab(tabName, element) {
+            // 1. Скрыть все экраны
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
             });
             
-            // Если нужно отправить данные боту (требует настройки на бэкенде):
-            // tg.sendData(JSON.stringify({ action: "buy_stars", amount: 100 }));
+            // 2. Показать нужный экран
+            document.getElementById('screen-' + tabName).classList.add('active');
+
+            // 3. Обновить активную иконку в меню
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            if (element) {
+                element.classList.add('active');
+            }
         }
 
-        function handleMenu(section) {
-            // Здесь можно добавить логику переключения экранов
-            tg.showAlert(`Вы нажали на раздел: ${section}`);
+        // --- ЛОГИКА МОДАЛЬНОГО ОКНА ---
+        function openModal() {
+            document.getElementById('new-deal-modal').classList.add('active');
+            tg.HapticFeedback.impactOccurred('medium'); // Вибрация при открытии
+        }
+
+        function closeModal() {
+            document.getElementById('new-deal-modal').classList.remove('active');
         }
     </script>
 </body>
