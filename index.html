@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Playerok Clone</title>
+    <title>Fragment Market</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -36,7 +36,7 @@
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .header h1 { font-size: 24px; font-weight: 700; }
         
-        /* ЭКРАН 1: ГЛАВНАЯ (Баннер и баланс) */
+        /* ЭКРАН 1: ГЛАВНАЯ */
         .balance-card {
             background: var(--accent-gradient);
             border-radius: 20px;
@@ -138,7 +138,7 @@
     <!-- ЭКРАН 1: ГЛАВНАЯ -->
     <div id="screen-home" class="screen active">
         <div class="header">
-            <h1>Главная</h1>
+            <h1>Fragment</h1>
         </div>
         <div class="balance-card">
             <div class="user-info">
@@ -149,9 +149,10 @@
                 </div>
             </div>
             <div class="balance-label">Баланс</div>
-            <div class="balance-amount">0,00 ₽</div>
+            <div class="balance-amount" id="user-balance">0,00 ₽</div>
+            
             <div class="balance-actions">
-                <button class="btn-white">Пополнить</button>
+                <button class="btn-white" onclick="loadBalance()">Обновить</button>
                 <button class="btn-transparent">Вывести</button>
             </div>
         </div>
@@ -208,6 +209,7 @@
             <div>
                 <div class="user-name" id="profile-name" style="font-size: 20px;">Пользователь</div>
                 <div class="user-tag" id="profile-username">@username</div>
+                <!-- ИЗМЕНЕНО НА 1 УРОВЕНЬ -->
                 <div class="badge" style="margin-top: 6px;">✓ 1 уровень</div>
             </div>
         </div>
@@ -231,7 +233,8 @@
             <div class="menu-row">
                 <div>
                     <div class="menu-row-title">Номер подтверждён</div>
-                    <div class="menu-row-sub">Telegram-контакт подтверждён · 2 уровень</div>
+                    <!-- ИЗМЕНЕНО НА 1 УРОВЕНЬ -->
+                    <div class="menu-row-sub">Telegram-контакт подтверждён · 1 уровень</div>
                 </div>
                 <div class="menu-row-right">ГОТОВО</div>
             </div>
@@ -358,6 +361,7 @@
             
             if (tabName === 'deals') loadDeals();
             if (tabName === 'profile') loadStats();
+            if (tabName === 'home') loadBalance(); 
         }
 
         // ====== МОДАЛКИ ======
@@ -398,6 +402,18 @@
             return res.json();
         }
 
+        // ====== ЗАГРУЗКА БАЛАНСА ======
+        async function loadBalance() {
+            try {
+                const data = await api(`/user?user_id=${userId}`);
+                document.getElementById('user-balance').innerText = 
+                    data.balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
+            } catch (e) {
+                console.error("Ошибка загрузки баланса:", e);
+                document.getElementById('user-balance').innerText = "Ошибка сети";
+            }
+        }
+
         // ====== СОЗДАНИЕ СДЕЛКИ ======
         async function createDeal() {
             const amount = parseFloat(document.getElementById('deal-amount').value);
@@ -430,6 +446,7 @@
                     `Отправьте этот ID партнёру — он введёт его в разделе «Принять».`
                 );
 
+                loadBalance(); 
                 switchTab('deals', document.querySelectorAll('.nav-item')[1]);
                 loadDeals();
             } catch (e) {
@@ -463,11 +480,11 @@
         async function loadDeals() {
             const listEl = document.getElementById('deals-list');
             const emptyEl = document.getElementById('deals-empty');
-            listEl.innerHTML = ''; // Очищаем
+            listEl.innerHTML = ''; 
 
             try {
                 const deals = await api(`/deals?user_id=${userId}`);
-                window._allDeals = deals; // Сохраняем для поиска
+                window._allDeals = deals; 
                 renderDeals();
                 updateStats(deals);
             } catch (e) {
@@ -539,11 +556,12 @@
             if (window._allDeals) {
                 updateStats(window._allDeals);
             } else {
-                loadDeals(); // Если не загружены, загрузим
+                loadDeals(); 
             }
         }
 
-        // Автозагрузка при старте
+        // ====== ИНИЦИАЛИЗАЦИЯ ======
+        loadBalance();
         loadDeals();
     </script>
 </body>
