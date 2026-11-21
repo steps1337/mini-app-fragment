@@ -216,8 +216,6 @@
 
     <script>
         // ВАЖНО: Замените на ваш публичный API (например, https://ваш-сервер.com)
-        // Если оставить localhost, на телефоне баланс всегда будет 0,00 ₽, 
-        // а сделки не будут создаваться (но ошибки сети не будет).
         const API_BASE = "http://localhost:8080"; 
         
         const tg = window.Telegram.WebApp;
@@ -275,7 +273,7 @@
                 document.getElementById('user-balance').innerText = 
                     data.balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
             } catch (e) {
-                console.error("Ошибка загрузки баланса (используется 0):", e);
+                console.error("Ошибка загрузки баланса:", e);
                 document.getElementById('user-balance').innerText = "0,00 ₽";
             }
         }
@@ -283,4 +281,107 @@
         async function createDeal() {
             const amount = parseFloat(document.getElementById('deal-amount').value);
             const desc = document.getElementById('deal-desc').value.trim();
-            if (!amount || amount <= 0
+            if (!amount || amount <= 0) return tg.showAlert('Введите корректную сумму');
+            try {
+                const resp = await api('/deal', {
+                    method: 'POST',
+                    body: JSON.stringify({ owner_id: userId, owner_name: userName, role: currentRole, amount, description: desc })
+                });
+                document.getElementById('deal-amount').value = '';
+                document.getElementById('deal-desc').value = '';
+                closeModal('deal-step2-modal');
+                tg.showAlert(`Сделка создана!\nID: ${resp.id}\nОтправьте этот ID партнёру.`);
+                loadBalance();
+                switchTab('deals', document.querySelectorAll('.nav-item')[1]);
+            } catch (e) { tg.showAlert('Ошибка: ' + e.message); }
+        }
+
+        async function acceptDeal() {
+            const id = document.getElementById('accept-deal-id').value.trim().toUpperCase();
+            if (!id) return tg.showAlert('Введите ID сделки');
+            try {
+                await api(`/deal/${id}/accept`, {
+                    method: 'POST',
+                    body: JSON.stringify({ partner_id: userId, partner_name: userName })
+                });
+                document.getElementById('accept-deal-id').value = '';
+                closeModal('accept-deal-modal');
+                tg.showAlert('Сделка принята!');
+                loadDeals();
+            } catch (e) { tg.showAlert('Ошибка: ' + e.message); }
+        }
+
+        async function loadDeals() {
+            const listEl = document.getElementById('deals-list');
+            const emptyEl = document.getElementById('deals-empty');
+            listEl.innerHTML = '';
+            try {
+                const deals = await api(`/deals?user_id=${userId}`);
+                window._allDeals = deals;
+                renderDeals();
+                updateStats(deals);
+            } catch (e) {
+                emptyEl.style.display = 'block';
+                emptyEl.querySelector('.title').innerText = 'Нет соединения';
+                emptyEl.querySelector('.sub').innerText = 'Проверьте интернет или сервер';
+            }
+        }
+
+        function renderDeals() {
+            const listEl = document.getElementById('deals-list');
+            const emptyEl = document.getElementById('deals-empty');
+            const query = (document.getElementById('deal-search')?.value || '').toLowerCase();
+
+            let deals = window._allDeals || [];
+            if (query) {
+                deals = deals.filter(d => d.id.toLowerCase().includes(query) || (d.description && d.description.toLowerCase().includes(query)));
+            }
+
+            listEl.innerHTML = '';
+
+            if (deals.length === 0) {
+                emptyEl.style.display = 'block';
+                return;
+            }
+            emptyEl.style.display = 'none';
+
+            deals.forEach(deal => {
+                const isOwner = deal.owner_id === userId;
+                const partnerName = isOwner ? 'Вы' : deal.owner_name;
+                const roleText = deal.role === 'seller' ? 'Продавец' : 'Покупатель';
+                const statusText = deal.status === 'pending' ? 'Ожидает принятия' : deal.status === 'active' ? 'В работе' : 'Завершена';
+                const statusClass = deal.status === 'pending' ? 'pending' : '';
+
+                const card = document.createElement('div');
+                card.className = 'deal-card';
+                card.innerHTML = `
+                    <div class="deal-header">
+                        <div class="deal-id">${deal.id}</div>
+                        <div class="deal-price">${deal.amount.toLocaleString('ru-RU')} ₽</div>
+                    </div>
+                    <div class="deal-title">${roleText}: ${partnerName}</div>
+                    <div class="deal-sub">${deal.description || 'Без описания'} · вы ${isOwner ? (deal.role === 'seller' ? 'продавец' : 'покупатель') : 'партнёр'}</div>
+                    <div class="deal-status ${statusClass}">${deal.status === 'pending' ? '⏳' : '✓'} ${statusText}</div>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function updateStats(deals) {
+            const total = deals.length;
+            const done = deals.filter(d => d.status === 'completed').length;
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-done').innerText = done;
+        }
+
+        function loadStats() {
+            if (window._allDeals) updateStats(window._allDeals);
+            else loadDeals();
+        }
+
+        // Запуск при старте
+        loadBalance();
+        loadDeals();
+    </script>
+</body>
+</html>
