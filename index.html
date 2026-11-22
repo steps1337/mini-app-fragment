@@ -1013,19 +1013,19 @@
             }
         }
 
-        async function actionDeal(action) {
+                async function actionDeal(action) {
             if (!currentDealId) return tg.showAlert('Ошибка: ID сделки не найден');
 
             tg.MainButton.setText("Обработка..."); tg.MainButton.show();
             try {
-                await api(`/deal/${currentDealId}/action`, {
+                const res = await api(`/deal/${currentDealId}/action`, {
                     method: 'POST',
                     body: JSON.stringify({ user_id: userId, action: action })
                 });
                 
                 tg.showAlert('✅ Статус сделки обновлен!');
-                await loadDeals();
-                openDealDetail(currentDealId);
+                await loadDeals(); // Обновляем данные с сервера
+                openDealDetail(currentDealId); // Перерисовываем экран
             } catch (e) {
                 tg.showAlert('❌ ' + e.message);
             } finally {
