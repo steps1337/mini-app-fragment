@@ -156,12 +156,12 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: ДЕТАЛИ СДЕЛКИ (НОВЫЙ!) -->
+    <!-- ЭКРАН: ДЕТАЛИ СДЕЛКИ -->
     <div id="screen-deal-detail" class="screen">
         <div class="header">
             <button class="back-btn" onclick="switchTab('deals', document.querySelectorAll('.nav-item')[1])">← Назад</button>
             <h1>Детали сделки</h1>
-            <div style="width: 60px;"></div> <!-- Spacer for centering -->
+            <div style="width: 60px;"></div>
         </div>
         
         <div class="detail-card">
@@ -223,14 +223,14 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА: СОЗДАНИЕ СДЕЛКИ -->
+    <!-- МОДАЛКА: СОЗДАНИЕ СДЕЛКИ (ОБНОВЛЕНА ПОД USERNAME) -->
     <div class="modal-overlay" id="new-deal-modal">
         <div class="modal-content">
             <div class="modal-title">Новая сделка</div>
             <div class="modal-desc">Продавец получит уведомление в Telegram.</div>
             
-            <div class="field-label">ID Продавца (Telegram ID)</div>
-            <input type="number" class="field-input" id="seller-id" placeholder="Например: 123456789">
+            <div class="field-label">@username Продавца</div>
+            <input type="text" class="field-input" id="seller-username" placeholder="Например: durov" autocomplete="off">
             
             <div class="field-label">Сумма, ₽</div>
             <input type="number" class="field-input" id="deal-amount" placeholder="Например: 500" min="1">
@@ -277,7 +277,6 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById('screen-' + tabName).classList.add('active');
             
-            // Обновляем активный таб в навигации (если не детали сделки)
             if(element && !tabName.includes('detail')) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 element.classList.add('active');
@@ -344,7 +343,7 @@
 
                 const card = document.createElement('div');
                 card.className = 'deal-card';
-                card.onclick = () => openDealDetail(deal.id); // <-- КЛИК ОТКРЫВАЕТ ДЕТАЛИ
+                card.onclick = () => openDealDetail(deal.id); 
                 
                 card.innerHTML = `
                     <div class="deal-header">
@@ -361,11 +360,8 @@
 
         // ОТКРЫТИЕ ДЕТАЛЕЙ СДЕЛКИ
         async function openDealDetail(dealId) {
-            // Показываем экран загрузки или переключаем сразу
             switchTab('deal-detail', null); 
             
-            // Загружаем свежие данные конкретной сделки (можно оптимизировать, взяв из кэша, но лучше запросить)
-            // Для простоты найдем в локальном кэше, а если нет - перезагрузим список
             let deal = (window._allDeals || []).find(d => d.id === dealId);
             if (!deal) {
                 await loadDeals();
@@ -374,22 +370,10 @@
 
             if (!deal) return tg.showAlert('Сделка не найдена');
 
-            // Заполняем данными
             document.getElementById('detail-id').innerText = '#' + deal.id;
             document.getElementById('detail-status').innerText = getStatusText(deal.status);
             document.getElementById('detail-amount').innerText = deal.amount.toLocaleString('ru-RU') + ' ₽';
             document.getElementById('detail-desc').innerText = deal.description || 'Нет описания';
-            
-            // Определяем кто есть кто
-            const isSeller = deal.role !== 'buyer'; // Если роль buyer, значит owner - покупатель. Значит мы продавец если role != buyer? 
-            // В нашей логике создания: role='buyer' всегда у создателя.
-            // Значит:
-            // Если deal.role == 'buyer' -> Owner = Покупатель, Partner = Продавец.
-            // Если deal.role != 'buyer' (теоретически не бывает при создании через +, но оставим логику гибкой)
-            
-            // Упростим:
-            // Создатель (owner_id) всегда Buyer в нашей текущей реализации create_deal_from_app.
-            // Партнер (partner_id) всегда Seller.
             
             const isBuyer = (deal.owner_id === userId);
             const sellerName = isBuyer ? (deal.partner_name || 'Неизвестно') : deal.owner_name;
@@ -398,7 +382,6 @@
             document.getElementById('detail-seller').innerText = sellerName;
             document.getElementById('detail-buyer').innerText = buyerName;
 
-            // Рендерим кнопки действий
             renderActionButtons(deal, isBuyer);
         }
 
@@ -410,21 +393,26 @@
                 container.innerHTML = `<div class="btn-action btn-wait">⏳ Ожидание принятия продавцом...</div>`;
             } 
             else if (deal.status === 'active') {
-                // Сделка активна. Кто что видит?
-                // Обычно: Продавец передает товар -> Жмет "Передал". Покупатель проверяет -> Жмет "Получил".
-                
                 if (isBuyer) {
-                    // Я покупатель. Я жду товар.
                     container.innerHTML = `
                         <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец должен передать товар. После проверки нажмите кнопку ниже.</div>
                         <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар (Подтвердить)</button>
                     `;
                 } else {
-                    // Я продавец. Я должен отдать товар.
                     container.innerHTML = `
-                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Передайте товар покупателю (в личке или здесь). Затем нажмите кнопку.</div>
+                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Передайте товар покупателю. Затем нажмите кнопку.</div>
                         <button class="btn-action btn-confirm" onclick="confirmDelivery('${deal.id}')">📦 Я передал товар</button>
                     `;
+                }
+            }
+            else if (deal.status === 'delivered') {
+                 if (isBuyer) {
+                    container.innerHTML = `
+                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец отметил отправку. Проверьте товар!</div>
+                        <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар (Подтвердить)</button>
+                    `;
+                } else {
+                     container.innerHTML = `<div class="btn-action btn-wait">📦 Ожидание подтверждения от покупателя...</div>`;
                 }
             }
             else if (deal.status === 'completed') {
@@ -445,7 +433,7 @@
                             body: JSON.stringify({ user_id: userId, action: 'delivered' })
                         });
                         tg.showAlert('Статус обновлен! Покупатель уведомлен.');
-                        openDealDetail(dealId); // Обновить экран
+                        openDealDetail(dealId);
                     } catch(e) { tg.showAlert('Ошибка: ' + e.message); }
                 }
             });
@@ -486,27 +474,59 @@
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
 
-        // Создание сделки (старое, но рабочее)
+        // Создание сделки (ОБНОВЛЕНО ПОД USERNAME)
         function openModal() { document.getElementById('new-deal-modal').classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         
         async function createDeal() {
-            const sellerId = parseInt(document.getElementById('seller-id').value);
+            // Получаем username и убираем собачку, если пользователь её ввел
+            let sellerUsername = document.getElementById('seller-username').value.trim();
+            if (sellerUsername.startsWith('@')) sellerUsername = sellerUsername.substring(1);
+            
             const amount = parseFloat(document.getElementById('deal-amount').value);
             const desc = document.getElementById('deal-desc').value.trim();
 
-            if (!sellerId || !amount || amount <= 0) return tg.showAlert('Заполните все поля');
+            if (!sellerUsername || !amount || amount <= 0) {
+                return tg.showAlert('Введите корректный @username продавца и сумму');
+            }
+
+            tg.MainButton.setText("Поиск продавца...");
+            tg.MainButton.show();
 
             try {
+                // Сначала просим сервер найти ID по username
+                const resolveResp = await api(`/resolve-username?username=${sellerUsername}`);
+                
+                if (!resolveResp.user_id) {
+                    throw new Error(`Пользователь @${sellerUsername} не найден или никогда не запускал бота.`);
+                }
+
+                // Теперь создаем сделку, используя найденный ID
                 const resp = await api('/api/create-deal', {
                     method: 'POST',
-                    body: JSON.stringify({ buyer_id: userId, buyer_name: userName, seller_id: sellerId, amount, description: desc })
+                    body: JSON.stringify({
+                        buyer_id: userId,
+                        buyer_name: userName,
+                        seller_id: resolveResp.user_id, 
+                        amount: amount,
+                        description: desc
+                    })
                 });
+
+                document.getElementById('seller-username').value = '';
+                document.getElementById('deal-amount').value = '';
+                document.getElementById('deal-desc').value = '';
+                
                 closeModal('new-deal-modal');
-                tg.showAlert(`✅ Сделка создана!\nID: ${resp.deal_id}`);
-                loadDeals();
+                tg.showAlert(`✅ Сделка создана!\nID: ${resp.deal_id}\nПродавец (@${sellerUsername}) получил уведомление.`);
+                
+                loadBalance();
                 switchTab('deals', document.querySelectorAll('.nav-item')[1]);
-            } catch (e) { tg.showAlert('Ошибка: ' + e.message); }
+            } catch (e) {
+                tg.showAlert('❌ Ошибка: ' + e.message);
+            } finally {
+                tg.MainButton.hide();
+            }
         }
 
         async function loadBalance() {
