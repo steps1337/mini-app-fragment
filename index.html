@@ -327,6 +327,7 @@
                 <div class="conv-item" id="conv-usdt">≈ 0.00 USDT</div>
                 <div class="conv-item" id="conv-gram">≈ 0.00 GRAM</div>
                 <div class="conv-item" id="conv-stars">≈ 0 Stars</div>
+                <div class="conv-item" id="conv-uah">≈ 0.00 UAH</div>
             </div>
 
             <div class="balance-actions">
@@ -662,7 +663,14 @@
 
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
-        const RATES = { RUB_TO_USDT: 0.0108, RUB_TO_GRAM: 0.0105, RUB_TO_STARS: 0.65 };
+        
+        // Обратные курсы для отображения на главном экране
+        const RATES = { 
+            RUB_TO_USDT: 1/90,    
+            RUB_TO_GRAM: 1/95,    
+            RUB_TO_STARS: 1/1.5,  
+            RUB_TO_UAH: 1/2.5     
+        };
         const COMMISSION_RATE = 0.125;
 
         const tg = window.Telegram.WebApp;
@@ -689,6 +697,7 @@
             document.getElementById('conv-usdt').textContent = `≈ ${(rubAmount * RATES.RUB_TO_USDT).toFixed(2)} USDT`;
             document.getElementById('conv-gram').textContent = `≈ ${(rubAmount * RATES.RUB_TO_GRAM).toFixed(2)} GRAM`;
             document.getElementById('conv-stars').textContent = `≈ ${Math.round(rubAmount * RATES.RUB_TO_STARS)} Stars`;
+            document.getElementById('conv-uah').textContent = `≈ ${(rubAmount * RATES.RUB_TO_UAH).toFixed(2)} UAH`;
         }
 
         async function loadBalance() {
