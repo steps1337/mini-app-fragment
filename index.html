@@ -16,7 +16,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; height: 100vh; }
 
-        /* АНИМАЦИИ */
         .screen { display: none; flex-direction: column; height: calc(100vh - 90px); overflow-y: auto; padding: 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
         .screen.active { display: flex; opacity: 1; transform: translateY(0); animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
@@ -28,7 +27,6 @@
         .header h1 { font-size: 24px; font-weight: 700; }
         .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; padding: 8px 0; }
 
-        /* ГЛАВНАЯ */
         .balance-card { 
             background: var(--accent-gradient); border-radius: 24px; padding: 28px; 
             margin-bottom: 24px; box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25); 
@@ -79,7 +77,6 @@
         .btn-small { background: #2a2e38; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; float: right; cursor: pointer; transition: background 0.2s; }
         .btn-small:hover { background: #3a3e48; }
 
-        /* СДЕЛКИ */
         .search-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-shrink: 0; }
         .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; transition: border-color 0.2s; }
         .search-input:focus { border-color: var(--accent-blue); }
@@ -103,7 +100,6 @@
         .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; }
         .empty-state .sub { font-size: 13px; }
 
-        /* ДЕТАЛИ СДЕЛКИ (НОВЫЙ ДИЗАЙН КАК В PLAYEROK) */
         .deal-detail-screen { padding: 0 !important; background: var(--bg-main); }
         .deal-header-bar { 
             background: var(--accent-gradient); padding: 20px 16px 16px; 
@@ -118,7 +114,6 @@
         .deal-header-title { font-size: 18px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .deal-header-sub { font-size: 13px; opacity: 0.8; margin-top: 2px; }
         
-        /* Вкладки Сделка / Чат */
         .deal-tabs { display: flex; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 4px; }
         .deal-tab { 
             flex: 1; text-align: center; padding: 10px; border-radius: 8px; 
@@ -129,7 +124,6 @@
         
         .deal-content { padding: 16px; flex: 1; overflow-y: auto; }
         
-        /* Таймлайн этапов */
         .timeline-section { margin-bottom: 24px; }
         .timeline-title { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; font-weight: 600; }
         .timeline { position: relative; padding-left: 24px; }
@@ -151,7 +145,6 @@
         .timeline-step { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
         .timeline-time { font-size: 12px; color: var(--text-muted); }
         
-        /* Блок суммы */
         .amount-block { 
             background: var(--bg-card); border-radius: 16px; padding: 20px; 
             margin-bottom: 16px; border: 1px solid var(--border-color);
@@ -160,7 +153,6 @@
         .amount-currency-icon { font-size: 28px; }
         .amount-details { font-size: 13px; color: var(--text-muted); }
         
-        /* Таблица участников */
         .participants-table { 
             background: var(--bg-card); border-radius: 16px; overflow: hidden; 
             margin-bottom: 16px; border: 1px solid var(--border-color);
@@ -173,7 +165,6 @@
         .participant-label { font-size: 14px; color: var(--text-muted); }
         .participant-value { font-size: 14px; font-weight: 600; }
         
-        /* Контрагент */
         .counterparty-section { margin-bottom: 24px; }
         .counterparty-title { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
         .counterparty-stats { 
@@ -188,7 +179,6 @@
         .stat-label { color: var(--text-muted); }
         .stat-val { font-weight: 600; }
 
-        /* ЧАТ ПОДДЕРЖКИ */
         .chat-container { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; overflow-y: auto; }
         .message { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.4; position: relative; animation: messageSlide 0.3s ease backwards; word-wrap: break-word; }
         .message.support { background: var(--msg-support); align-self: flex-start; border-bottom-left-radius: 4px; }
@@ -200,7 +190,6 @@
         .chat-send { width: 44px; height: 44px; background: var(--accent-blue); border-radius: 50%; border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s; }
         .chat-send:active { transform: scale(0.9); }
 
-        /* ПРОФИЛЬ */
         .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; flex-shrink: 0; }
         .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; flex-shrink: 0; }
         .stat-item { flex: 1; border-right: 1px solid var(--border-color); }
@@ -216,7 +205,6 @@
         .menu-row-right { color: var(--green); font-size: 14px; font-weight: 600; }
         .badge { background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-        /* МОДАЛКИ */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; align-items: flex-end; z-index: 100; backdrop-filter: blur(8px); transition: background 0.3s; }
         .modal-overlay.active { display: flex; }
         
@@ -255,7 +243,6 @@
         .btn-primary { width: 100%; background: var(--accent-gradient); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; cursor: pointer; transition: transform 0.1s, filter 0.2s; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); }
         .btn-primary:active { transform: scale(0.98); filter: brightness(0.9); }
 
-        /* Модалка пополнения/вывода */
         .deposit-methods { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .deposit-method { 
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; 
@@ -278,7 +265,10 @@
         .deposit-method.active .method-check { background: var(--accent-blue); border-color: var(--accent-blue); }
         .deposit-method.active .method-check::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; }
 
-        /* НАВИГАЦИЯ */
+        .network-selector { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+        .network-btn { background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .network-btn.active { background: var(--accent-blue); border-color: var(--accent-blue); color: white; }
+
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; right: 0; 
             height: 80px; background: rgba(23, 25, 30, 0.95); 
@@ -320,7 +310,6 @@
 </head>
 <body>
 
-    <!-- ЭКРАН: ГЛАВНАЯ -->
     <div id="screen-home" class="screen active">
         <div class="header"><h1>Fragment</h1></div>
         <div class="balance-card">
@@ -353,7 +342,6 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: СПИСОК СДЕЛОК -->
     <div id="screen-deals" class="screen">
         <div class="header"><h1>Сделки</h1></div>
         <div class="search-bar">
@@ -368,7 +356,6 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: ДЕТАЛИ СДЕЛКИ (НОВЫЙ ДИЗАЙН) -->
     <div id="screen-deal-detail" class="screen deal-detail-screen">
         <div class="deal-header-bar">
             <div class="deal-header-top">
@@ -385,15 +372,11 @@
         </div>
         
         <div class="deal-content" id="deal-tab-content">
-            <!-- Таймлайн -->
             <div class="timeline-section">
                 <div class="timeline-title">Этапы · Время по Москве</div>
-                <div class="timeline" id="deal-timeline">
-                    <!-- Заполняется JS -->
-                </div>
+                <div class="timeline" id="deal-timeline"></div>
             </div>
             
-            <!-- Даты -->
             <div class="participants-table" style="margin-bottom: 16px;">
                 <div class="participant-row">
                     <span class="participant-label">Начало сделки</span>
@@ -405,7 +388,6 @@
                 </div>
             </div>
             
-            <!-- Сумма -->
             <div class="amount-block">
                 <div class="amount-value">
                     <span id="detail-amount">0,00</span>
@@ -414,7 +396,6 @@
                 <div class="amount-details" id="detail-commission">Покупатель платит 0,00 ₽ · комиссия 12.5%</div>
             </div>
             
-            <!-- Участники -->
             <div class="participants-table">
                 <div class="participant-row">
                     <span class="participant-label">Роль</span>
@@ -430,7 +411,6 @@
                 </div>
             </div>
             
-            <!-- Контрагент -->
             <div class="counterparty-section">
                 <div class="counterparty-title">Контрагент</div>
                 <div class="counterparty-stats">
@@ -454,7 +434,6 @@
             </div>
         </div>
         
-        <!-- Вкладка Чат (заглушка) -->
         <div class="deal-content" id="chat-tab-content" style="display:none;">
             <div class="chat-container" id="deal-chat-messages">
                 <div class="message support">💬 Чат сделки открыт. Здесь можно общаться с контрагентом.<span class="message-time">Сейчас</span></div>
@@ -466,7 +445,6 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: ЧАТ ПОДДЕРЖКИ -->
     <div id="screen-support" class="screen">
         <div class="header">
             <div style="display:flex; align-items:center; gap:10px;">
@@ -485,7 +463,6 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: ПРОФИЛЬ -->
     <div id="screen-profile" class="screen">
         <div class="header"><h1>Профиль</h1></div>
         <div class="profile-header">
@@ -509,7 +486,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА СОЗДАНИЯ СДЕЛКИ -->
     <div class="modal-overlay" id="new-deal-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -568,7 +544,6 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ПОПОЛНЕНИЯ -->
     <div class="modal-overlay" id="deposit-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -604,7 +579,7 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА ВЫВОДА -->
+    <!-- МОДАЛКА ВЫВОДА (обновлённая) -->
     <div class="modal-overlay" id="withdraw-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -631,16 +606,38 @@
                     </div>
                     <div class="deposit-method" onclick="selectWithdrawMethod(this, 'crypto')">
                         <div class="method-icon">₿</div>
-                        <div class="method-info"><div class="method-name">Криптокошелёк</div><div class="method-desc">USDT (TRC20), BTC</div></div>
+                        <div class="method-info"><div class="method-name">Криптокошелёк</div><div class="method-desc">USDT (TRC20), BTC, TON</div></div>
                         <div class="method-check"></div>
                     </div>
                 </div>
             </div>
+
+            <!-- Поля реквизитов -->
+            <div class="field-group" id="withdraw-sbp-field" style="display:none;">
+                <label class="field-label">Номер телефона (СБП)</label>
+                <input type="tel" class="field-input" id="withdraw-sbp-phone" placeholder="+7 (___) ___-__-__" maxlength="18" oninput="formatPhone(this)">
+            </div>
+
+            <div class="field-group" id="withdraw-card-field" style="display:none;">
+                <label class="field-label">Номер карты</label>
+                <input type="text" class="field-input" id="withdraw-card-number" placeholder="2200 2000 2000 2000" maxlength="19" oninput="formatCard(this)">
+            </div>
+
+            <div class="field-group" id="withdraw-crypto-field" style="display:none;">
+                <label class="field-label">Сеть</label>
+                <div class="network-selector">
+                    <button class="network-btn active" data-network="TRC20" onclick="selectNetwork(this)">USDT TRC20</button>
+                    <button class="network-btn" data-network="BTC" onclick="selectNetwork(this)">BTC</button>
+                    <button class="network-btn" data-network="TON" onclick="selectNetwork(this)">TON</button>
+                </div>
+                <label class="field-label" id="withdraw-crypto-address-label">Адрес кошелька (USDT TRC20)</label>
+                <input type="text" class="field-input" id="withdraw-crypto-address" placeholder="T... (адрес USDT TRC20)" autocomplete="off">
+            </div>
+
             <button class="btn-primary" onclick="processWithdraw()">Заказать вывод</button>
         </div>
     </div>
 
-    <!-- НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('home', this)"><span class="nav-icon">🏠</span><span>Главная</span></div>
         <div class="nav-item" onclick="switchTab('deals', this)"><span class="nav-icon">💼</span><span>Сделки</span></div>
@@ -652,7 +649,7 @@
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
         const RATES = { RUB_TO_USDT: 0.0108, RUB_TO_GRAM: 0.45, RUB_TO_STARS: 0.65 };
-        const COMMISSION_RATE = 0.125; // 12.5%
+        const COMMISSION_RATE = 0.125;
 
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
@@ -671,7 +668,8 @@
         document.getElementById('home-avatar').src = avatarUrl;
         document.getElementById('profile-avatar').src = avatarUrl;
 
-        // --- БАЛАНС ---
+        let currentBalance = 0;
+
         function updateConversions(rubAmount) {
             document.getElementById('conv-usdt').textContent = `≈ ${(rubAmount * RATES.RUB_TO_USDT).toFixed(2)} USDT`;
             document.getElementById('conv-gram').textContent = `≈ ${(rubAmount * RATES.RUB_TO_GRAM).toFixed(2)} GRAM`;
@@ -681,19 +679,68 @@
         async function loadBalance() {
             try {
                 const data = await api(`/user?user_id=${userId}`);
-                const balance = data.balance || 0;
-                document.getElementById('user-balance').innerText = balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
-                updateConversions(balance);
+                currentBalance = data.balance || 0;
+                document.getElementById('user-balance').innerText = currentBalance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
+                updateConversions(currentBalance);
             } catch (e) {}
         }
 
-        // --- МОДАЛКИ ПОПОЛНЕНИЯ/ВЫВОДА ---
-        let selectedDepositMethod = 'sbp', selectedWithdrawMethod = 'sbp';
+        let selectedDepositMethod = 'sbp', selectedWithdrawMethod = 'sbp', selectedNetwork = 'TRC20';
+
         function openDepositModal() { document.getElementById('deposit-modal').classList.add('active'); document.getElementById('deposit-amount').value = ''; }
-        function openWithdrawModal() { document.getElementById('withdraw-modal').classList.add('active'); document.getElementById('withdraw-amount').value = ''; }
+        function openWithdrawModal() { 
+            document.getElementById('withdraw-modal').classList.add('active'); 
+            document.getElementById('withdraw-amount').value = '';
+            document.getElementById('withdraw-sbp-phone').value = '';
+            document.getElementById('withdraw-card-number').value = '';
+            document.getElementById('withdraw-crypto-address').value = '';
+            selectWithdrawMethod(document.querySelector('#withdraw-modal .deposit-method'), 'sbp');
+        }
         function selectDepositMethod(el, m) { document.querySelectorAll('#deposit-modal .deposit-method').forEach(x=>x.classList.remove('active')); el.classList.add('active'); selectedDepositMethod = m; }
-        function selectWithdrawMethod(el, m) { document.querySelectorAll('#withdraw-modal .deposit-method').forEach(x=>x.classList.remove('active')); el.classList.add('active'); selectedWithdrawMethod = m; }
-        
+        function selectWithdrawMethod(el, m) { 
+            document.querySelectorAll('#withdraw-modal .deposit-method').forEach(x=>x.classList.remove('active')); 
+            el.classList.add('active'); 
+            selectedWithdrawMethod = m;
+            document.getElementById('withdraw-sbp-field').style.display = m === 'sbp' ? 'block' : 'none';
+            document.getElementById('withdraw-card-field').style.display = m === 'card' ? 'block' : 'none';
+            document.getElementById('withdraw-crypto-field').style.display = m === 'crypto' ? 'block' : 'none';
+        }
+        function selectNetwork(el) {
+            document.querySelectorAll('#withdraw-modal .network-btn').forEach(x=>x.classList.remove('active'));
+            el.classList.add('active');
+            selectedNetwork = el.dataset.network;
+            const label = document.getElementById('withdraw-crypto-address-label');
+            const input = document.getElementById('withdraw-crypto-address');
+            if (selectedNetwork === 'TRC20') { label.textContent = 'Адрес кошелька (USDT TRC20)'; input.placeholder = 'T... (адрес USDT TRC20)'; }
+            else if (selectedNetwork === 'BTC') { label.textContent = 'Адрес кошелька (BTC)'; input.placeholder = 'bc1... / 1... / 3...'; }
+            else if (selectedNetwork === 'TON') { label.textContent = 'Адрес кошелька (TON)'; input.placeholder = 'UQ... / EQ...'; }
+        }
+
+        // Маска телефона +7 (___) ___-__-__
+        function formatPhone(input) {
+            let digits = input.value.replace(/\D/g, '');
+            if (digits.startsWith('8')) digits = '7' + digits.slice(1);
+            if (!digits.startsWith('7')) digits = '7' + digits;
+            digits = digits.slice(0, 11);
+            let res = '+7';
+            if (digits.length > 1) res += ' (' + digits.slice(1, 4);
+            if (digits.length >= 5) res += ') ' + digits.slice(4, 7);
+            if (digits.length >= 8) res += '-' + digits.slice(7, 9);
+            if (digits.length >= 10) res += '-' + digits.slice(9, 11);
+            input.value = res;
+        }
+
+        // Маска карты 2200 2000 2000 2000
+        function formatCard(input) {
+            let digits = input.value.replace(/\D/g, '').slice(0, 16);
+            let res = '';
+            for (let i = 0; i < digits.length; i++) {
+                if (i > 0 && i % 4 === 0) res += ' ';
+                res += digits[i];
+            }
+            input.value = res;
+        }
+
         async function processDeposit() {
             const amount = parseFloat(document.getElementById('deposit-amount').value);
             if (!amount || amount < 100) return tg.showAlert('Минимум 100 ₽');
@@ -703,17 +750,40 @@
             tg.showAlert(`✅ Заявка на пополнение ${amount} ₽ создана!\nСпособ: ${selectedDepositMethod.toUpperCase()}`);
             tg.MainButton.hide();
         }
+
         async function processWithdraw() {
             const amount = parseFloat(document.getElementById('withdraw-amount').value);
             if (!amount || amount < 500) return tg.showAlert('Минимум 500 ₽');
+
+            // Проверка баланса
+            await loadBalance();
+            if (amount > currentBalance) {
+                return tg.showAlert(`❌ Недостаточно средств!\nВаш баланс: ${currentBalance.toLocaleString('ru-RU')} ₽\nЗапрошено: ${amount.toLocaleString('ru-RU')} ₽`);
+            }
+
+            // Проверка реквизитов
+            let requisites = '';
+            if (selectedWithdrawMethod === 'sbp') {
+                const phone = document.getElementById('withdraw-sbp-phone').value.trim();
+                if (phone.replace(/\D/g, '').length !== 11) return tg.showAlert('Введите корректный номер телефона СБП (+7 ...)');
+                requisites = phone;
+            } else if (selectedWithdrawMethod === 'card') {
+                const card = document.getElementById('withdraw-card-number').value.trim();
+                if (card.replace(/\D/g, '').length !== 16) return tg.showAlert('Введите корректный номер карты (16 цифр)');
+                requisites = card;
+            } else if (selectedWithdrawMethod === 'crypto') {
+                const addr = document.getElementById('withdraw-crypto-address').value.trim();
+                if (!addr) return tg.showAlert('Введите адрес кошелька');
+                requisites = `${selectedNetwork}: ${addr}`;
+            }
+
             tg.MainButton.setText("Обработка..."); tg.MainButton.show();
             await new Promise(r => setTimeout(r, 1000));
             closeModal('withdraw-modal');
-            tg.showAlert(`✅ Заявка на вывод ${amount} ₽ создана!\nСпособ: ${selectedWithdrawMethod.toUpperCase()}\n⏳ Ожидайте зачисления.`);
+            tg.showAlert(`✅ Заявка на вывод ${amount} ₽ создана!\nСпособ: ${selectedWithdrawMethod.toUpperCase()}\nРеквизиты: ${requisites}\n⏳ Ожидайте зачисления.`);
             tg.MainButton.hide();
         }
 
-        // --- СОЗДАНИЕ СДЕЛКИ ---
         let currentRole = 'buyer', selectedCurrency = 'RUB';
         function setRole(role) {
             currentRole = role;
@@ -758,7 +828,6 @@
             finally { tg.MainButton.hide(); }
         }
 
-        // --- ДЕТАЛИ СДЕЛКИ (КАК В PLAYEROK) ---
         function switchDealTab(tab) {
             document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
@@ -807,7 +876,6 @@
             if (!deal) { await loadDeals(); deal = (window._allDeals || []).find(d => d.id === dealId); }
             if (!deal) return tg.showAlert('Сделка не найдена');
 
-            // Извлекаем валюту
             let currency = 'RUB', cleanDesc = deal.description || '';
             if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
             
@@ -819,37 +887,30 @@
             const commission = (deal.amount * COMMISSION_RATE).toFixed(2);
             const totalWithCommission = (deal.amount * (1 + COMMISSION_RATE)).toFixed(2);
             
-            // Заголовок
             document.getElementById('detail-header-title').textContent = cleanDesc.split('\n')[0] || `Сделка #${deal.id}`;
             const statusLabels = { 'pending': 'Ожидание принятия', 'active': 'В процессе', 'delivered': 'Товар передан', 'completed': 'Завершена', 'cancelled': 'Отмена' };
             document.getElementById('detail-header-sub').textContent = `${statusLabels[deal.status] || deal.status} · ${deal.amount.toLocaleString('ru-RU')} ${getCurrencyIcon(currency)} · @${isBuyer ? sellerName.replace('@','') : buyerName.replace('@','')}`;
             
-            // Таймлайн
             renderDealTimeline(deal);
             
-            // Даты
             document.getElementById('detail-start-date').textContent = formatMoscowTime(deal.created_at);
             document.getElementById('detail-end-date').textContent = deal.status === 'completed' ? formatMoscowTime(deal.updated_at || deal.created_at) : '--';
             
-            // Сумма
             document.getElementById('detail-amount').textContent = deal.amount.toLocaleString('ru-RU', {minimumFractionDigits: 2}) + ' ' + getCurrencyIcon(currency);
             document.getElementById('detail-currency-icon').textContent = '';
             document.getElementById('detail-commission').textContent = isBuyer 
                 ? `Вы платите ${totalWithCommission} ${getCurrencyIcon(currency)} · комиссия 12.5%` 
                 : `Вы получите ${deal.amount.toLocaleString('ru-RU', {minimumFractionDigits: 2})} ${getCurrencyIcon(currency)} · комиссия 12.5%`;
             
-            // Участники
             document.getElementById('detail-my-role').textContent = myRole;
             document.getElementById('detail-seller').textContent = '@' + sellerName.replace('@','');
             document.getElementById('detail-buyer').textContent = '@' + buyerName.replace('@','');
             
-            // Контрагент (заглушка)
             document.getElementById('cp-rating').textContent = '0.0';
             document.getElementById('cp-success').textContent = '0';
             document.getElementById('cp-total').textContent = '0';
             document.getElementById('cp-verified').textContent = 'Нет';
             
-            // Сброс вкладок
             document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
             document.querySelector('.deal-tab').classList.add('active');
             document.getElementById('deal-tab-content').style.display = 'block';
@@ -868,7 +929,6 @@
         }
         document.getElementById('deal-chat-input')?.addEventListener('keypress', function(e) { if(e.key==='Enter') sendDealChatMessage(); });
 
-        // --- ОСНОВНАЯ ЛОГИКА ---
         function switchTab(tabName, element) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             const target = document.getElementById('screen-' + tabName);
