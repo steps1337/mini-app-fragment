@@ -944,7 +944,7 @@
             let currency = 'RUB', cleanDesc = deal.description || '';
             if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
             
-            const isBuyer = (deal.owner_id === userId);
+            const isBuyer = (deal.buyer_id === userId);
             const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
             const buyerName = isBuyer ? deal.owner_name : (deal.partner_name || '@???');
             const myRole = isBuyer ? 'Покупатель' : 'Продавец';
@@ -981,7 +981,6 @@
             document.getElementById('deal-tab-content').style.display = 'block';
             document.getElementById('chat-tab-content').style.display = 'none';
 
-            // ЛОГИКА ПОКАЗА КНОПОК
             const actionsBlock = document.getElementById('deal-actions-block');
             const btnDelivered = document.getElementById('btn-delivered');
             const btnReceived = document.getElementById('btn-received');
@@ -1107,9 +1106,9 @@
             if (deals.length === 0) { emptyEl.style.display = 'block'; return; }
             emptyEl.style.display = 'none';
             deals.forEach((deal, index) => {
-                const isOwner = deal.owner_id === userId;
-                const partnerName = isOwner ? (deal.partner_name || 'Ожидание...') : deal.owner_name;
-                const roleText = deal.role === 'buyer' ? 'Вы покупаете' : 'Вы продаете';
+                const isBuyer = deal.buyer_id === userId;
+                const partnerName = isBuyer ? (deal.partner_name || 'Ожидание...') : deal.owner_name;
+                const roleText = isBuyer ? 'Вы покупаете' : 'Вы продаете';
                 const statusText = { 'pending': '⏳ Ожидание', 'active': '🔥 В процессе', 'delivered': '📦 Передан', 'completed': '✅ Завершена', 'cancelled': '❌ Отмена' }[deal.status] || deal.status;
                 
                 let currency = '₽', cleanDesc = deal.description || 'Без описания';
