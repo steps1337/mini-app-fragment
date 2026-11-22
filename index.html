@@ -652,7 +652,7 @@
 
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
-        const RATES = { RUB_TO_USDT: 0.0108, RUB_TO_GRAM: 0.01053, RUB_TO_STARS: 0.65 };
+        const RATES = { RUB_TO_USDT: 0.0108, RUB_TO_GRAM: 0.0105, RUB_TO_STARS: 0.65 };
         const COMMISSION_RATE = 0.125;
 
         const tg = window.Telegram.WebApp;
@@ -859,17 +859,28 @@
             try {
                 const resp = await api(`/resolve-username?username=${cp}`);
                 if (!resp.user_id) throw new Error(`@${cp} не найден.`);
-                let buyerId, buyerName, sellerId;
-                const fullDesc = `[${selectedCurrency}] ${item}\n\n${desc}`;
-                if (currentRole === 'buyer') { buyerId = userId; buyerName = userName; sellerId = resp.user_id; }
-                else { sellerId = userId; buyerId = resp.user_id; buyerName = cp; }
                 
-                const r = await api('/api/create-deal', { method: 'POST', body: JSON.stringify({ buyer_id: buyerId, buyer_name: buyerName, seller_id: sellerId, amount, description: fullDesc }) });
+                const fullDesc = `[${selectedCurrency}] ${item}\n\n${desc}`;
+                const r = await api('/api/create-deal', { 
+                    method: 'POST', 
+                    body: JSON.stringify({ 
+                        creator_id: userId, 
+                        creator_name: userName,
+                        partner_id: resp.user_id, 
+                        amount: amount, 
+                        description: fullDesc,
+                        role: currentRole 
+                    }) 
+                });
+                
                 closeModal('new-deal-modal');
                 tg.showAlert(`✅ Заявка отправлена!\nID: ${r.deal_id}`);
                 loadBalance(); switchTab('deals', document.querySelectorAll('.nav-item')[1]);
-            } catch (e) { tg.showAlert('❌ ' + e.message); } 
-            finally { tg.MainButton.hide(); }
+            } catch (e) { 
+                tg.showAlert('❌ ' + e.message); 
+            } finally { 
+                tg.MainButton.hide(); 
+            }
         }
 
         function switchDealTab(tab) {
