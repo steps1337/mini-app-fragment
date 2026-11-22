@@ -683,6 +683,7 @@
         document.getElementById('profile-avatar').src = avatarUrl;
 
         let currentBalance = 0;
+        let currentDealId = null;
 
         function updateConversions(rubAmount) {
             document.getElementById('conv-usdt').textContent = `≈ ${(rubAmount * RATES.RUB_TO_USDT).toFixed(2)} USDT`;
@@ -879,7 +880,8 @@
                         partner_id: resp.user_id, 
                         amount: amount, 
                         description: fullDesc,
-                        role: currentRole 
+                        role: currentRole,
+                        currency: selectedCurrency
                     }) 
                 });
                 
@@ -936,13 +938,14 @@
         }
 
         async function openDealDetail(dealId) {
+            currentDealId = dealId;
             switchTab('deal-detail', null);
             let deal = (window._allDeals || []).find(d => d.id === dealId);
             if (!deal) { await loadDeals(); deal = (window._allDeals || []).find(d => d.id === dealId); }
             if (!deal) return tg.showAlert('Сделка не найдена');
 
-            let currency = 'RUB', cleanDesc = deal.description || '';
-            if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
+            const currency = deal.currency || 'RUB';
+            const cleanDesc = (deal.description || '').replace(/^\[.*?\]\s*/, '');
             
             const isBuyer = (deal.buyer_id === userId);
             const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
@@ -1002,20 +1005,18 @@
         }
 
         async function actionDeal(action) {
-            const title = document.getElementById('detail-header-title').textContent;
-            const dealId = title.split('#')[1];
-            if(!dealId) return;
+            if (!currentDealId) return tg.showAlert('Ошибка: ID сделки не найден');
 
             tg.MainButton.setText("Обработка..."); tg.MainButton.show();
             try {
-                await api(`/deal/${dealId}/action`, {
+                await api(`/deal/${currentDealId}/action`, {
                     method: 'POST',
                     body: JSON.stringify({ user_id: userId, action: action })
                 });
                 
                 tg.showAlert('✅ Статус сделки обновлен!');
                 await loadDeals();
-                openDealDetail(dealId);
+                openDealDetail(currentDealId);
             } catch (e) {
                 tg.showAlert('❌ ' + e.message);
             } finally {
@@ -1111,8 +1112,8 @@
                 const roleText = isBuyer ? 'Вы покупаете' : 'Вы продаете';
                 const statusText = { 'pending': '⏳ Ожидание', 'active': '🔥 В процессе', 'delivered': '📦 Передан', 'completed': '✅ Завершена', 'cancelled': '❌ Отмена' }[deal.status] || deal.status;
                 
-                let currency = '₽', cleanDesc = deal.description || 'Без описания';
-                if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
+                const currency = deal.currency || '₽';
+                const cleanDesc = (deal.description || 'Без описания').replace(/^\[.*?\]\s*/, '');
                 
                 const card = document.createElement('div');
                 card.className = 'deal-card';
