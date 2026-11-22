@@ -432,6 +432,16 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Блок действий в сделке -->
+            <div id="deal-actions-block" style="margin-top: 20px; display: none;">
+                <button id="btn-delivered" class="btn-primary" style="display: none; background: var(--orange); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);" onclick="actionDeal('delivered')">
+                    📦 Я передал товар
+                </button>
+                <button id="btn-received" class="btn-primary" style="display: none; background: var(--green); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);" onclick="actionDeal('received')">
+                    ✅ Я получил товар
+                </button>
+            </div>
         </div>
         
         <div class="deal-content" id="chat-tab-content" style="display:none;">
@@ -970,6 +980,48 @@
             document.querySelector('.deal-tab').classList.add('active');
             document.getElementById('deal-tab-content').style.display = 'block';
             document.getElementById('chat-tab-content').style.display = 'none';
+
+            // ЛОГИКА ПОКАЗА КНОПОК
+            const actionsBlock = document.getElementById('deal-actions-block');
+            const btnDelivered = document.getElementById('btn-delivered');
+            const btnReceived = document.getElementById('btn-received');
+            
+            actionsBlock.style.display = 'none';
+            btnDelivered.style.display = 'none';
+            btnReceived.style.display = 'none';
+
+            if (deal.status === 'active' || deal.status === 'delivered') {
+                actionsBlock.style.display = 'block';
+                
+                if (!isBuyer && deal.status === 'active') {
+                    btnDelivered.style.display = 'block';
+                }
+                if (isBuyer && (deal.status === 'active' || deal.status === 'delivered')) {
+                    btnReceived.style.display = 'block';
+                }
+            }
+        }
+
+        async function actionDeal(action) {
+            const title = document.getElementById('detail-header-title').textContent;
+            const dealId = title.split('#')[1];
+            if(!dealId) return;
+
+            tg.MainButton.setText("Обработка..."); tg.MainButton.show();
+            try {
+                await api(`/deal/${dealId}/action`, {
+                    method: 'POST',
+                    body: JSON.stringify({ user_id: userId, action: action })
+                });
+                
+                tg.showAlert('✅ Статус сделки обновлен!');
+                await loadDeals();
+                openDealDetail(dealId);
+            } catch (e) {
+                tg.showAlert('❌ ' + e.message);
+            } finally {
+                tg.MainButton.hide();
+            }
         }
 
         function sendDealChatMessage() {
@@ -1082,14 +1134,11 @@
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
 
-        // Загружаем данные при старте
         loadBalance(); 
         loadDeals();
 
-        // Автоматически обновляем баланс каждые 5 секунд
         setInterval(loadBalance, 5000);
 
-        // Обновляем баланс при возвращении в приложение (например, если оно было свернуто)
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
                 loadBalance();
