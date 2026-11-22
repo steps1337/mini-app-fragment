@@ -11,29 +11,25 @@
             --text-main: #ffffff; --text-muted: #8b92a5;
             --accent-blue: #3b82f6; --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
             --border-color: #2a2e38; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
+            --msg-user: #3b82f6; --msg-support: #2a2e38;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; height: 100vh; }
 
-        /* АНИМАЦИИ ПЕРЕХОДОВ */
-        .screen { display: none; padding: 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
-        .screen.active { display: block; opacity: 1; transform: translateY(0); animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        /* АНИМАЦИИ */
+        .screen { display: none; flex-direction: column; height: calc(100vh - 90px); overflow-y: auto; padding: 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
+        .screen.active { display: flex; opacity: 1; transform: translateY(0); animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(20px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        @keyframes popIn {
-            0% { transform: scale(0.95); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes popIn { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes messageSlide { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-shrink: 0; }
         .header h1 { font-size: 24px; font-weight: 700; }
         .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; padding: 8px 0; }
 
         /* ГЛАВНАЯ */
-        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
+        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); flex-shrink: 0; }
         .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
         .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); object-fit: cover;}
         .user-name { font-size: 18px; font-weight: 600; }
@@ -46,7 +42,7 @@
         .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; backdrop-filter: blur(10px); transition: transform 0.1s; }
         .btn-transparent:active { transform: scale(0.96); }
 
-        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); animation: popIn 0.4s ease 0.1s backwards; }
+        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); animation: popIn 0.4s ease 0.1s backwards; flex-shrink: 0; }
         .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
         .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
         .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; width: 80%; line-height: 1.4; }
@@ -54,13 +50,13 @@
         .btn-small:hover { background: #3a3e48; }
 
         /* СДЕЛКИ */
-        .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+        .search-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-shrink: 0; }
         .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; transition: border-color 0.2s; }
         .search-input:focus { border-color: var(--accent-blue); }
         .search-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
         .search-btn:active { opacity: 0.8; }
         
-        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); cursor: pointer; transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s; animation: popIn 0.3s ease backwards; }
+        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); cursor: pointer; transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s; animation: popIn 0.3s ease backwards; flex-shrink: 0; }
         .deal-card:nth-child(2) { animation-delay: 0.05s; }
         .deal-card:nth-child(3) { animation-delay: 0.1s; }
         .deal-card:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
@@ -72,32 +68,44 @@
         .deal-status { display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; background: rgba(16, 185, 129, 0.1); color: var(--green); }
         .deal-status.pending { background: rgba(245, 158, 11, 0.1); color: var(--orange); }
         .deal-status.completed { background: rgba(16, 185, 129, 0.1); color: var(--green); }
-        .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; animation: fadeIn 0.5s ease; }
+        .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; animation: fadeIn 0.5s ease; flex-shrink: 0; }
         .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
         .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; }
         .empty-state .sub { font-size: 13px; }
 
         /* ДЕТАЛИ СДЕЛКИ */
-        .detail-card { background: var(--bg-card); border-radius: 20px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; }
+        .detail-card { background: var(--bg-card); border-radius: 20px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; flex-shrink: 0; }
         .detail-row { display: flex; justify-content: space-between; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
         .detail-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .detail-label { color: var(--text-muted); font-size: 14px; }
         .detail-value { font-weight: 600; font-size: 16px; text-align: right; }
-        .action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; animation: slideIn 0.4s ease 0.1s backwards; }
+        .action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; animation: slideIn 0.4s ease 0.1s backwards; flex-shrink: 0; }
         .btn-action { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; color: white; transition: transform 0.1s, filter 0.2s; }
         .btn-action:active { transform: scale(0.97); filter: brightness(0.9); }
         .btn-confirm { background: var(--green); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
         .btn-reject { background: var(--red); }
         .btn-wait { background: var(--bg-nav); color: var(--text-muted); cursor: default; border: 1px solid var(--border-color); }
 
+        /* ЧАТ ПОДДЕРЖКИ */
+        .chat-container { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; overflow-y: auto; }
+        .message { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.4; position: relative; animation: messageSlide 0.3s ease backwards; word-wrap: break-word; }
+        .message.support { background: var(--msg-support); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .message.user { background: var(--msg-user); align-self: flex-end; border-bottom-right-radius: 4px; color: white; }
+        .message-time { font-size: 10px; opacity: 0.6; margin-top: 4px; text-align: right; display: block; }
+        
+        .chat-input-area { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; flex-shrink: 0; }
+        .chat-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 24px; color: white; font-size: 14px; outline: none; }
+        .chat-send { width: 44px; height: 44px; background: var(--accent-blue); border-radius: 50%; border: none; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.1s; }
+        .chat-send:active { transform: scale(0.9); }
+
         /* ПРОФИЛЬ */
-        .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; }
-        .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; animation: popIn 0.3s ease 0.1s backwards; }
+        .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; flex-shrink: 0; }
+        .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; flex-shrink: 0; }
         .stat-item { flex: 1; border-right: 1px solid var(--border-color); }
         .stat-item:last-child { border-right: none; }
         .stat-val { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
-        .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; animation: popIn 0.3s ease 0.2s backwards; }
+        .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; animation: popIn 0.3s ease 0.2s backwards; flex-shrink: 0; }
         .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); transition: background 0.2s; }
         .menu-row:active { background: rgba(255,255,255,0.05); }
         .menu-row:last-child { border-bottom: none; }
@@ -121,20 +129,21 @@
         .btn-primary { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 16px; cursor: pointer; transition: transform 0.1s, filter 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         .btn-primary:active { transform: scale(0.97); filter: brightness(0.9); }
 
-        /* ОБНОВЛЕННАЯ НАВИГАЦИЯ (УРАВНОВЕШЕННАЯ) */
+        /* НАВИГАЦИЯ (НОВАЯ РАССТАНОВКА) */
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; right: 0; 
             height: 80px; background: rgba(23, 25, 30, 0.95); 
-            display: flex; justify-content: space-around; align-items: center; 
+            display: flex; align-items: center; 
             border-top: 1px solid var(--border-color); z-index: 50; 
             backdrop-filter: blur(20px); padding-bottom: env(safe-area-inset-bottom);
+            padding-left: 10px; padding-right: 10px;
         }
         
         .nav-item { 
             display: flex; flex-direction: column; align-items: center; 
             color: var(--text-muted); font-size: 11px; gap: 4px; 
             flex: 1; cursor: pointer; transition: color 0.2s, transform 0.2s; 
-            padding-top: 10px;
+            padding-top: 10px; text-align: center;
         }
         .nav-item:active { transform: scale(0.9); }
         .nav-item.active { color: var(--accent-blue); }
@@ -146,8 +155,9 @@
             position: relative;
             width: 64px; height: 64px;
             display: flex; justify-content: center; align-items: center;
-            margin-top: -35px; /* Поднимаем кнопку над панелью */
+            margin-top: -35px; 
             z-index: 60;
+            flex-shrink: 0;
         }
         
         .nav-plus { 
@@ -159,16 +169,12 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5); 
             cursor: pointer; 
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
-            border: 4px solid var(--bg-main); /* Обводка под цвет фона для эффекта выреза */
+            border: 4px solid var(--bg-main);
         }
         
         .nav-plus:active { 
             transform: scale(0.9) rotate(90deg); 
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-        }
-        .nav-plus:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -255,6 +261,33 @@
         <div id="action-area" class="action-buttons"></div>
     </div>
 
+    <!-- ЭКРАН: ЧАТ ПОДДЕРЖКИ (НОВЫЙ!) -->
+    <div id="screen-support" class="screen">
+        <div class="header">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:10px; height:10px; background:var(--green); border-radius:50%; box-shadow: 0 0 8px var(--green);"></div>
+                <h1>Поддержка</h1>
+            </div>
+            <div style="font-size:12px; color:var(--green); font-weight:600;">ОНЛАЙН</div>
+        </div>
+        
+        <div class="chat-container" id="chat-messages">
+            <div class="message support">
+                👋 Привет! Я автоматический помощник Fragment.
+                <span class="message-time">Сейчас</span>
+            </div>
+            <div class="message support">
+                Чем могу помочь? Вы можете задать вопрос о сделках, балансе или безопасности.
+                <span class="message-time">Сейчас</span>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Напишите сообщение...">
+            <button class="chat-send" onclick="sendSupportMessage()">➤</button>
+        </div>
+    </div>
+
     <!-- ЭКРАН: ПРОФИЛЬ -->
     <div id="screen-profile" class="screen">
         <div class="header"><h1>Профиль</h1></div>
@@ -304,6 +337,7 @@
 
     <!-- ОБНОВЛЕННАЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
+        <!-- Слева -->
         <div class="nav-item active" onclick="switchTab('home', this)">
             <span class="nav-icon">🏠</span><span>Главная</span>
         </div>
@@ -311,16 +345,19 @@
             <span class="nav-icon">💼</span><span>Сделки</span>
         </div>
         
-        <!-- Центральная кнопка -->
+        <!-- Центр -->
         <div class="nav-plus-container">
             <div class="nav-plus" onclick="openModal()">+</div>
         </div>
         
+        <!-- Справа от центра -->
+        <div class="nav-item" onclick="switchTab('support', this)">
+            <span class="nav-icon">💬</span><span>Помощь</span>
+        </div>
+        
+        <!-- Крайний справа -->
         <div class="nav-item" onclick="switchTab('profile', this)">
             <span class="nav-icon">👤</span><span>Профиль</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('deals', this)"> <!-- Дублируем deals для симметрии или можно добавить "Поддержка" -->
-            <span class="nav-icon">❓</span><span>Помощь</span>
         </div>
     </div>
 
@@ -345,29 +382,33 @@
         document.getElementById('profile-avatar').src = avatarUrl;
 
         function switchTab(tabName, element) {
-            // Убираем активный класс со всех экранов
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             
-            // Показываем нужный экран с анимацией
             const targetScreen = document.getElementById('screen-' + tabName);
             if(targetScreen) {
                 targetScreen.classList.add('active');
-                // Перезапускаем анимацию
                 targetScreen.style.animation = 'none';
-                targetScreen.offsetHeight; /* trigger reflow */
+                targetScreen.offsetHeight; 
                 targetScreen.style.animation = null; 
+                
+                // Прокрутка чата вниз при открытии
+                if(tabName === 'support') {
+                    setTimeout(() => {
+                        const chat = document.getElementById('chat-messages');
+                        chat.scrollTop = chat.scrollHeight;
+                    }, 50);
+                }
             }
             
-            // Обновляем навигацию (только если кликнули по nav-item, а не по кнопке назад)
             if(element && element.classList.contains('nav-item')) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 element.classList.add('active');
             } else if (!tabName.includes('detail')) {
-                // Если перешли программно (например, назад из деталей), подсвечиваем правильный таб
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 if(tabName === 'home') document.querySelectorAll('.nav-item')[0].classList.add('active');
                 if(tabName === 'deals') document.querySelectorAll('.nav-item')[1].classList.add('active');
-                if(tabName === 'profile') document.querySelectorAll('.nav-item')[2].classList.add('active');
+                if(tabName === 'support') document.querySelectorAll('.nav-item')[2].classList.add('active'); // Индекс 2 теперь Помощь
+                if(tabName === 'profile') document.querySelectorAll('.nav-item')[3].classList.add('active'); // Индекс 3 теперь Профиль
             }
 
             if (tabName === 'deals') loadDeals();
@@ -390,6 +431,43 @@
             }
         }
 
+        // --- ЛОГИКА ЧАТА ПОДДЕРЖКИ ---
+        function sendSupportMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+
+            const chat = document.getElementById('chat-messages');
+            
+            // Добавляем сообщение пользователя
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `${text}<span class="message-time">Сейчас</span>`;
+            chat.appendChild(userMsg);
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            // Имитация ответа поддержки через 1.5 сек
+            setTimeout(() => {
+                const supportMsg = document.createElement('div');
+                supportMsg.className = 'message support';
+                
+                let reply = "Спасибо за обращение! Наш оператор скоро ответит вам.";
+                if(text.toLowerCase().includes('сделк')) reply = "По вопросам сделок проверьте вкладку «Сделки». Если там ошибка — напишите ID сделки.";
+                if(text.toLowerCase().includes('баланс') || text.toLowerCase().includes('деньг')) reply = "Баланс обновляется автоматически. Попробуйте нажать кнопку «Обновить» на главной.";
+                
+                supportMsg.innerHTML = `${reply}<span class="message-time">Сейчас</span>`;
+                chat.appendChild(supportMsg);
+                chat.scrollTop = chat.scrollHeight;
+            }, 1500);
+        }
+
+        // Отправка по Enter в чате
+        document.getElementById('chat-input')?.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendSupportMessage();
+        });
+
+        // --- ОСТАЛЬНАЯ ЛОГИКА ---
         async function loadDeals() {
             const listEl = document.getElementById('deals-list');
             const emptyEl = document.getElementById('deals-empty');
@@ -428,7 +506,7 @@
 
                 const card = document.createElement('div');
                 card.className = 'deal-card';
-                card.style.animationDelay = `${index * 0.05}s`; // Каскадная анимация
+                card.style.animationDelay = `${index * 0.05}s`;
                 card.onclick = () => openDealDetail(deal.id); 
                 
                 card.innerHTML = `
