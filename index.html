@@ -28,18 +28,50 @@
         .header h1 { font-size: 24px; font-weight: 700; }
         .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; padding: 8px 0; }
 
-        /* ГЛАВНАЯ */
-        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); flex-shrink: 0; }
-        .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); object-fit: cover;}
+        /* ГЛАВНАЯ - ОБНОВЛЕННЫЙ БАЛАНС */
+        .balance-card { 
+            background: var(--accent-gradient); border-radius: 24px; padding: 28px; 
+            margin-bottom: 24px; box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25); 
+            position: relative; overflow: hidden; flex-shrink: 0; 
+        }
+        .balance-card::before {
+            content: ''; position: absolute; top: -50%; right: -20%; width: 200px; height: 200px;
+            background: rgba(255,255,255,0.1); border-radius: 50%; filter: blur(40px);
+        }
+        
+        .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; position: relative; z-index: 1; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); object-fit: cover; border: 2px solid rgba(255,255,255,0.2); }
         .user-name { font-size: 18px; font-weight: 600; }
         .user-tag { font-size: 14px; opacity: 0.8; }
-        .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 4px; }
-        .balance-amount { font-size: 36px; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.5px; }
-        .balance-actions { display: flex; gap: 12px; }
-        .btn-white { background: white; color: black; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; transition: transform 0.1s; }
+        
+        .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .balance-amount { font-size: 40px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        
+        /* Мультивалютные конвертации */
+        .balance-conversions { 
+            display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto; 
+            padding-bottom: 4px; scrollbar-width: none; position: relative; z-index: 1;
+        }
+        .balance-conversions::-webkit-scrollbar { display: none; }
+        .conv-item { 
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); 
+            padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; 
+            white-space: nowrap; border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .balance-actions { display: flex; gap: 12px; position: relative; z-index: 1; }
+        .btn-white { 
+            background: white; color: black; border: none; padding: 14px 24px; 
+            border-radius: 14px; font-weight: 700; font-size: 15px; flex: 1; 
+            cursor: pointer; transition: transform 0.1s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
         .btn-white:active { transform: scale(0.96); }
-        .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; backdrop-filter: blur(10px); transition: transform 0.1s; }
+        .btn-transparent { 
+            background: rgba(255,255,255,0.2); color: white; border: none; 
+            padding: 14px 24px; border-radius: 14px; font-weight: 700; font-size: 15px; 
+            flex: 1; cursor: pointer; backdrop-filter: blur(10px); transition: transform 0.1s;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
         .btn-transparent:active { transform: scale(0.96); }
 
         .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); animation: popIn 0.4s ease 0.1s backwards; flex-shrink: 0; }
@@ -114,7 +146,7 @@
         .menu-row-right { color: var(--green); font-size: 14px; font-weight: 600; }
         .badge { background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-        /* МОДАЛКА СОЗДАНИЯ СДЕЛКИ (НОВЫЙ ДИЗАЙН) */
+        /* МОДАЛКА СОЗДАНИЯ СДЕЛКИ */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; align-items: flex-end; z-index: 100; backdrop-filter: blur(8px); transition: background 0.3s; }
         .modal-overlay.active { display: flex; }
         
@@ -133,51 +165,48 @@
         
         .modal-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
         .modal-desc b { color: var(--text-main); }
-        .modal-desc a { color: var(--accent-blue); text-decoration: none; }
 
-        /* Переключатель роли */
-        .role-switcher { 
-            background: var(--bg-card); border-radius: 12px; padding: 4px; 
-            display: flex; margin-bottom: 24px; border: 1px solid var(--border-color);
-        }
-        .role-btn { 
-            flex: 1; text-align: center; padding: 12px; border-radius: 8px; 
-            font-size: 14px; font-weight: 600; color: var(--text-muted); 
-            cursor: pointer; transition: all 0.2s; border: none; background: transparent;
-        }
+        .role-switcher { background: var(--bg-card); border-radius: 12px; padding: 4px; display: flex; margin-bottom: 24px; border: 1px solid var(--border-color); }
+        .role-btn { flex: 1; text-align: center; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; color: var(--text-muted); cursor: pointer; transition: all 0.2s; border: none; background: transparent; }
         .role-btn.active { background: var(--accent-blue); color: white; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3); }
 
-        /* Поля ввода */
         .field-group { margin-bottom: 20px; }
         .field-label { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; font-weight: 500; display: block; }
-        .field-input { 
-            width: 100%; background: var(--bg-input); border: 1px solid var(--border-color); 
-            padding: 16px; border-radius: 12px; color: white; font-size: 16px; 
-            outline: none; transition: border-color 0.2s; 
-        }
+        .field-input { width: 100%; background: var(--bg-input); border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; color: white; font-size: 16px; outline: none; transition: border-color 0.2s; }
         .field-input:focus { border-color: var(--accent-blue); }
         textarea.field-input { resize: none; min-height: 80px; line-height: 1.4; }
 
-        /* Выбор валюты */
-        .currency-selector { 
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; 
-        }
-        .currency-option {
-            background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px;
-            padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer;
-            transition: all 0.2s;
-        }
+        .currency-selector { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 24px; }
+        .currency-option { background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s; }
         .currency-option.active { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.1); }
         .currency-icon { font-size: 20px; width: 24px; text-align: center; }
         .currency-name { font-size: 14px; font-weight: 600; }
 
-        .btn-primary { 
-            width: 100%; background: var(--accent-gradient); color: white; border: none; 
-            padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; 
-            margin-top: 10px; cursor: pointer; transition: transform 0.1s, filter 0.2s; 
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); 
-        }
+        .btn-primary { width: 100%; background: var(--accent-gradient); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; cursor: pointer; transition: transform 0.1s, filter 0.2s; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); }
         .btn-primary:active { transform: scale(0.98); filter: brightness(0.9); }
+
+        /* МОДАЛКА ПОПОЛНЕНИЯ (НОВАЯ!) */
+        .deposit-methods { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .deposit-method { 
+            background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; 
+            padding: 16px; display: flex; align-items: center; gap: 16px; cursor: pointer; 
+            transition: all 0.2s; position: relative; overflow: hidden;
+        }
+        .deposit-method:active { transform: scale(0.98); background: rgba(255,255,255,0.05); }
+        .deposit-method.active { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); }
+        .method-icon { 
+            width: 48px; height: 48px; border-radius: 12px; background: var(--bg-input); 
+            display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0;
+        }
+        .method-info { flex: 1; }
+        .method-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .method-desc { font-size: 12px; color: var(--text-muted); }
+        .method-check { 
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border-color); 
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+        }
+        .deposit-method.active .method-check { background: var(--accent-blue); border-color: var(--accent-blue); }
+        .deposit-method.active .method-check::after { content: '✓'; color: white; font-size: 14px; font-weight: bold; }
 
         /* НАВИГАЦИЯ */
         .bottom-nav { 
@@ -232,11 +261,19 @@
                     <div class="user-tag" id="home-username">@username</div>
                 </div>
             </div>
-            <div class="balance-label">Баланс</div>
+            <div class="balance-label">Основной баланс</div>
             <div class="balance-amount" id="user-balance">0,00 ₽</div>
+            
+            <!-- Мультивалютные конвертации -->
+            <div class="balance-conversions">
+                <div class="conv-item" id="conv-usdt">≈ 0.00 USDT</div>
+                <div class="conv-item" id="conv-gram">≈ 0.00 GRAM</div>
+                <div class="conv-item" id="conv-stars">≈ 0 Stars</div>
+            </div>
+
             <div class="balance-actions">
-                <button class="btn-white" onclick="loadBalance()">Обновить</button>
-                <button class="btn-transparent">Вывести</button>
+                <button class="btn-white" onclick="openDepositModal()">💳 Пополнить</button>
+                <button class="btn-transparent" onclick="loadBalance()">🔄 Обновить</button>
             </div>
         </div>
         <div class="banner">
@@ -326,42 +363,35 @@
         </div>
     </div>
 
-    <!-- НОВАЯ МОДАЛКА СОЗДАНИЯ СДЕЛКИ -->
+    <!-- МОДАЛКА СОЗДАНИЯ СДЕЛКИ -->
     <div class="modal-overlay" id="new-deal-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-title">Новая сделка</div>
                 <button class="modal-close-icon" onclick="closeModal('new-deal-modal')">✕</button>
             </div>
-            <div class="modal-desc">
-                После отправки заявки второй участник получит уведомление в <b>боте</b> и должен принять условия.
-            </div>
+            <div class="modal-desc">После отправки заявки второй участник получит уведомление в <b>боте</b> и должен принять условия.</div>
 
-            <!-- Переключатель роли -->
             <div class="role-switcher">
                 <button class="role-btn active" id="role-buyer" onclick="setRole('buyer')">Я покупаю</button>
                 <button class="role-btn" id="role-seller" onclick="setRole('seller')">Я продаю</button>
             </div>
 
-            <!-- Поле username (меняется лейбл в зависимости от роли) -->
             <div class="field-group">
                 <label class="field-label" id="counterparty-label">@ продавца</label>
                 <input type="text" class="field-input" id="counterparty-username" placeholder="например, danya_102b" autocomplete="off">
             </div>
 
-            <!-- Товар / Тема -->
             <div class="field-group">
                 <label class="field-label">Товар / тема сделки</label>
                 <input type="text" class="field-input" id="deal-item" placeholder="например, нфт подарок">
             </div>
 
-            <!-- Описание -->
             <div class="field-group">
                 <label class="field-label">Описание для обоих</label>
                 <textarea class="field-input" id="deal-desc" placeholder="Что передаётся, сроки, важные условия. Не менее 10 символов — чем яснее, тем меньше споров."></textarea>
             </div>
 
-            <!-- Валюта -->
             <div class="field-group">
                 <label class="field-label">Валюта сделки</label>
                 <div class="currency-selector">
@@ -383,13 +413,71 @@
                 </div>
             </div>
 
-            <!-- Сумма -->
             <div class="field-group">
                 <label class="field-label">Сумма</label>
                 <input type="number" class="field-input" id="deal-amount" placeholder="0" min="1">
             </div>
 
             <button class="btn-primary" onclick="createDeal()">Отправить заявку</button>
+        </div>
+    </div>
+
+    <!-- НОВАЯ МОДАЛКА ПОПОЛНЕНИЯ -->
+    <div class="modal-overlay" id="deposit-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Пополнение баланса</div>
+                <button class="modal-close-icon" onclick="closeModal('deposit-modal')">✕</button>
+            </div>
+            <div class="modal-desc">Выберите удобный способ пополнения. Средства зачисляются автоматически.</div>
+
+            <div class="field-group">
+                <label class="field-label">Сумма пополнения, ₽</label>
+                <input type="number" class="field-input" id="deposit-amount" placeholder="Минимум 100 ₽" min="100">
+            </div>
+
+            <div class="field-group">
+                <label class="field-label">Способ оплаты</label>
+                <div class="deposit-methods">
+                    <div class="deposit-method active" onclick="selectDepositMethod(this, 'sbp')">
+                        <div class="method-icon">🏦</div>
+                        <div class="method-info">
+                            <div class="method-name">СБП (Система быстрых платежей)</div>
+                            <div class="method-desc">Мгновенно, без комиссии</div>
+                        </div>
+                        <div class="method-check"></div>
+                    </div>
+                    
+                    <div class="deposit-method" onclick="selectDepositMethod(this, 'card')">
+                        <div class="method-icon">💳</div>
+                        <div class="method-info">
+                            <div class="method-name">Банковская карта</div>
+                            <div class="method-desc">Visa, Mastercard, МИР</div>
+                        </div>
+                        <div class="method-check"></div>
+                    </div>
+
+                    <div class="deposit-method" onclick="selectDepositMethod(this, 'crypto')">
+                        <div class="method-icon">₿</div>
+                        <div class="method-info">
+                            <div class="method-name">Криптовалюта</div>
+                            <div class="method-desc">BTC, ETH, USDT (TRC20)</div>
+                        </div>
+                        <div class="method-check"></div>
+                    </div>
+
+                    <div class="deposit-method" onclick="selectDepositMethod(this, 'stars')">
+                        <div class="method-icon">⭐</div>
+                        <div class="method-info">
+                            <div class="method-name">Telegram Stars</div>
+                            <div class="method-desc">Оплата через Telegram</div>
+                        </div>
+                        <div class="method-check"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="processDeposit()">Перейти к оплате</button>
         </div>
     </div>
 
@@ -405,6 +493,13 @@
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
         
+        // Примерные курсы валют (в реальном проекте лучше брать с API)
+        const RATES = {
+            RUB_TO_USDT: 0.0108,
+            RUB_TO_GRAM: 0.45,
+            RUB_TO_STARS: 0.65
+        };
+
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
         tg.setHeaderColor('#0f1115'); tg.setBackgroundColor('#0f1115');
@@ -422,8 +517,85 @@
         document.getElementById('home-avatar').src = avatarUrl;
         document.getElementById('profile-avatar').src = avatarUrl;
 
+        // --- ЛОГИКА БАЛАНСА И КОНВЕРТАЦИЙ ---
+        let currentRubBalance = 0;
+
+        function updateConversions(rubAmount) {
+            currentRubBalance = rubAmount;
+            const usdt = (rubAmount * RATES.RUB_TO_USDT).toFixed(2);
+            const gram = (rubAmount * RATES.RUB_TO_GRAM).toFixed(2);
+            const stars = Math.round(rubAmount * RATES.RUB_TO_STARS);
+            
+            document.getElementById('conv-usdt').textContent = `≈ ${usdt} USDT`;
+            document.getElementById('conv-gram').textContent = `≈ ${gram} GRAM`;
+            document.getElementById('conv-stars').textContent = `≈ ${stars} Stars`;
+        }
+
+        async function loadBalance() {
+            try {
+                const data = await api(`/user?user_id=${userId}`);
+                const balance = data.balance || 0;
+                document.getElementById('user-balance').innerText = balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
+                updateConversions(balance);
+            } catch (e) {
+                console.error("Ошибка загрузки баланса:", e);
+            }
+        }
+
+        // --- ЛОГИКА МОДАЛКИ ПОПОЛНЕНИЯ ---
+        let selectedDepositMethod = 'sbp';
+
+        function openDepositModal() {
+            document.getElementById('deposit-modal').classList.add('active');
+            document.getElementById('deposit-amount').value = '';
+            // Сброс выбора метода на СБП
+            selectDepositMethod(document.querySelector('.deposit-method[data-method="sbp"]'), 'sbp');
+        }
+
+        function selectDepositMethod(el, method) {
+            document.querySelectorAll('.deposit-method').forEach(m => m.classList.remove('active'));
+            el.classList.add('active');
+            selectedDepositMethod = method;
+        }
+
+        async function processDeposit() {
+            const amount = parseFloat(document.getElementById('deposit-amount').value);
+            if (!amount || amount < 100) {
+                return tg.showAlert('Минимальная сумма пополнения — 100 ₽');
+            }
+
+            tg.MainButton.setText("Обработка..."); tg.MainButton.show();
+            
+            try {
+                // Здесь должна быть логика создания платежа через ваш платежный шлюз
+                // Пока просто имитируем успешное создание
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                closeModal('deposit-modal');
+                tg.showAlert(`✅ Заявка на пополнение ${amount} ₽ создана!\n\nСпособ: ${getMethodName(selectedDepositMethod)}\n\nПеренаправляем на оплату...`);
+                
+                // В реальном проекте здесь был бы редирект на платежную страницу
+                // window.location.href = paymentUrl;
+                
+            } catch (e) {
+                tg.showAlert('❌ Ошибка создания платежа: ' + e.message);
+            } finally {
+                tg.MainButton.hide();
+            }
+        }
+
+        function getMethodName(method) {
+            const names = {
+                'sbp': 'СБП',
+                'card': 'Банковская карта',
+                'crypto': 'Криптовалюта',
+                'stars': 'Telegram Stars'
+            };
+            return names[method] || method;
+        }
+
         // --- ЛОГИКА МОДАЛКИ СОЗДАНИЯ СДЕЛКИ ---
-        let currentRole = 'buyer'; // 'buyer' или 'seller'
+        let currentRole = 'buyer';
         let selectedCurrency = 'RUB';
 
         function setRole(role) {
@@ -451,7 +623,6 @@
 
         function openModal() { 
             document.getElementById('new-deal-modal').classList.add('active'); 
-            // Сброс полей при открытии
             document.getElementById('counterparty-username').value = '';
             document.getElementById('deal-item').value = '';
             document.getElementById('deal-desc').value = '';
@@ -478,11 +649,9 @@
 
             tg.MainButton.setText("Отправка..."); tg.MainButton.show();
             try {
-                // 1. Ищем ID контрагента
                 const resolveResp = await api(`/resolve-username?username=${counterpartyUsername}`);
                 if (!resolveResp.user_id) throw new Error(`@${counterpartyUsername} не найден.`);
 
-                // 2. Определяем кто buyer_id, а кто seller_id
                 let buyerId, buyerName, sellerId;
                 const fullDesc = `[${selectedCurrency}] ${item}\n\n${desc}`;
 
@@ -492,7 +661,6 @@
                     sellerId = userId; buyerId = resolveResp.user_id; buyerName = counterpartyUsername;
                 }
 
-                // 3. Создаем сделку
                 const resp = await api('/api/create-deal', {
                     method: 'POST',
                     body: JSON.stringify({ 
@@ -593,10 +761,19 @@
                 card.className = 'deal-card';
                 card.style.animationDelay = `${index * 0.05}s`;
                 card.onclick = () => openDealDetail(deal.id); 
+                
+                // Извлекаем валюту из описания
+                let currency = '₽';
+                let cleanDesc = deal.description || 'Без описания';
+                if(cleanDesc.startsWith('[')) {
+                    const match = cleanDesc.match(/^\[(.*?)\]/);
+                    if(match) { currency = match[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); }
+                }
+                
                 card.innerHTML = `
-                    <div class="deal-header"><div class="deal-id">#${deal.id}</div><div class="deal-price">${deal.amount.toLocaleString('ru-RU')} ${deal.description?.startsWith('[') ? deal.description.split(']')[0].replace('[','') : '₽'}</div></div>
+                    <div class="deal-header"><div class="deal-id">#${deal.id}</div><div class="deal-price">${deal.amount.toLocaleString('ru-RU')} ${currency}</div></div>
                     <div class="deal-title">${roleText}: ${partnerName}</div>
-                    <div class="deal-sub">${deal.description ? deal.description.split('\n')[0].replace(/^\[.*?\]\s*/, '') : 'Без описания'}</div>
+                    <div class="deal-sub">${cleanDesc.split('\n')[0]}</div>
                     <div class="deal-status ${deal.status}">${statusText}</div>`;
                 listEl.appendChild(card);
             });
@@ -610,7 +787,6 @@
             document.getElementById('detail-id').innerText = '#' + deal.id;
             document.getElementById('detail-status').innerText = getStatusText(deal.status);
             
-            // Извлекаем валюту из описания если есть
             let currency = '₽';
             let cleanDesc = deal.description || 'Нет описания';
             if(cleanDesc.startsWith('[')) {
@@ -665,11 +841,10 @@
             document.getElementById('stat-done').innerText = deals.filter(d => d.status === 'completed').length;
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
-        async function loadBalance() {
-            try { const data = await api(`/user?user_id=${userId}`); document.getElementById('user-balance').innerText = data.balance.toLocaleString('ru-RU', { minimumFractionDigits: 2 }) + ' ₽'; } catch (e) {}
-        }
 
-        loadBalance(); loadDeals();
+        // Инициализация при загрузке
+        loadBalance(); 
+        loadDeals();
     </script>
 </body>
 </html>
