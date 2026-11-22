@@ -28,7 +28,7 @@
         .header h1 { font-size: 24px; font-weight: 700; }
         .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; padding: 8px 0; }
 
-        /* ГЛАВНАЯ - ОБНОВЛЕННЫЙ БАЛАНС */
+        /* ГЛАВНАЯ */
         .balance-card { 
             background: var(--accent-gradient); border-radius: 24px; padding: 28px; 
             margin-bottom: 24px; box-shadow: 0 15px 40px rgba(59, 130, 246, 0.25); 
@@ -47,7 +47,6 @@
         .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
         .balance-amount { font-size: 40px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         
-        /* Мультивалютные конвертации */
         .balance-conversions { 
             display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto; 
             padding-bottom: 4px; scrollbar-width: none; position: relative; z-index: 1;
@@ -66,13 +65,12 @@
             cursor: pointer; transition: transform 0.1s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         .btn-white:active { transform: scale(0.96); }
-        .btn-transparent { 
-            background: rgba(255,255,255,0.2); color: white; border: none; 
+        .btn-outline { 
+            background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); 
             padding: 14px 24px; border-radius: 14px; font-weight: 700; font-size: 15px; 
-            flex: 1; cursor: pointer; backdrop-filter: blur(10px); transition: transform 0.1s;
-            border: 1px solid rgba(255,255,255,0.2);
+            flex: 1; cursor: pointer; transition: all 0.2s;
         }
-        .btn-transparent:active { transform: scale(0.96); }
+        .btn-outline:active { background: rgba(255,255,255,0.1); transform: scale(0.96); }
 
         .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); animation: popIn 0.4s ease 0.1s backwards; flex-shrink: 0; }
         .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
@@ -105,18 +103,90 @@
         .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; }
         .empty-state .sub { font-size: 13px; }
 
-        /* ДЕТАЛИ СДЕЛКИ */
-        .detail-card { background: var(--bg-card); border-radius: 20px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; flex-shrink: 0; }
-        .detail-row { display: flex; justify-content: space-between; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
-        .detail-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .detail-label { color: var(--text-muted); font-size: 14px; }
-        .detail-value { font-weight: 600; font-size: 16px; text-align: right; }
-        .action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; animation: slideIn 0.4s ease 0.1s backwards; flex-shrink: 0; }
-        .btn-action { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; color: white; transition: transform 0.1s, filter 0.2s; }
-        .btn-action:active { transform: scale(0.97); filter: brightness(0.9); }
-        .btn-confirm { background: var(--green); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-        .btn-reject { background: var(--red); }
-        .btn-wait { background: var(--bg-nav); color: var(--text-muted); cursor: default; border: 1px solid var(--border-color); }
+        /* ДЕТАЛИ СДЕЛКИ (НОВЫЙ ДИЗАЙН КАК В PLAYEROK) */
+        .deal-detail-screen { padding: 0 !important; background: var(--bg-main); }
+        .deal-header-bar { 
+            background: var(--accent-gradient); padding: 20px 16px 16px; 
+            position: sticky; top: 0; z-index: 10;
+        }
+        .deal-header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .deal-back-btn { 
+            background: rgba(255,255,255,0.2); border: none; color: white; 
+            width: 36px; height: 36px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; cursor: pointer; font-size: 18px;
+        }
+        .deal-header-title { font-size: 18px; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .deal-header-sub { font-size: 13px; opacity: 0.8; margin-top: 2px; }
+        
+        /* Вкладки Сделка / Чат */
+        .deal-tabs { display: flex; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 4px; }
+        .deal-tab { 
+            flex: 1; text-align: center; padding: 10px; border-radius: 8px; 
+            font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.6); 
+            cursor: pointer; transition: all 0.2s; border: none; background: transparent;
+        }
+        .deal-tab.active { background: white; color: black; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        
+        .deal-content { padding: 16px; flex: 1; overflow-y: auto; }
+        
+        /* Таймлайн этапов */
+        .timeline-section { margin-bottom: 24px; }
+        .timeline-title { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; font-weight: 600; }
+        .timeline { position: relative; padding-left: 24px; }
+        .timeline::before { 
+            content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; 
+            width: 2px; background: var(--border-color); 
+        }
+        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-dot { 
+            position: absolute; left: -24px; top: 4px; width: 16px; height: 16px; 
+            border-radius: 50%; background: var(--green); border: 3px solid var(--bg-main);
+            box-shadow: 0 0 0 2px var(--green);
+        }
+        .timeline-item.pending .timeline-dot { background: var(--text-muted); box-shadow: 0 0 0 2px var(--text-muted); }
+        .timeline-item.active .timeline-dot { background: var(--orange); box-shadow: 0 0 0 2px var(--orange); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 2px var(--orange); } 50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.3); } }
+        
+        .timeline-step { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+        .timeline-time { font-size: 12px; color: var(--text-muted); }
+        
+        /* Блок суммы */
+        .amount-block { 
+            background: var(--bg-card); border-radius: 16px; padding: 20px; 
+            margin-bottom: 16px; border: 1px solid var(--border-color);
+        }
+        .amount-value { font-size: 32px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .amount-currency-icon { font-size: 28px; }
+        .amount-details { font-size: 13px; color: var(--text-muted); }
+        
+        /* Таблица участников */
+        .participants-table { 
+            background: var(--bg-card); border-radius: 16px; overflow: hidden; 
+            margin-bottom: 16px; border: 1px solid var(--border-color);
+        }
+        .participant-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 14px 16px; border-bottom: 1px solid var(--border-color);
+        }
+        .participant-row:last-child { border-bottom: none; }
+        .participant-label { font-size: 14px; color: var(--text-muted); }
+        .participant-value { font-size: 14px; font-weight: 600; }
+        
+        /* Контрагент */
+        .counterparty-section { margin-bottom: 24px; }
+        .counterparty-title { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
+        .counterparty-stats { 
+            background: var(--bg-card); border-radius: 16px; overflow: hidden; 
+            border: 1px solid var(--border-color);
+        }
+        .stat-row { 
+            display: flex; justify-content: space-between; padding: 12px 16px; 
+            border-bottom: 1px solid var(--border-color); font-size: 14px;
+        }
+        .stat-row:last-child { border-bottom: none; }
+        .stat-label { color: var(--text-muted); }
+        .stat-val { font-weight: 600; }
 
         /* ЧАТ ПОДДЕРЖКИ */
         .chat-container { flex: 1; display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; overflow-y: auto; }
@@ -146,7 +216,7 @@
         .menu-row-right { color: var(--green); font-size: 14px; font-weight: 600; }
         .badge { background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
-        /* МОДАЛКА СОЗДАНИЯ СДЕЛКИ */
+        /* МОДАЛКИ */
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; align-items: flex-end; z-index: 100; backdrop-filter: blur(8px); transition: background 0.3s; }
         .modal-overlay.active { display: flex; }
         
@@ -185,7 +255,7 @@
         .btn-primary { width: 100%; background: var(--accent-gradient); color: white; border: none; padding: 18px; border-radius: 14px; font-weight: 700; font-size: 16px; margin-top: 10px; cursor: pointer; transition: transform 0.1s, filter 0.2s; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4); }
         .btn-primary:active { transform: scale(0.98); filter: brightness(0.9); }
 
-        /* МОДАЛКА ПОПОЛНЕНИЯ (НОВАЯ!) */
+        /* Модалка пополнения/вывода */
         .deposit-methods { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
         .deposit-method { 
             background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; 
@@ -264,7 +334,6 @@
             <div class="balance-label">Основной баланс</div>
             <div class="balance-amount" id="user-balance">0,00 ₽</div>
             
-            <!-- Мультивалютные конвертации -->
             <div class="balance-conversions">
                 <div class="conv-item" id="conv-usdt">≈ 0.00 USDT</div>
                 <div class="conv-item" id="conv-gram">≈ 0.00 GRAM</div>
@@ -273,7 +342,7 @@
 
             <div class="balance-actions">
                 <button class="btn-white" onclick="openDepositModal()">💳 Пополнить</button>
-                <button class="btn-transparent" onclick="loadBalance()">🔄 Обновить</button>
+                <button class="btn-outline" onclick="openWithdrawModal()">📤 Вывести</button>
             </div>
         </div>
         <div class="banner">
@@ -299,25 +368,102 @@
         </div>
     </div>
 
-    <!-- ЭКРАН: ДЕТАЛИ СДЕЛКИ -->
-    <div id="screen-deal-detail" class="screen">
-        <div class="header">
-            <button class="back-btn" onclick="switchTab('deals', document.querySelectorAll('.nav-item')[1])">← Назад</button>
-            <h1>Детали</h1>
-            <div style="width: 60px;"></div>
-        </div>
-        <div class="detail-card">
-            <div class="detail-row"><span class="detail-label">ID сделки</span><span class="detail-value" id="detail-id">#---</span></div>
-            <div class="detail-row"><span class="detail-label">Статус</span><span class="detail-value" id="detail-status">---</span></div>
-            <div class="detail-row"><span class="detail-label">Сумма</span><span class="detail-value" id="detail-amount">0 ₽</span></div>
-            <div class="detail-row"><span class="detail-label">Продавец</span><span class="detail-value" id="detail-seller">---</span></div>
-            <div class="detail-row"><span class="detail-label">Покупатель</span><span class="detail-value" id="detail-buyer">---</span></div>
-            <div class="detail-row" style="flex-direction: column; align-items: flex-start;">
-                <span class="detail-label" style="margin-bottom: 8px;">Описание</span>
-                <span class="detail-value" id="detail-desc" style="text-align: left; font-weight: 400; font-size: 14px; color: var(--text-main);">---</span>
+    <!-- ЭКРАН: ДЕТАЛИ СДЕЛКИ (НОВЫЙ ДИЗАЙН) -->
+    <div id="screen-deal-detail" class="screen deal-detail-screen">
+        <div class="deal-header-bar">
+            <div class="deal-header-top">
+                <button class="deal-back-btn" onclick="switchTab('deals', document.querySelectorAll('.nav-item')[1])">←</button>
+                <div style="flex:1; min-width:0;">
+                    <div class="deal-header-title" id="detail-header-title">Сделка #---</div>
+                    <div class="deal-header-sub" id="detail-header-sub">Возврат покупателю</div>
+                </div>
+            </div>
+            <div class="deal-tabs">
+                <button class="deal-tab active" onclick="switchDealTab('deal')">Сделка</button>
+                <button class="deal-tab" onclick="switchDealTab('chat')">Чат</button>
             </div>
         </div>
-        <div id="action-area" class="action-buttons"></div>
+        
+        <div class="deal-content" id="deal-tab-content">
+            <!-- Таймлайн -->
+            <div class="timeline-section">
+                <div class="timeline-title">Этапы · Время по Москве</div>
+                <div class="timeline" id="deal-timeline">
+                    <!-- Заполняется JS -->
+                </div>
+            </div>
+            
+            <!-- Даты -->
+            <div class="participants-table" style="margin-bottom: 16px;">
+                <div class="participant-row">
+                    <span class="participant-label">Начало сделки</span>
+                    <span class="participant-value" id="detail-start-date">--</span>
+                </div>
+                <div class="participant-row">
+                    <span class="participant-label">Завершение</span>
+                    <span class="participant-value" id="detail-end-date">--</span>
+                </div>
+            </div>
+            
+            <!-- Сумма -->
+            <div class="amount-block">
+                <div class="amount-value">
+                    <span id="detail-amount">0,00</span>
+                    <span class="amount-currency-icon" id="detail-currency-icon">₽</span>
+                </div>
+                <div class="amount-details" id="detail-commission">Покупатель платит 0,00 ₽ · комиссия 12.5%</div>
+            </div>
+            
+            <!-- Участники -->
+            <div class="participants-table">
+                <div class="participant-row">
+                    <span class="participant-label">Роль</span>
+                    <span class="participant-value" id="detail-my-role">--</span>
+                </div>
+                <div class="participant-row">
+                    <span class="participant-label">Продавец</span>
+                    <span class="participant-value" id="detail-seller">--</span>
+                </div>
+                <div class="participant-row">
+                    <span class="participant-label">Покупатель</span>
+                    <span class="participant-value" id="detail-buyer">--</span>
+                </div>
+            </div>
+            
+            <!-- Контрагент -->
+            <div class="counterparty-section">
+                <div class="counterparty-title">Контрагент</div>
+                <div class="counterparty-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Рейтинг</span>
+                        <span class="stat-val" id="cp-rating">0.0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Успешных сделок</span>
+                        <span class="stat-val" id="cp-success">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Всего сделок</span>
+                        <span class="stat-val" id="cp-total">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Верификация</span>
+                        <span class="stat-val" id="cp-verified">Нет</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка Чат (заглушка) -->
+        <div class="deal-content" id="chat-tab-content" style="display:none;">
+            <div class="chat-container" id="deal-chat-messages">
+                <div class="message support">💬 Чат сделки открыт. Здесь можно общаться с контрагентом.<span class="message-time">Сейчас</span></div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="deal-chat-input" placeholder="Написать сообщение...">
+                <button class="chat-send" onclick="sendDealChatMessage()">➤</button>
+            </div>
+        </div>
     </div>
 
     <!-- ЭКРАН: ЧАТ ПОДДЕРЖКИ -->
@@ -422,7 +568,7 @@
         </div>
     </div>
 
-    <!-- НОВАЯ МОДАЛКА ПОПОЛНЕНИЯ -->
+    <!-- МОДАЛКА ПОПОЛНЕНИЯ -->
     <div class="modal-overlay" id="deposit-modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -430,54 +576,67 @@
                 <button class="modal-close-icon" onclick="closeModal('deposit-modal')">✕</button>
             </div>
             <div class="modal-desc">Выберите удобный способ пополнения. Средства зачисляются автоматически.</div>
-
             <div class="field-group">
                 <label class="field-label">Сумма пополнения, ₽</label>
                 <input type="number" class="field-input" id="deposit-amount" placeholder="Минимум 100 ₽" min="100">
             </div>
-
             <div class="field-group">
                 <label class="field-label">Способ оплаты</label>
                 <div class="deposit-methods">
                     <div class="deposit-method active" onclick="selectDepositMethod(this, 'sbp')">
                         <div class="method-icon">🏦</div>
-                        <div class="method-info">
-                            <div class="method-name">СБП (Система быстрых платежей)</div>
-                            <div class="method-desc">Мгновенно, без комиссии</div>
-                        </div>
+                        <div class="method-info"><div class="method-name">СБП</div><div class="method-desc">Мгновенно, без комиссии</div></div>
                         <div class="method-check"></div>
                     </div>
-                    
                     <div class="deposit-method" onclick="selectDepositMethod(this, 'card')">
                         <div class="method-icon">💳</div>
-                        <div class="method-info">
-                            <div class="method-name">Банковская карта</div>
-                            <div class="method-desc">Visa, Mastercard, МИР</div>
-                        </div>
+                        <div class="method-info"><div class="method-name">Банковская карта</div><div class="method-desc">Visa, Mastercard, МИР</div></div>
                         <div class="method-check"></div>
                     </div>
-
                     <div class="deposit-method" onclick="selectDepositMethod(this, 'crypto')">
                         <div class="method-icon">₿</div>
-                        <div class="method-info">
-                            <div class="method-name">Криптовалюта</div>
-                            <div class="method-desc">BTC, ETH, USDT (TRC20)</div>
-                        </div>
-                        <div class="method-check"></div>
-                    </div>
-
-                    <div class="deposit-method" onclick="selectDepositMethod(this, 'stars')">
-                        <div class="method-icon">⭐</div>
-                        <div class="method-info">
-                            <div class="method-name">Telegram Stars</div>
-                            <div class="method-desc">Оплата через Telegram</div>
-                        </div>
+                        <div class="method-info"><div class="method-name">Криптовалюта</div><div class="method-desc">BTC, ETH, USDT (TRC20)</div></div>
                         <div class="method-check"></div>
                     </div>
                 </div>
             </div>
-
             <button class="btn-primary" onclick="processDeposit()">Перейти к оплате</button>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ВЫВОДА -->
+    <div class="modal-overlay" id="withdraw-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Вывод средств</div>
+                <button class="modal-close-icon" onclick="closeModal('withdraw-modal')">✕</button>
+            </div>
+            <div class="modal-desc">Выберите способ вывода. Минимальная сумма — 500 ₽.</div>
+            <div class="field-group">
+                <label class="field-label">Сумма вывода, ₽</label>
+                <input type="number" class="field-input" id="withdraw-amount" placeholder="Минимум 500 ₽" min="500">
+            </div>
+            <div class="field-group">
+                <label class="field-label">Способ вывода</label>
+                <div class="deposit-methods">
+                    <div class="deposit-method active" onclick="selectWithdrawMethod(this, 'sbp')">
+                        <div class="method-icon">🏦</div>
+                        <div class="method-info"><div class="method-name">СБП</div><div class="method-desc">На карту любого банка</div></div>
+                        <div class="method-check"></div>
+                    </div>
+                    <div class="deposit-method" onclick="selectWithdrawMethod(this, 'card')">
+                        <div class="method-icon">💳</div>
+                        <div class="method-info"><div class="method-name">На карту</div><div class="method-desc">Visa, Mastercard, МИР</div></div>
+                        <div class="method-check"></div>
+                    </div>
+                    <div class="deposit-method" onclick="selectWithdrawMethod(this, 'crypto')">
+                        <div class="method-icon">₿</div>
+                        <div class="method-info"><div class="method-name">Криптокошелёк</div><div class="method-desc">USDT (TRC20), BTC</div></div>
+                        <div class="method-check"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="processWithdraw()">Заказать вывод</button>
         </div>
     </div>
 
@@ -492,13 +651,8 @@
 
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
-        
-        // Примерные курсы валют (в реальном проекте лучше брать с API)
-        const RATES = {
-            RUB_TO_USDT: 0.0108,
-            RUB_TO_GRAM: 0.45,
-            RUB_TO_STARS: 0.65
-        };
+        const RATES = { RUB_TO_USDT: 0.0108, RUB_TO_GRAM: 0.45, RUB_TO_STARS: 0.65 };
+        const COMMISSION_RATE = 0.125; // 12.5%
 
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
@@ -517,18 +671,11 @@
         document.getElementById('home-avatar').src = avatarUrl;
         document.getElementById('profile-avatar').src = avatarUrl;
 
-        // --- ЛОГИКА БАЛАНСА И КОНВЕРТАЦИЙ ---
-        let currentRubBalance = 0;
-
+        // --- БАЛАНС ---
         function updateConversions(rubAmount) {
-            currentRubBalance = rubAmount;
-            const usdt = (rubAmount * RATES.RUB_TO_USDT).toFixed(2);
-            const gram = (rubAmount * RATES.RUB_TO_GRAM).toFixed(2);
-            const stars = Math.round(rubAmount * RATES.RUB_TO_STARS);
-            
-            document.getElementById('conv-usdt').textContent = `≈ ${usdt} USDT`;
-            document.getElementById('conv-gram').textContent = `≈ ${gram} GRAM`;
-            document.getElementById('conv-stars').textContent = `≈ ${stars} Stars`;
+            document.getElementById('conv-usdt').textContent = `≈ ${(rubAmount * RATES.RUB_TO_USDT).toFixed(2)} USDT`;
+            document.getElementById('conv-gram').textContent = `≈ ${(rubAmount * RATES.RUB_TO_GRAM).toFixed(2)} GRAM`;
+            document.getElementById('conv-stars').textContent = `≈ ${Math.round(rubAmount * RATES.RUB_TO_STARS)} Stars`;
         }
 
         async function loadBalance() {
@@ -537,167 +684,207 @@
                 const balance = data.balance || 0;
                 document.getElementById('user-balance').innerText = balance.toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ₽';
                 updateConversions(balance);
-            } catch (e) {
-                console.error("Ошибка загрузки баланса:", e);
-            }
+            } catch (e) {}
         }
 
-        // --- ЛОГИКА МОДАЛКИ ПОПОЛНЕНИЯ ---
-        let selectedDepositMethod = 'sbp';
-
-        function openDepositModal() {
-            document.getElementById('deposit-modal').classList.add('active');
-            document.getElementById('deposit-amount').value = '';
-            // Сброс выбора метода на СБП
-            selectDepositMethod(document.querySelector('.deposit-method[data-method="sbp"]'), 'sbp');
-        }
-
-        function selectDepositMethod(el, method) {
-            document.querySelectorAll('.deposit-method').forEach(m => m.classList.remove('active'));
-            el.classList.add('active');
-            selectedDepositMethod = method;
-        }
-
+        // --- МОДАЛКИ ПОПОЛНЕНИЯ/ВЫВОДА ---
+        let selectedDepositMethod = 'sbp', selectedWithdrawMethod = 'sbp';
+        function openDepositModal() { document.getElementById('deposit-modal').classList.add('active'); document.getElementById('deposit-amount').value = ''; }
+        function openWithdrawModal() { document.getElementById('withdraw-modal').classList.add('active'); document.getElementById('withdraw-amount').value = ''; }
+        function selectDepositMethod(el, m) { document.querySelectorAll('#deposit-modal .deposit-method').forEach(x=>x.classList.remove('active')); el.classList.add('active'); selectedDepositMethod = m; }
+        function selectWithdrawMethod(el, m) { document.querySelectorAll('#withdraw-modal .deposit-method').forEach(x=>x.classList.remove('active')); el.classList.add('active'); selectedWithdrawMethod = m; }
+        
         async function processDeposit() {
             const amount = parseFloat(document.getElementById('deposit-amount').value);
-            if (!amount || amount < 100) {
-                return tg.showAlert('Минимальная сумма пополнения — 100 ₽');
-            }
-
+            if (!amount || amount < 100) return tg.showAlert('Минимум 100 ₽');
             tg.MainButton.setText("Обработка..."); tg.MainButton.show();
-            
-            try {
-                // Здесь должна быть логика создания платежа через ваш платежный шлюз
-                // Пока просто имитируем успешное создание
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                closeModal('deposit-modal');
-                tg.showAlert(`✅ Заявка на пополнение ${amount} ₽ создана!\n\nСпособ: ${getMethodName(selectedDepositMethod)}\n\nПеренаправляем на оплату...`);
-                
-                // В реальном проекте здесь был бы редирект на платежную страницу
-                // window.location.href = paymentUrl;
-                
-            } catch (e) {
-                tg.showAlert('❌ Ошибка создания платежа: ' + e.message);
-            } finally {
-                tg.MainButton.hide();
-            }
+            await new Promise(r => setTimeout(r, 1000));
+            closeModal('deposit-modal');
+            tg.showAlert(`✅ Заявка на пополнение ${amount} ₽ создана!\nСпособ: ${selectedDepositMethod.toUpperCase()}`);
+            tg.MainButton.hide();
+        }
+        async function processWithdraw() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value);
+            if (!amount || amount < 500) return tg.showAlert('Минимум 500 ₽');
+            tg.MainButton.setText("Обработка..."); tg.MainButton.show();
+            await new Promise(r => setTimeout(r, 1000));
+            closeModal('withdraw-modal');
+            tg.showAlert(`✅ Заявка на вывод ${amount} ₽ создана!\nСпособ: ${selectedWithdrawMethod.toUpperCase()}\n⏳ Ожидайте зачисления.`);
+            tg.MainButton.hide();
         }
 
-        function getMethodName(method) {
-            const names = {
-                'sbp': 'СБП',
-                'card': 'Банковская карта',
-                'crypto': 'Криптовалюта',
-                'stars': 'Telegram Stars'
-            };
-            return names[method] || method;
-        }
-
-        // --- ЛОГИКА МОДАЛКИ СОЗДАНИЯ СДЕЛКИ ---
-        let currentRole = 'buyer';
-        let selectedCurrency = 'RUB';
-
+        // --- СОЗДАНИЕ СДЕЛКИ ---
+        let currentRole = 'buyer', selectedCurrency = 'RUB';
         function setRole(role) {
             currentRole = role;
             document.getElementById('role-buyer').classList.toggle('active', role === 'buyer');
             document.getElementById('role-seller').classList.toggle('active', role === 'seller');
-            
             const label = document.getElementById('counterparty-label');
             const input = document.getElementById('counterparty-username');
-            
-            if (role === 'buyer') {
-                label.textContent = '@ продавца';
-                input.placeholder = 'например, danya_102b';
-            } else {
-                label.textContent = '@ покупателя';
-                input.placeholder = 'например, buyer_nick';
-            }
+            if (role === 'buyer') { label.textContent = '@ продавца'; input.placeholder = 'например, danya_102b'; }
+            else { label.textContent = '@ покупателя'; input.placeholder = 'например, buyer_nick'; }
         }
-
-        function selectCurrency(el) {
-            document.querySelectorAll('.currency-option').forEach(opt => opt.classList.remove('active'));
-            el.classList.add('active');
-            selectedCurrency = el.dataset.currency;
-        }
-
+        function selectCurrency(el) { document.querySelectorAll('.currency-option').forEach(o=>o.classList.remove('active')); el.classList.add('active'); selectedCurrency = el.dataset.currency; }
         function openModal() { 
             document.getElementById('new-deal-modal').classList.add('active'); 
-            document.getElementById('counterparty-username').value = '';
-            document.getElementById('deal-item').value = '';
-            document.getElementById('deal-desc').value = '';
-            document.getElementById('deal-amount').value = '';
-            setRole('buyer');
-            selectCurrency(document.querySelector('.currency-option[data-currency="RUB"]'));
+            ['counterparty-username','deal-item','deal-desc','deal-amount'].forEach(id => document.getElementById(id).value = '');
+            setRole('buyer'); selectCurrency(document.querySelector('.currency-option[data-currency="RUB"]'));
         }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
         async function createDeal() {
-            let counterpartyUsername = document.getElementById('counterparty-username').value.trim();
-            if (counterpartyUsername.startsWith('@')) counterpartyUsername = counterpartyUsername.substring(1);
-            
+            let cp = document.getElementById('counterparty-username').value.trim();
+            if (cp.startsWith('@')) cp = cp.substring(1);
             const item = document.getElementById('deal-item').value.trim();
             const desc = document.getElementById('deal-desc').value.trim();
             const amount = parseFloat(document.getElementById('deal-amount').value);
-
-            if (!counterpartyUsername || !item || !desc || !amount || amount <= 0) {
-                return tg.showAlert('Заполните все поля корректно');
-            }
-            if (desc.length < 10) {
-                return tg.showAlert('Описание должно быть не менее 10 символов');
-            }
+            if (!cp || !item || !desc || !amount || amount <= 0) return tg.showAlert('Заполните все поля');
+            if (desc.length < 10) return tg.showAlert('Описание минимум 10 символов');
 
             tg.MainButton.setText("Отправка..."); tg.MainButton.show();
             try {
-                const resolveResp = await api(`/resolve-username?username=${counterpartyUsername}`);
-                if (!resolveResp.user_id) throw new Error(`@${counterpartyUsername} не найден.`);
-
+                const resp = await api(`/resolve-username?username=${cp}`);
+                if (!resp.user_id) throw new Error(`@${cp} не найден.`);
                 let buyerId, buyerName, sellerId;
                 const fullDesc = `[${selectedCurrency}] ${item}\n\n${desc}`;
-
-                if (currentRole === 'buyer') {
-                    buyerId = userId; buyerName = userName; sellerId = resolveResp.user_id;
-                } else {
-                    sellerId = userId; buyerId = resolveResp.user_id; buyerName = counterpartyUsername;
-                }
-
-                const resp = await api('/api/create-deal', {
-                    method: 'POST',
-                    body: JSON.stringify({ 
-                        buyer_id: buyerId, buyer_name: buyerName, 
-                        seller_id: sellerId, amount, description: fullDesc 
-                    })
-                });
-
+                if (currentRole === 'buyer') { buyerId = userId; buyerName = userName; sellerId = resp.user_id; }
+                else { sellerId = userId; buyerId = resp.user_id; buyerName = cp; }
+                
+                const r = await api('/api/create-deal', { method: 'POST', body: JSON.stringify({ buyer_id: buyerId, buyer_name: buyerName, seller_id: sellerId, amount, description: fullDesc }) });
                 closeModal('new-deal-modal');
-                tg.showAlert(`✅ Заявка отправлена!\nID: ${resp.deal_id}`);
-                loadBalance();
-                switchTab('deals', document.querySelectorAll('.nav-item')[1]);
+                tg.showAlert(`✅ Заявка отправлена!\nID: ${r.deal_id}`);
+                loadBalance(); switchTab('deals', document.querySelectorAll('.nav-item')[1]);
             } catch (e) { tg.showAlert('❌ ' + e.message); } 
             finally { tg.MainButton.hide(); }
         }
 
+        // --- ДЕТАЛИ СДЕЛКИ (КАК В PLAYEROK) ---
+        function switchDealTab(tab) {
+            document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('deal-tab-content').style.display = tab === 'deal' ? 'block' : 'none';
+            document.getElementById('chat-tab-content').style.display = tab === 'chat' ? 'flex' : 'none';
+        }
+
+        function getCurrencyIcon(curr) {
+            const icons = { 'RUB': '₽', 'UAH': '₴', 'USDT': '💲', 'GRAM': '💎', 'STARS': '⭐' };
+            return icons[curr] || '₽';
+        }
+
+        function formatMoscowTime(isoStr) {
+            if (!isoStr) return '--';
+            const d = new Date(isoStr);
+            const pad = n => String(n).padStart(2, '0');
+            return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)} · ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} МСК`;
+        }
+
+        function renderDealTimeline(deal) {
+            const timeline = document.getElementById('deal-timeline');
+            const steps = [
+                { key: 'pending', label: 'Средства в резерве', time: deal.created_at },
+                { key: 'active', label: 'Передача в чат', time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.updated_at || deal.created_at : null },
+                { key: 'delivered', label: 'Подтверждение', time: deal.status === 'delivered' || deal.status === 'completed' ? deal.updated_at || deal.created_at : null },
+                { key: 'completed', label: deal.role === 'buyer' ? 'Получение товара' : 'Возврат покупателю', time: deal.status === 'completed' ? deal.updated_at || deal.created_at : null }
+            ];
+            
+            const statusOrder = ['pending', 'active', 'delivered', 'completed'];
+            const currentIndex = statusOrder.indexOf(deal.status);
+            
+            timeline.innerHTML = steps.map((step, i) => {
+                let cls = 'timeline-item';
+                if (i < currentIndex) cls += ' completed';
+                else if (i === currentIndex) cls += ' active';
+                else cls += ' pending';
+                
+                const timeStr = step.time ? formatMoscowTime(step.time) : 'Ожидается';
+                return `<div class="${cls}"><div class="timeline-dot"></div><div class="timeline-step">${step.label}</div><div class="timeline-time">${timeStr}</div></div>`;
+            }).join('');
+        }
+
+        async function openDealDetail(dealId) {
+            switchTab('deal-detail', null);
+            let deal = (window._allDeals || []).find(d => d.id === dealId);
+            if (!deal) { await loadDeals(); deal = (window._allDeals || []).find(d => d.id === dealId); }
+            if (!deal) return tg.showAlert('Сделка не найдена');
+
+            // Извлекаем валюту
+            let currency = 'RUB', cleanDesc = deal.description || '';
+            if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
+            
+            const isBuyer = (deal.owner_id === userId);
+            const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
+            const buyerName = isBuyer ? deal.owner_name : (deal.partner_name || '@???');
+            const myRole = isBuyer ? 'Покупатель' : 'Продавец';
+            const counterpartyName = isBuyer ? sellerName : buyerName;
+            const commission = (deal.amount * COMMISSION_RATE).toFixed(2);
+            const totalWithCommission = (deal.amount * (1 + COMMISSION_RATE)).toFixed(2);
+            
+            // Заголовок
+            document.getElementById('detail-header-title').textContent = cleanDesc.split('\n')[0] || `Сделка #${deal.id}`;
+            const statusLabels = { 'pending': 'Ожидание принятия', 'active': 'В процессе', 'delivered': 'Товар передан', 'completed': 'Завершена', 'cancelled': 'Отмена' };
+            document.getElementById('detail-header-sub').textContent = `${statusLabels[deal.status] || deal.status} · ${deal.amount.toLocaleString('ru-RU')} ${getCurrencyIcon(currency)} · @${isBuyer ? sellerName.replace('@','') : buyerName.replace('@','')}`;
+            
+            // Таймлайн
+            renderDealTimeline(deal);
+            
+            // Даты
+            document.getElementById('detail-start-date').textContent = formatMoscowTime(deal.created_at);
+            document.getElementById('detail-end-date').textContent = deal.status === 'completed' ? formatMoscowTime(deal.updated_at || deal.created_at) : '--';
+            
+            // Сумма
+            document.getElementById('detail-amount').textContent = deal.amount.toLocaleString('ru-RU', {minimumFractionDigits: 2}) + ' ' + getCurrencyIcon(currency);
+            document.getElementById('detail-currency-icon').textContent = '';
+            document.getElementById('detail-commission').textContent = isBuyer 
+                ? `Вы платите ${totalWithCommission} ${getCurrencyIcon(currency)} · комиссия 12.5%` 
+                : `Вы получите ${deal.amount.toLocaleString('ru-RU', {minimumFractionDigits: 2})} ${getCurrencyIcon(currency)} · комиссия 12.5%`;
+            
+            // Участники
+            document.getElementById('detail-my-role').textContent = myRole;
+            document.getElementById('detail-seller').textContent = '@' + sellerName.replace('@','');
+            document.getElementById('detail-buyer').textContent = '@' + buyerName.replace('@','');
+            
+            // Контрагент (заглушка)
+            document.getElementById('cp-rating').textContent = '0.0';
+            document.getElementById('cp-success').textContent = '0';
+            document.getElementById('cp-total').textContent = '0';
+            document.getElementById('cp-verified').textContent = 'Нет';
+            
+            // Сброс вкладок
+            document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('.deal-tab').classList.add('active');
+            document.getElementById('deal-tab-content').style.display = 'block';
+            document.getElementById('chat-tab-content').style.display = 'none';
+        }
+
+        function sendDealChatMessage() {
+            const input = document.getElementById('deal-chat-input');
+            const text = input.value.trim();
+            if(!text) return;
+            const chat = document.getElementById('deal-chat-messages');
+            const msg = document.createElement('div');
+            msg.className = 'message user';
+            msg.innerHTML = `${text}<span class="message-time">Сейчас</span>`;
+            chat.appendChild(msg); input.value = ''; chat.scrollTop = chat.scrollHeight;
+        }
+        document.getElementById('deal-chat-input')?.addEventListener('keypress', function(e) { if(e.key==='Enter') sendDealChatMessage(); });
+
         // --- ОСНОВНАЯ ЛОГИКА ---
         function switchTab(tabName, element) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const targetScreen = document.getElementById('screen-' + tabName);
-            if(targetScreen) {
-                targetScreen.classList.add('active');
-                targetScreen.style.animation = 'none'; targetScreen.offsetHeight; targetScreen.style.animation = null; 
-                if(tabName === 'support') setTimeout(() => { document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight; }, 50);
+            const target = document.getElementById('screen-' + tabName);
+            if(target) {
+                target.classList.add('active');
+                target.style.animation = 'none'; target.offsetHeight; target.style.animation = null;
+                if(tabName === 'support') setTimeout(() => document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight, 50);
             }
-            
             if(element && element.classList.contains('nav-item')) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 element.classList.add('active');
             } else if (!tabName.includes('detail')) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                if(tabName === 'home') document.querySelectorAll('.nav-item')[0].classList.add('active');
-                if(tabName === 'deals') document.querySelectorAll('.nav-item')[1].classList.add('active');
-                if(tabName === 'support') document.querySelectorAll('.nav-item')[2].classList.add('active');
-                if(tabName === 'profile') document.querySelectorAll('.nav-item')[3].classList.add('active');
+                const idx = {home:0, deals:1, support:2, profile:3}[tabName];
+                if(idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
             }
-
             if (tabName === 'deals') loadDeals();
             if (tabName === 'profile') loadStats();
             if (tabName === 'home') loadBalance();
@@ -717,21 +904,21 @@
             const text = input.value.trim();
             if(!text) return;
             const chat = document.getElementById('chat-messages');
-            const userMsg = document.createElement('div');
-            userMsg.className = 'message user';
-            userMsg.innerHTML = `${text}<span class="message-time">Сейчас</span>`;
-            chat.appendChild(userMsg); input.value = ''; chat.scrollTop = chat.scrollHeight;
+            const msg = document.createElement('div');
+            msg.className = 'message user';
+            msg.innerHTML = `${text}<span class="message-time">Сейчас</span>`;
+            chat.appendChild(msg); input.value = ''; chat.scrollTop = chat.scrollHeight;
             setTimeout(() => {
-                const supportMsg = document.createElement('div');
-                supportMsg.className = 'message support';
-                let reply = "Спасибо за обращение! Оператор скоро ответит.";
-                if(text.toLowerCase().includes('сделк')) reply = "Проверьте вкладку «Сделки». Если ошибка — напишите ID.";
-                if(text.toLowerCase().includes('баланс')) reply = "Баланс обновляется автоматически. Нажмите «Обновить» на главной.";
-                supportMsg.innerHTML = `${reply}<span class="message-time">Сейчас</span>`;
-                chat.appendChild(supportMsg); chat.scrollTop = chat.scrollHeight;
+                const reply = document.createElement('div');
+                reply.className = 'message support';
+                let txt = "Спасибо за обращение! Оператор скоро ответит.";
+                if(text.toLowerCase().includes('сделк')) txt = "Проверьте вкладку «Сделки». Если ошибка — напишите ID.";
+                if(text.toLowerCase().includes('баланс')) txt = "Баланс обновляется автоматически.";
+                reply.innerHTML = `${txt}<span class="message-time">Сейчас</span>`;
+                chat.appendChild(reply); chat.scrollTop = chat.scrollHeight;
             }, 1500);
         }
-        document.getElementById('chat-input')?.addEventListener('keypress', function (e) { if (e.key === 'Enter') sendSupportMessage(); });
+        document.getElementById('chat-input')?.addEventListener('keypress', function(e) { if(e.key==='Enter') sendSupportMessage(); });
 
         async function loadDeals() {
             const listEl = document.getElementById('deals-list');
@@ -756,20 +943,15 @@
                 const isOwner = deal.owner_id === userId;
                 const partnerName = isOwner ? (deal.partner_name || 'Ожидание...') : deal.owner_name;
                 const roleText = deal.role === 'buyer' ? 'Вы покупаете' : 'Вы продаете';
-                const statusText = getStatusText(deal.status);
+                const statusText = { 'pending': '⏳ Ожидание', 'active': '🔥 В процессе', 'delivered': '📦 Передан', 'completed': '✅ Завершена', 'cancelled': '❌ Отмена' }[deal.status] || deal.status;
+                
+                let currency = '₽', cleanDesc = deal.description || 'Без описания';
+                if(cleanDesc.startsWith('[')) { const m = cleanDesc.match(/^\[(.*?)\]/); if(m) { currency = m[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); } }
+                
                 const card = document.createElement('div');
                 card.className = 'deal-card';
                 card.style.animationDelay = `${index * 0.05}s`;
-                card.onclick = () => openDealDetail(deal.id); 
-                
-                // Извлекаем валюту из описания
-                let currency = '₽';
-                let cleanDesc = deal.description || 'Без описания';
-                if(cleanDesc.startsWith('[')) {
-                    const match = cleanDesc.match(/^\[(.*?)\]/);
-                    if(match) { currency = match[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); }
-                }
-                
+                card.onclick = () => openDealDetail(deal.id);
                 card.innerHTML = `
                     <div class="deal-header"><div class="deal-id">#${deal.id}</div><div class="deal-price">${deal.amount.toLocaleString('ru-RU')} ${currency}</div></div>
                     <div class="deal-title">${roleText}: ${partnerName}</div>
@@ -779,72 +961,13 @@
             });
         }
 
-        async function openDealDetail(dealId) {
-            switchTab('deal-detail', null); 
-            let deal = (window._allDeals || []).find(d => d.id === dealId);
-            if (!deal) { await loadDeals(); deal = (window._allDeals || []).find(d => d.id === dealId); }
-            if (!deal) return tg.showAlert('Сделка не найдена');
-            document.getElementById('detail-id').innerText = '#' + deal.id;
-            document.getElementById('detail-status').innerText = getStatusText(deal.status);
-            
-            let currency = '₽';
-            let cleanDesc = deal.description || 'Нет описания';
-            if(cleanDesc.startsWith('[')) {
-                const match = cleanDesc.match(/^\[(.*?)\]/);
-                if(match) { currency = match[1]; cleanDesc = cleanDesc.replace(/^\[.*?\]\s*/, ''); }
-            }
-            
-            document.getElementById('detail-amount').innerText = deal.amount.toLocaleString('ru-RU') + ' ' + currency;
-            document.getElementById('detail-desc').innerText = cleanDesc;
-            
-            const isBuyer = (deal.owner_id === userId);
-            const sellerName = isBuyer ? (deal.partner_name || 'Неизвестно') : deal.owner_name;
-            const buyerName = isBuyer ? deal.owner_name : (deal.partner_name || 'Неизвестно');
-            document.getElementById('detail-seller').innerText = sellerName;
-            document.getElementById('detail-buyer').innerText = buyerName;
-            renderActionButtons(deal, isBuyer);
-        }
-
-        function renderActionButtons(deal, isBuyer) {
-            const container = document.getElementById('action-area');
-            container.innerHTML = '';
-            if (deal.status === 'pending') container.innerHTML = `<div class="btn-action btn-wait">⏳ Ожидание принятия...</div>`;
-            else if (deal.status === 'active') {
-                if (isBuyer) container.innerHTML = `<div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец должен передать товар.</div><button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар</button>`;
-                else container.innerHTML = `<div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Передайте товар покупателю.</div><button class="btn-action btn-confirm" onclick="confirmDelivery('${deal.id}')">📦 Я передал товар</button>`;
-            }
-            else if (deal.status === 'delivered') {
-                 if (isBuyer) container.innerHTML = `<div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец отметил отправку.</div><button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Подтвердить получение</button>`;
-                 else container.innerHTML = `<div class="btn-action btn-wait">📦 Ожидание подтверждения...</div>`;
-            }
-            else if (deal.status === 'completed') container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(16,185,129,0.1); color:var(--green)">✅ Завершена</div>`;
-            else if (deal.status === 'cancelled') container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(239,68,68,0.1); color:var(--red)">❌ Отмена</div>`;
-        }
-
-        async function confirmDelivery(dealId) {
-            tg.showConfirm('Подтверждаете передачу товара?', async (ok) => {
-                if(ok) { try { await api(`/deal/${dealId}/action`, { method: 'POST', body: JSON.stringify({ user_id: userId, action: 'delivered' }) }); tg.showAlert('Статус обновлен!'); openDealDetail(dealId); } catch(e) { tg.showAlert('Ошибка: ' + e.message); } }
-            });
-        }
-        async function confirmReceipt(dealId) {
-            tg.showConfirm('Подтверждаете получение? Средства будут переведены.', async (ok) => {
-                if(ok) { try { await api(`/deal/${dealId}/action`, { method: 'POST', body: JSON.stringify({ user_id: userId, action: 'received' }) }); tg.showAlert('Сделка завершена! Деньги переведены.'); openDealDetail(dealId); } catch(e) { tg.showAlert('Ошибка: ' + e.message); } }
-            });
-        }
-
-        function getStatusText(status) {
-            const map = { 'pending': '⏳ Ожидание', 'active': '🔥 В процессе', 'delivered': '📦 Передан', 'completed': '✅ Завершена', 'cancelled': '❌ Отмена' };
-            return map[status] || status;
-        }
         function updateStats(deals) {
             document.getElementById('stat-total').innerText = deals.length;
             document.getElementById('stat-done').innerText = deals.filter(d => d.status === 'completed').length;
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
 
-        // Инициализация при загрузке
-        loadBalance(); 
-        loadDeals();
+        loadBalance(); loadDeals();
     </script>
 </body>
 </html>
