@@ -12,78 +12,94 @@
             --accent-blue: #3b82f6; --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
             --border-color: #2a2e38; --green: #10b981; --orange: #f59e0b; --red: #ef4444;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 90px; overflow-x: hidden; }
 
-        .screen { display: none; padding: 16px; animation: fadeIn 0.2s ease; }
-        .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* АНИМАЦИИ ПЕРЕХОДОВ */
+        .screen { display: none; padding: 16px; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
+        .screen.active { display: block; opacity: 1; transform: translateY(0); animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .header h1 { font-size: 24px; font-weight: 700; }
-        .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; }
+        .back-btn { background: none; border: none; color: var(--accent-blue); font-size: 16px; cursor: pointer; padding: 8px 0; }
 
         /* ГЛАВНАЯ */
-        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; }
+        .balance-card { background: var(--accent-gradient); border-radius: 20px; padding: 24px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2); }
         .user-info { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-        .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,0.3); object-fit: cover;}
         .user-name { font-size: 18px; font-weight: 600; }
         .user-tag { font-size: 14px; opacity: 0.8; }
         .balance-label { font-size: 14px; opacity: 0.9; margin-bottom: 4px; }
-        .balance-amount { font-size: 36px; font-weight: 800; margin-bottom: 20px; }
+        .balance-amount { font-size: 36px; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.5px; }
         .balance-actions { display: flex; gap: 12px; }
-        .btn-white { background: white; color: black; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; }
-        .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; }
+        .btn-white { background: white; color: black; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; transition: transform 0.1s; }
+        .btn-white:active { transform: scale(0.96); }
+        .btn-transparent { background: rgba(255,255,255,0.2); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 600; font-size: 15px; flex: 1; cursor: pointer; backdrop-filter: blur(10px); transition: transform 0.1s; }
+        .btn-transparent:active { transform: scale(0.96); }
 
-        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); }
-        .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
-        .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
-        .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; width: 70%; }
-        .btn-small { background: #2a2e38; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; float: right; cursor: pointer; }
+        .banner { background: var(--bg-card); border-radius: 20px; padding: 20px; margin-bottom: 24px; border: 1px solid var(--border-color); animation: popIn 0.4s ease 0.1s backwards; }
+        .banner-tag { font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+        .banner-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; line-height: 1.3; }
+        .banner-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; width: 80%; line-height: 1.4; }
+        .btn-small { background: #2a2e38; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; float: right; cursor: pointer; transition: background 0.2s; }
+        .btn-small:hover { background: #3a3e48; }
 
         /* СДЕЛКИ */
         .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-        .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; }
-        .search-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-        .tab { background: var(--bg-card); color: var(--text-muted); padding: 10px 16px; border-radius: 20px; font-size: 14px; border: 1px solid transparent; cursor: pointer; }
-        .tab.active { background: var(--accent-blue); color: white; }
-        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); cursor: pointer; transition: transform 0.1s; }
-        .deal-card:active { transform: scale(0.98); }
+        .search-input { flex: 1; background: var(--bg-card); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; color: white; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .search-input:focus { border-color: var(--accent-blue); }
+        .search-btn { background: var(--accent-blue); color: white; border: none; padding: 0 20px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .search-btn:active { opacity: 0.8; }
+        
+        .deal-card { background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--green); cursor: pointer; transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s; animation: popIn 0.3s ease backwards; }
+        .deal-card:nth-child(2) { animation-delay: 0.05s; }
+        .deal-card:nth-child(3) { animation-delay: 0.1s; }
+        .deal-card:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .deal-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
-        .deal-id { color: var(--text-muted); font-size: 12px; }
+        .deal-id { color: var(--text-muted); font-size: 12px; font-weight: 500; }
         .deal-price { font-weight: 700; font-size: 16px; }
         .deal-title { font-size: 15px; margin-bottom: 8px; font-weight: 600; }
         .deal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
         .deal-status { display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; background: rgba(16, 185, 129, 0.1); color: var(--green); }
         .deal-status.pending { background: rgba(245, 158, 11, 0.1); color: var(--orange); }
         .deal-status.completed { background: rgba(16, 185, 129, 0.1); color: var(--green); }
-        .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; }
-        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+        .empty-state { text-align: center; color: var(--text-muted); padding: 60px 20px; animation: fadeIn 0.5s ease; }
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
         .empty-state .title { font-weight: 600; margin-bottom: 6px; color: white; }
         .empty-state .sub { font-size: 13px; }
 
         /* ДЕТАЛИ СДЕЛКИ */
-        .detail-card { background: var(--bg-card); border-radius: 20px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-color); }
+        .detail-card { background: var(--bg-card); border-radius: 20px; padding: 24px; margin-bottom: 20px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; }
         .detail-row { display: flex; justify-content: space-between; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
         .detail-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .detail-label { color: var(--text-muted); font-size: 14px; }
         .detail-value { font-weight: 600; font-size: 16px; text-align: right; }
-        .action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
-        .btn-action { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; color: white; }
-        .btn-confirm { background: var(--green); }
+        .action-buttons { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; animation: slideIn 0.4s ease 0.1s backwards; }
+        .btn-action { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; font-size: 16px; cursor: pointer; color: white; transition: transform 0.1s, filter 0.2s; }
+        .btn-action:active { transform: scale(0.97); filter: brightness(0.9); }
+        .btn-confirm { background: var(--green); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
         .btn-reject { background: var(--red); }
-        .btn-wait { background: var(--bg-nav); color: var(--text-muted); cursor: default; }
+        .btn-wait { background: var(--bg-nav); color: var(--text-muted); cursor: default; border: 1px solid var(--border-color); }
 
         /* ПРОФИЛЬ */
-        .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); }
-        .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; }
+        .profile-header { background: var(--bg-card); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); animation: popIn 0.3s ease; }
+        .profile-stats { display: flex; background: var(--bg-card); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-color); text-align: center; animation: popIn 0.3s ease 0.1s backwards; }
         .stat-item { flex: 1; border-right: 1px solid var(--border-color); }
         .stat-item:last-child { border-right: none; }
         .stat-val { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
-        .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; }
-        .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
+        .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; animation: popIn 0.3s ease 0.2s backwards; }
+        .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); transition: background 0.2s; }
+        .menu-row:active { background: rgba(255,255,255,0.05); }
         .menu-row:last-child { border-bottom: none; }
         .menu-row-title { font-size: 15px; font-weight: 500; }
         .menu-row-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
@@ -91,23 +107,71 @@
         .badge { background: rgba(16, 185, 129, 0.1); color: var(--green); padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
         /* МОДАЛКИ */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; z-index: 100; }
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; align-items: flex-end; z-index: 100; backdrop-filter: blur(5px); transition: background 0.3s; }
         .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--bg-main); width: 100%; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; padding-bottom: 40px; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .modal-content { background: var(--bg-main); width: 100%; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; padding-bottom: 40px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); border-top: 1px solid var(--border-color); }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
-        .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; padding-left: 12px; border-left: 2px solid var(--accent-blue); }
-        .modal-close { text-align: center; color: var(--text-muted); margin-top: 16px; font-size: 14px; padding: 10px; cursor: pointer; }
-        .field-label { font-size: 13px; color: var(--text-muted); margin: 12px 0 8px; }
-        .field-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 12px; color: white; font-size: 15px; outline: none; margin-bottom: 4px; }
-        .btn-primary { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 16px; cursor: pointer; }
+        .modal-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; padding-left: 12px; border-left: 2px solid var(--accent-blue); line-height: 1.4; }
+        .modal-close { text-align: center; color: var(--text-muted); margin-top: 16px; font-size: 14px; padding: 10px; cursor: pointer; transition: color 0.2s; }
+        .modal-close:active { color: white; }
+        .field-label { font-size: 13px; color: var(--text-muted); margin: 12px 0 8px; font-weight: 500; }
+        .field-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); padding: 14px 16px; border-radius: 12px; color: white; font-size: 15px; outline: none; margin-bottom: 4px; transition: border-color 0.2s; }
+        .field-input:focus { border-color: var(--accent-blue); }
+        .btn-primary { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 16px; cursor: pointer; transition: transform 0.1s, filter 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
+        .btn-primary:active { transform: scale(0.97); filter: brightness(0.9); }
 
-        /* НАВИГАЦИЯ */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 70px; background: var(--bg-nav); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--border-color); z-index: 50; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; gap: 4px; flex: 1; cursor: pointer; }
+        /* ОБНОВЛЕННАЯ НАВИГАЦИЯ (УРАВНОВЕШЕННАЯ) */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            height: 80px; background: rgba(23, 25, 30, 0.95); 
+            display: flex; justify-content: space-around; align-items: center; 
+            border-top: 1px solid var(--border-color); z-index: 50; 
+            backdrop-filter: blur(20px); padding-bottom: env(safe-area-inset-bottom);
+        }
+        
+        .nav-item { 
+            display: flex; flex-direction: column; align-items: center; 
+            color: var(--text-muted); font-size: 11px; gap: 4px; 
+            flex: 1; cursor: pointer; transition: color 0.2s, transform 0.2s; 
+            padding-top: 10px;
+        }
+        .nav-item:active { transform: scale(0.9); }
         .nav-item.active { color: var(--accent-blue); }
-        .nav-icon { font-size: 20px; }
-        .nav-plus { width: 56px; height: 56px; background: var(--accent-blue); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; margin-top: -30px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); z-index: 60; cursor: pointer; }
+        .nav-icon { font-size: 22px; transition: transform 0.2s; }
+        .nav-item.active .nav-icon { transform: translateY(-2px); }
+
+        /* Центральная кнопка "+" */
+        .nav-plus-container {
+            position: relative;
+            width: 64px; height: 64px;
+            display: flex; justify-content: center; align-items: center;
+            margin-top: -35px; /* Поднимаем кнопку над панелью */
+            z-index: 60;
+        }
+        
+        .nav-plus { 
+            width: 64px; height: 64px; 
+            background: var(--accent-gradient); 
+            border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            color: white; font-size: 32px; font-weight: 300;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5); 
+            cursor: pointer; 
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+            border: 4px solid var(--bg-main); /* Обводка под цвет фона для эффекта выреза */
+        }
+        
+        .nav-plus:active { 
+            transform: scale(0.9) rotate(90deg); 
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+        .nav-plus:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -142,11 +206,8 @@
     <div id="screen-deals" class="screen">
         <div class="header"><h1>Сделки</h1></div>
         <div class="search-bar">
-            <input type="text" class="search-input" id="deal-search" placeholder="Поиск..." oninput="renderDeals()">
+            <input type="text" class="search-input" id="deal-search" placeholder="Поиск по ID..." oninput="renderDeals()">
             <button class="search-btn" onclick="loadDeals()">Найти</button>
-        </div>
-        <div class="tabs">
-            <div class="tab active">Мои сделки</div>
         </div>
         <div id="deals-list"></div>
         <div id="deals-empty" class="empty-state">
@@ -160,7 +221,7 @@
     <div id="screen-deal-detail" class="screen">
         <div class="header">
             <button class="back-btn" onclick="switchTab('deals', document.querySelectorAll('.nav-item')[1])">← Назад</button>
-            <h1>Детали сделки</h1>
+            <h1>Детали</h1>
             <div style="width: 60px;"></div>
         </div>
         
@@ -191,9 +252,7 @@
             </div>
         </div>
 
-        <div id="action-area" class="action-buttons">
-            <!-- Кнопки будут добавлены через JS -->
-        </div>
+        <div id="action-area" class="action-buttons"></div>
     </div>
 
     <!-- ЭКРАН: ПРОФИЛЬ -->
@@ -223,11 +282,11 @@
         </div>
     </div>
 
-    <!-- МОДАЛКА: СОЗДАНИЕ СДЕЛКИ (ОБНОВЛЕНА ПОД USERNAME) -->
+    <!-- МОДАЛКА: СОЗДАНИЕ СДЕЛКИ -->
     <div class="modal-overlay" id="new-deal-modal">
         <div class="modal-content">
             <div class="modal-title">Новая сделка</div>
-            <div class="modal-desc">Продавец получит уведомление в Telegram.</div>
+            <div class="modal-desc">Продавец получит уведомление в Telegram. Для принятия сделки у него должен быть баланс ≥ суммы сделки.</div>
             
             <div class="field-label">@username Продавца</div>
             <input type="text" class="field-input" id="seller-username" placeholder="Например: durov" autocomplete="off">
@@ -243,16 +302,30 @@
         </div>
     </div>
 
-    <!-- НАВИГАЦИЯ -->
+    <!-- ОБНОВЛЕННАЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('home', this)"><span class="nav-icon">🏠</span><span>Главная</span></div>
-        <div class="nav-item" onclick="switchTab('deals', this)"><span class="nav-icon">💼</span><span>Сделки</span></div>
-        <div class="nav-plus" onclick="openModal()">+</div>
-        <div class="nav-item" onclick="switchTab('profile', this)"><span class="nav-icon">👤</span><span>Профиль</span></div>
+        <div class="nav-item active" onclick="switchTab('home', this)">
+            <span class="nav-icon">🏠</span><span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('deals', this)">
+            <span class="nav-icon">💼</span><span>Сделки</span>
+        </div>
+        
+        <!-- Центральная кнопка -->
+        <div class="nav-plus-container">
+            <div class="nav-plus" onclick="openModal()">+</div>
+        </div>
+        
+        <div class="nav-item" onclick="switchTab('profile', this)">
+            <span class="nav-icon">👤</span><span>Профиль</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('deals', this)"> <!-- Дублируем deals для симметрии или можно добавить "Поддержка" -->
+            <span class="nav-icon">❓</span><span>Помощь</span>
+        </div>
     </div>
 
     <script>
-        const API_BASE = "https://fragment-bot-0apv.onrender.com"; // ЗАМЕНИТЕ НА ВАШ АДРЕС
+        const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
         
         const tg = window.Telegram.WebApp;
         tg.ready(); tg.expand();
@@ -263,7 +336,6 @@
         const userName = [user.first_name, user.last_name].filter(Boolean).join(' ') || 'Пользователь';
         const userTag = user.username ? '@' + user.username : '@guest';
 
-        // Инициализация UI
         document.getElementById('home-name').textContent = userName;
         document.getElementById('home-username').textContent = userTag;
         document.getElementById('profile-name').textContent = userName;
@@ -272,14 +344,30 @@
         document.getElementById('home-avatar').src = avatarUrl;
         document.getElementById('profile-avatar').src = avatarUrl;
 
-        // Навигация
         function switchTab(tabName, element) {
+            // Убираем активный класс со всех экранов
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById('screen-' + tabName).classList.add('active');
             
-            if(element && !tabName.includes('detail')) {
+            // Показываем нужный экран с анимацией
+            const targetScreen = document.getElementById('screen-' + tabName);
+            if(targetScreen) {
+                targetScreen.classList.add('active');
+                // Перезапускаем анимацию
+                targetScreen.style.animation = 'none';
+                targetScreen.offsetHeight; /* trigger reflow */
+                targetScreen.style.animation = null; 
+            }
+            
+            // Обновляем навигацию (только если кликнули по nav-item, а не по кнопке назад)
+            if(element && element.classList.contains('nav-item')) {
                 document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
                 element.classList.add('active');
+            } else if (!tabName.includes('detail')) {
+                // Если перешли программно (например, назад из деталей), подсвечиваем правильный таб
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                if(tabName === 'home') document.querySelectorAll('.nav-item')[0].classList.add('active');
+                if(tabName === 'deals') document.querySelectorAll('.nav-item')[1].classList.add('active');
+                if(tabName === 'profile') document.querySelectorAll('.nav-item')[2].classList.add('active');
             }
 
             if (tabName === 'deals') loadDeals();
@@ -287,7 +375,6 @@
             if (tabName === 'home') loadBalance();
         }
 
-        // API Helper
         async function api(path, opts = {}) {
             try {
                 const res = await fetch(API_BASE + path, {
@@ -303,12 +390,10 @@
             }
         }
 
-        // --- ЛОГИКА СДЕЛОК ---
-
         async function loadDeals() {
             const listEl = document.getElementById('deals-list');
             const emptyEl = document.getElementById('deals-empty');
-            listEl.innerHTML = '<div style="text-align:center; padding:20px;">Загрузка...</div>';
+            listEl.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Загрузка...</div>';
             
             try {
                 const deals = await api(`/deals?user_id=${userId}`);
@@ -334,7 +419,7 @@
             if (deals.length === 0) { emptyEl.style.display = 'block'; return; }
             emptyEl.style.display = 'none';
 
-            deals.forEach(deal => {
+            deals.forEach((deal, index) => {
                 const isOwner = deal.owner_id === userId;
                 const partnerName = isOwner ? (deal.partner_name || 'Ожидание...') : deal.owner_name;
                 const roleText = deal.role === 'buyer' ? 'Вы покупаете' : 'Вы продаете';
@@ -343,6 +428,7 @@
 
                 const card = document.createElement('div');
                 card.className = 'deal-card';
+                card.style.animationDelay = `${index * 0.05}s`; // Каскадная анимация
                 card.onclick = () => openDealDetail(deal.id); 
                 
                 card.innerHTML = `
@@ -358,7 +444,6 @@
             });
         }
 
-        // ОТКРЫТИЕ ДЕТАЛЕЙ СДЕЛКИ
         async function openDealDetail(dealId) {
             switchTab('deal-detail', null); 
             
@@ -367,7 +452,6 @@
                 await loadDeals();
                 deal = (window._allDeals || []).find(d => d.id === dealId);
             }
-
             if (!deal) return tg.showAlert('Сделка не найдена');
 
             document.getElementById('detail-id').innerText = '#' + deal.id;
@@ -381,7 +465,6 @@
 
             document.getElementById('detail-seller').innerText = sellerName;
             document.getElementById('detail-buyer').innerText = buyerName;
-
             renderActionButtons(deal, isBuyer);
         }
 
@@ -395,12 +478,12 @@
             else if (deal.status === 'active') {
                 if (isBuyer) {
                     container.innerHTML = `
-                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец должен передать товар. После проверки нажмите кнопку ниже.</div>
-                        <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар (Подтвердить)</button>
+                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец должен передать товар.</div>
+                        <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар</button>
                     `;
                 } else {
                     container.innerHTML = `
-                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Передайте товар покупателю. Затем нажмите кнопку.</div>
+                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Передайте товар покупателю.</div>
                         <button class="btn-action btn-confirm" onclick="confirmDelivery('${deal.id}')">📦 Я передал товар</button>
                     `;
                 }
@@ -408,31 +491,27 @@
             else if (deal.status === 'delivered') {
                  if (isBuyer) {
                     container.innerHTML = `
-                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец отметил отправку. Проверьте товар!</div>
-                        <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Я получил товар (Подтвердить)</button>
+                        <div style="text-align:center; color:var(--text-muted); margin-bottom:10px;">Продавец отметил отправку. Проверьте!</div>
+                        <button class="btn-action btn-confirm" onclick="confirmReceipt('${deal.id}')">✅ Подтвердить получение</button>
                     `;
                 } else {
-                     container.innerHTML = `<div class="btn-action btn-wait">📦 Ожидание подтверждения от покупателя...</div>`;
+                     container.innerHTML = `<div class="btn-action btn-wait">📦 Ожидание подтверждения...</div>`;
                 }
             }
             else if (deal.status === 'completed') {
-                container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(16,185,129,0.1); color:var(--green)">✅ Сделка завершена</div>`;
+                container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(16,185,129,0.1); color:var(--green)">✅ Завершена</div>`;
             }
             else if (deal.status === 'cancelled') {
-                container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(239,68,68,0.1); color:var(--red)">❌ Сделка отменена</div>`;
+                container.innerHTML = `<div class="btn-action btn-wait" style="background:rgba(239,68,68,0.1); color:var(--red)">❌ Отмена</div>`;
             }
         }
 
-        // Действия пользователя
         async function confirmDelivery(dealId) {
-            tg.showConfirm('Вы подтверждаете, что передали товар покупателю?', async (ok) => {
+            tg.showConfirm('Подтверждаете передачу товара?', async (ok) => {
                 if(ok) {
                     try {
-                        await api(`/deal/${dealId}/action`, {
-                            method: 'POST',
-                            body: JSON.stringify({ user_id: userId, action: 'delivered' })
-                        });
-                        tg.showAlert('Статус обновлен! Покупатель уведомлен.');
+                        await api(`/deal/${dealId}/action`, { method: 'POST', body: JSON.stringify({ user_id: userId, action: 'delivered' }) });
+                        tg.showAlert('Статус обновлен!');
                         openDealDetail(dealId);
                     } catch(e) { tg.showAlert('Ошибка: ' + e.message); }
                 }
@@ -440,13 +519,10 @@
         }
 
         async function confirmReceipt(dealId) {
-            tg.showConfirm('Подтверждаете получение товара? Средства будут переведены продавцу.', async (ok) => {
+            tg.showConfirm('Подтверждаете получение? Средства будут переведены.', async (ok) => {
                 if(ok) {
                     try {
-                        await api(`/deal/${dealId}/action`, {
-                            method: 'POST',
-                            body: JSON.stringify({ user_id: userId, action: 'received' })
-                        });
+                        await api(`/deal/${dealId}/action`, { method: 'POST', body: JSON.stringify({ user_id: userId, action: 'received' }) });
                         tg.showAlert('Сделка завершена! Деньги переведены.');
                         openDealDetail(dealId);
                     } catch(e) { tg.showAlert('Ошибка: ' + e.message); }
@@ -454,63 +530,36 @@
             });
         }
 
-        // Вспомогательные функции
         function getStatusText(status) {
-            const map = {
-                'pending': '⏳ Ожидание',
-                'active': '🔥 В процессе',
-                'delivered': '📦 Товар передан',
-                'completed': '✅ Завершена',
-                'cancelled': '❌ Отмена'
-            };
+            const map = { 'pending': '⏳ Ожидание', 'active': '🔥 В процессе', 'delivered': '📦 Передан', 'completed': '✅ Завершена', 'cancelled': '❌ Отмена' };
             return map[status] || status;
         }
 
         function updateStats(deals) {
-            const total = deals.length;
-            const done = deals.filter(d => d.status === 'completed').length;
-            document.getElementById('stat-total').innerText = total;
-            document.getElementById('stat-done').innerText = done;
+            document.getElementById('stat-total').innerText = deals.length;
+            document.getElementById('stat-done').innerText = deals.filter(d => d.status === 'completed').length;
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
 
-        // Создание сделки (ОБНОВЛЕНО ПОД USERNAME)
         function openModal() { document.getElementById('new-deal-modal').classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
         
         async function createDeal() {
-            // Получаем username и убираем собачку, если пользователь её ввел
             let sellerUsername = document.getElementById('seller-username').value.trim();
             if (sellerUsername.startsWith('@')) sellerUsername = sellerUsername.substring(1);
-            
             const amount = parseFloat(document.getElementById('deal-amount').value);
             const desc = document.getElementById('deal-desc').value.trim();
 
-            if (!sellerUsername || !amount || amount <= 0) {
-                return tg.showAlert('Введите корректный @username продавца и сумму');
-            }
+            if (!sellerUsername || !amount || amount <= 0) return tg.showAlert('Заполните все поля');
 
-            tg.MainButton.setText("Поиск продавца...");
-            tg.MainButton.show();
-
+            tg.MainButton.setText("Поиск..."); tg.MainButton.show();
             try {
-                // Сначала просим сервер найти ID по username
                 const resolveResp = await api(`/resolve-username?username=${sellerUsername}`);
-                
-                if (!resolveResp.user_id) {
-                    throw new Error(`Пользователь @${sellerUsername} не найден или никогда не запускал бота.`);
-                }
+                if (!resolveResp.user_id) throw new Error(`@${sellerUsername} не найден.`);
 
-                // Теперь создаем сделку, используя найденный ID
                 const resp = await api('/api/create-deal', {
                     method: 'POST',
-                    body: JSON.stringify({
-                        buyer_id: userId,
-                        buyer_name: userName,
-                        seller_id: resolveResp.user_id, 
-                        amount: amount,
-                        description: desc
-                    })
+                    body: JSON.stringify({ buyer_id: userId, buyer_name: userName, seller_id: resolveResp.user_id, amount, description: desc })
                 });
 
                 document.getElementById('seller-username').value = '';
@@ -518,15 +567,11 @@
                 document.getElementById('deal-desc').value = '';
                 
                 closeModal('new-deal-modal');
-                tg.showAlert(`✅ Сделка создана!\nID: ${resp.deal_id}\nПродавец (@${sellerUsername}) получил уведомление.`);
-                
+                tg.showAlert(`✅ Создана!\nID: ${resp.deal_id}`);
                 loadBalance();
                 switchTab('deals', document.querySelectorAll('.nav-item')[1]);
-            } catch (e) {
-                tg.showAlert('❌ Ошибка: ' + e.message);
-            } finally {
-                tg.MainButton.hide();
-            }
+            } catch (e) { tg.showAlert('❌ ' + e.message); } 
+            finally { tg.MainButton.hide(); }
         }
 
         async function loadBalance() {
@@ -536,7 +581,6 @@
             } catch (e) {}
         }
 
-        // Старт
         loadBalance();
         loadDeals();
     </script>
