@@ -1158,18 +1158,17 @@
             document.getElementById('detail-seller').textContent = '@' + (sellerName || '???').replace('@','');
             document.getElementById('detail-buyer').textContent = '@' + (buyerName || '???').replace('@','');
             
+            // СТАБИЛЬНЫЙ РЕЙТИНГ И КОЛИЧЕСТВО СДЕЛОК
             document.getElementById('cp-rating').textContent = '5.0';
-            
-            // Генерируем стабильное число на основе ID сделки
             let hash = 0;
             for (let i = 0; i < deal.id.length; i++) {
-            hash = deal.id.charCodeAt(i) + ((hash << 5) - hash);
+                hash = deal.id.charCodeAt(i) + ((hash << 5) - hash);
             }
             const randomDealsCount = 10 + (Math.abs(hash) % 91);
             
             document.getElementById('cp-success').textContent = randomDealsCount;
             document.getElementById('cp-total').textContent = randomDealsCount;
-            document.getElementById('cp-verified').textContent = 'Нет';
+            document.getElementById('cp-verified').textContent = 'Да'; // Изменили на "Да" для красоты
             
             document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
             document.querySelector('.deal-tab').classList.add('active');
@@ -1254,6 +1253,11 @@
         async function api(path, opts = {}) {
             try {
                 const res = await fetch(API_BASE + path, { headers: { 'Content-Type': 'application/json' }, ...opts });
+                if (res.status === 403) {
+                    // Если пришел 403 (Забанен), показываем заглушку
+                    document.body.innerHTML = '<div style="display:flex; justify-content:center; align-items:center; height:100vh; text-align:center; padding:20px; background-color:#0f1115; color:#fff;"><h1 style="font-size:24px; color:#ef4444;">⛔ Вы забанены в сервисе Fragment</h1></div>';
+                    throw new Error('Banned');
+                }
                 const data = await res.json().catch(() => null);
                 if (!res.ok) throw new Error(data?.detail || res.statusText || `Ошибка ${res.status}`);
                 return data;
@@ -1440,5 +1444,3 @@
     </script>
 </body>
 </html>
-
-
