@@ -475,13 +475,14 @@
                     <span class="participant-label">Покупатель</span>
                     <span class="participant-value" id="detail-buyer">--</span>
                 </div>
-                                <!-- НОВАЯ СТРОКА ВЕРИФИКАЦИИ -->
+                <!-- НОВАЯ СТРОКА ВЕРИФИКАЦИИ -->
                 <div class="participant-row">
                     <span class="participant-label">Верификация сделки</span>
                     <span class="participant-value">
                         <a href="https://t.me/TonFragment" target="_blank" style="color: var(--accent-blue); text-decoration: none;">@TonFragment</a>
                     </span>
                 </div>
+            </div>
             
             <div class="counterparty-section">
                 <div class="counterparty-title">Контрагент</div>
@@ -1086,23 +1087,13 @@
             return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)}`;
         }
 
-        // ОБНОВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА
-                function renderDealTimeline(deal) {
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА (убран дубликат)
+        function renderDealTimeline(deal) {
             const timeline = document.getElementById('deal-timeline');
             
-            // УБРАЛИ динамический расчет продавца, теперь всегда @TonFragment
-            const verificationUser = '@TonFragment';
-
             const steps = [
                 { key: 'pending', label: 'Средства в резерве', time: deal.created_at },
-                // ТУТ ТЕПЕРЬ ВСЕГДА @TonFragment
-                            const steps = [
-                { key: 'pending', label: 'Средства в резерве', time: deal.created_at },
-                // ТУТ ТЕПЕРЬ ВСЕГДА @TonFragment (кликабельный)
                 { key: 'active', label: `Передача в чат <a href="https://t.me/TonFragment" target="_blank" style="color: var(--accent-blue); text-decoration: none;">@TonFragment</a>`, time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
-                { key: 'delivered', label: 'Подтверждение', time: deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
-                { key: 'completed', label: 'Получение товара', time: deal.status === 'completed' ? deal.created_at : null }
-            ];
                 { key: 'delivered', label: 'Подтверждение', time: deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
                 { key: 'completed', label: 'Получение товара', time: deal.status === 'completed' ? deal.created_at : null }
             ];
@@ -1437,5 +1428,3 @@
     </script>
 </body>
 </html>
-
-
