@@ -1087,7 +1087,7 @@
             return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)}`;
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА (убран дубликат)
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА
         function renderDealTimeline(deal) {
             const timeline = document.getElementById('deal-timeline');
             
@@ -1128,16 +1128,20 @@
             const cleanDesc = (deal.description || '').replace(/^\[.*?\]\s*/, '');
             
             const isBuyer = (deal.buyer_id === userId);
-            const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
-            const buyerName = isBuyer ? deal.owner_name : (deal.partner_name || '@???');
+            
+            // ПРАВИЛЬНОЕ ОПРЕДЕЛЕНИЕ ИМЕН ПРОДАВЦА И ПОКУПАТЕЛЯ
+            // Если создатель сделки (owner_id) — это продавец, то owner_name это продавец, а partner_name — покупатель
+            const creatorIsSeller = (deal.owner_id === deal.seller_id);
+            const sellerName = creatorIsSeller ? deal.owner_name : deal.partner_name;
+            const buyerName = creatorIsSeller ? deal.partner_name : deal.owner_name;
+
             const myRole = isBuyer ? 'Покупатель' : 'Продавец';
-            const counterpartyName = isBuyer ? sellerName : buyerName;
             const commission = (deal.amount * COMMISSION_RATE).toFixed(2);
             const totalWithCommission = (deal.amount * (1 + COMMISSION_RATE)).toFixed(2);
             
             document.getElementById('detail-header-title').textContent = cleanDesc.split('\n')[0] || `Сделка #${deal.id}`;
             const statusLabels = { 'pending': 'Ожидание принятия', 'active': 'В процессе', 'delivered': 'Товар передан', 'completed': 'Завершена', 'cancelled': 'Отмена' };
-            document.getElementById('detail-header-sub').textContent = `${statusLabels[deal.status] || deal.status} · ${deal.amount.toLocaleString('ru-RU')} ${getCurrencyIcon(currency)} · @${isBuyer ? sellerName.replace('@','') : buyerName.replace('@','')}`;
+            document.getElementById('detail-header-sub').textContent = `${statusLabels[deal.status] || deal.status} · ${deal.amount.toLocaleString('ru-RU')} ${getCurrencyIcon(currency)} · @${isBuyer ? (sellerName || '').replace('@','') : (buyerName || '').replace('@','')}`;
             
             renderDealTimeline(deal);
             
@@ -1151,8 +1155,8 @@
                 : `Вы получите ${deal.amount.toLocaleString('ru-RU', {minimumFractionDigits: 2})} ${getCurrencyIcon(currency)} · комиссия 12.5%`;
             
             document.getElementById('detail-my-role').textContent = myRole;
-            document.getElementById('detail-seller').textContent = '@' + sellerName.replace('@','');
-            document.getElementById('detail-buyer').textContent = '@' + buyerName.replace('@','');
+            document.getElementById('detail-seller').textContent = '@' + (sellerName || '???').replace('@','');
+            document.getElementById('detail-buyer').textContent = '@' + (buyerName || '???').replace('@','');
             
             document.getElementById('cp-rating').textContent = '0.0';
             document.getElementById('cp-success').textContent = '0';
