@@ -1086,17 +1086,16 @@
         }
 
         // ОБНОВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА
-        function renderDealTimeline(deal) {
+                function renderDealTimeline(deal) {
             const timeline = document.getElementById('deal-timeline');
             
-            const isBuyer = (deal.buyer_id === userId);
-            const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
-            const cleanSellerName = sellerName.startsWith('@') ? sellerName : '@' + sellerName;
+            // УБРАЛИ динамический расчет продавца, теперь всегда @TonFragment
+            const verificationUser = '@TonFragment';
 
             const steps = [
                 { key: 'pending', label: 'Средства в резерве', time: deal.created_at },
-                // ТУТ ВАШЕ ИЗМЕНЕНИЕ С ЮЗЕРНЕЙМОМ ПРОДАВЦА
-                { key: 'active', label: `Передача в чат ${cleanSellerName}`, time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
+                // ТУТ ТЕПЕРЬ ВСЕГДА @TonFragment
+                { key: 'active', label: `Передача в чат ${verificationUser}`, time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
                 { key: 'delivered', label: 'Подтверждение', time: deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
                 { key: 'completed', label: 'Получение товара', time: deal.status === 'completed' ? deal.created_at : null }
             ];
@@ -1431,3 +1430,4 @@
     </script>
 </body>
 </html>
+
