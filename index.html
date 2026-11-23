@@ -1159,7 +1159,14 @@
             document.getElementById('detail-buyer').textContent = '@' + (buyerName || '???').replace('@','');
             
             document.getElementById('cp-rating').textContent = '5.0';
-            const randomDealsCount = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+            
+            // Генерируем стабильное число на основе ID сделки
+            let hash = 0;
+            for (let i = 0; i < deal.id.length; i++) {
+            hash = deal.id.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            const randomDealsCount = 10 + (Math.abs(hash) % 91);
+            
             document.getElementById('cp-success').textContent = randomDealsCount;
             document.getElementById('cp-total').textContent = randomDealsCount;
             document.getElementById('cp-verified').textContent = 'Нет';
@@ -1433,4 +1440,5 @@
     </script>
 </body>
 </html>
+
 
