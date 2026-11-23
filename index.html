@@ -235,7 +235,7 @@
         .stat-val { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
         .menu-list { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; animation: popIn 0.3s ease 0.2s backwards; flex-shrink: 0; }
-        .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); transition: background 0.2s; }
+        .menu-row { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); transition: background 0.2s; cursor: pointer; }
         .menu-row:active { background: rgba(255,255,255,0.05); }
         .menu-row:last-child { border-bottom: none; }
         .menu-row-title { font-size: 15px; font-weight: 500; }
@@ -345,6 +345,31 @@
         .nav-plus:active { transform: scale(0.9) rotate(90deg); }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Стили для новых экранов профиля */
+        .history-item { 
+            background: var(--bg-card); border-radius: 12px; padding: 16px; 
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid var(--border-color); animation: popIn 0.3s ease;
+        }
+        .history-info { display: flex; flex-direction: column; gap: 4px; }
+        .history-title { font-size: 15px; font-weight: 600; }
+        .history-date { font-size: 12px; color: var(--text-muted); }
+        .history-amount { font-size: 16px; font-weight: 700; }
+        .history-status { font-size: 12px; padding: 4px 8px; border-radius: 6px; display: inline-block; margin-top: 4px; width: fit-content; }
+        .status-done { background: rgba(16, 185, 129, 0.1); color: var(--green); }
+        .status-pending { background: rgba(245, 158, 11, 0.1); color: var(--orange); }
+        .status-rejected { background: rgba(239, 68, 68, 0.1); color: var(--red); }
+
+        .onboarding-step { display: flex; gap: 16px; margin-bottom: 24px; }
+        .onboarding-step:last-child { margin-bottom: 0; }
+        .step-num { 
+            width: 36px; height: 36px; border-radius: 50%; background: var(--accent-gradient); 
+            display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .step-content h3 { font-size: 16px; margin-bottom: 6px; }
+        .step-content p { font-size: 14px; color: var(--text-muted); line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -495,6 +520,86 @@
         </div>
     </div>
 
+    <!-- НОВЫЙ ЭКРАН: Заявки на вывод -->
+    <div id="screen-withdrawals" class="screen">
+        <div class="header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="back-btn" onclick="switchTab('profile', document.querySelectorAll('.nav-item')[3])">← Назад</button>
+            </div>
+            <h1 style="font-size: 20px;">Заявки на вывод</h1>
+        </div>
+        <div id="withdrawals-list">
+            <!-- Список будет генерироваться через JS -->
+        </div>
+    </div>
+
+    <!-- НОВЫЙ ЭКРАН: История платежей -->
+    <div id="screen-history" class="screen">
+        <div class="header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="back-btn" onclick="switchTab('profile', document.querySelectorAll('.nav-item')[3])">← Назад</button>
+            </div>
+            <h1 style="font-size: 20px;">История платежей</h1>
+        </div>
+        <div id="history-list">
+            <!-- Список будет генерироваться через JS -->
+        </div>
+    </div>
+
+    <!-- НОВЫЙ ЭКРАН: Знакомство с сервисом -->
+    <div id="screen-onboarding" class="screen">
+        <div class="header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="back-btn" onclick="switchTab('profile', document.querySelectorAll('.nav-item')[3])">← Назад</button>
+            </div>
+            <h1 style="font-size: 20px;">Как работает бот</h1>
+        </div>
+        <div style="padding-bottom: 20px;">
+            <div class="onboarding-step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h3>Создание сделки</h3>
+                    <p>Покупатель или продавец создает сделку в приложении, указывая контрагента, сумму и условия. Второй участник получает уведомление в боте.</p>
+                </div>
+            </div>
+            <div class="onboarding-step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h3>Гарант (Эскроу)</h3>
+                    <p>После принятия условий средства покупателя замораживаются на счетах сервиса. Продавец видит, что деньги «в деле» и может безопасно передавать товар.</p>
+                </div>
+            </div>
+            <div class="onboarding-step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h3>Передача и проверка</h3>
+                    <p>Продавец передает товар и подтверждает это в сделке. Покупатель проверяет товар. Если все в порядке — нажимает «Я получил».</p>
+                </div>
+            </div>
+            <div class="onboarding-step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <h3>Завершение</h3>
+                    <p>После подтверждения покупателем средства автоматически переводятся продавцу. Сделка закрывается, стороны могут оставить отзывы.</p>
+                </div>
+            </div>
+            <div class="onboarding-step">
+                <div class="step-num">🛡</div>
+                <div class="step-content">
+                    <h3>Безопасность и Споры</h3>
+                    <p>Если возникают проблемы, вы можете открыть спор. Подключится модератор сервиса, который изучит детали сделки и примет решение.</p>
+                </div>
+            </div>
+            <div class="onboarding-step">
+                <div class="step-num">💰</div>
+                <div class="step-content">
+                    <h3>Комиссия</h3>
+                    <p>Сервис взимает комиссию 12.5% от суммы сделки. Комиссию оплачивает покупатель сверху. Продавец получает полную сумму, указанную в сделке.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="screen-support" class="screen">
         <div class="header">
             <div style="display:flex; align-items:center; gap:10px;">
@@ -529,6 +634,19 @@
             <div class="stat-item"><div class="stat-val">5.0</div><div class="stat-label">Рейтинг</div></div>
         </div>
         <div class="menu-list">
+            <!-- НОВЫЕ ПУНКТЫ МЕНЮ -->
+            <div class="menu-row" onclick="switchTab('withdrawals')">
+                <div><div class="menu-row-title">Заявки на вывод</div><div class="menu-row-sub">История ваших выводов средств</div></div>
+                <div class="menu-row-right">→</div>
+            </div>
+            <div class="menu-row" onclick="switchTab('history')">
+                <div><div class="menu-row-title">История платежей</div><div class="menu-row-sub">Все транзакции по вашему счету</div></div>
+                <div class="menu-row-right">→</div>
+            </div>
+            <div class="menu-row" onclick="switchTab('onboarding')">
+                <div><div class="menu-row-title">Знакомство с сервисом</div><div class="menu-row-sub">Как работает гарант и бот</div></div>
+                <div class="menu-row-right">→</div>
+            </div>
             <div class="menu-row">
                 <div><div class="menu-row-title">Номер подтверждён</div><div class="menu-row-sub">Telegram-контакт подтверждён · 1 уровень</div></div>
                 <div class="menu-row-right">ГОТОВО</div>
@@ -703,7 +821,6 @@
     <script>
         const API_BASE = "https://fragment-bot-0apv.onrender.com"; 
         
-        // Обратные курсы для отображения на главном экране
         const RATES = { 
             RUB_TO_USDT: 1/90,    
             RUB_TO_GRAM: 1/95,    
@@ -959,7 +1076,6 @@
             if (!isoStr) return '--';
             const d = new Date(isoStr);
             const pad = n => String(n).padStart(2, '0');
-            // Убрали часы и минуты, оставили только дату
             return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)}`;
         }
 
@@ -977,18 +1093,13 @@
             
             timeline.innerHTML = steps.map((step, i) => {
                 let cls = 'timeline-item';
-                
-                // Логика подсветки:
-                // Если сделка завершена (completed) -> все шаги зеленые
-                // Если сделка в процессе (active/delivered) -> пройденные зеленые, текущий оранжевый, будущие серые
                 if (deal.status === 'completed' || i < currentIndex) {
-                    cls += ' completed'; // Зеленый
+                    cls += ' completed';
                 } else if (i === currentIndex) {
-                    cls += ' active'; // Оранжевый (текущий)
+                    cls += ' active';
                 } else {
-                    cls += ' pending'; // Серый (будущий)
+                    cls += ' pending';
                 }
-                
                 const timeStr = step.time ? formatMoscowTime(step.time) : 'Ожидается';
                 return `<div class="${cls}"><div class="timeline-dot"></div><div class="timeline-step">${step.label}</div><div class="timeline-time">${timeStr}</div></div>`;
             }).join('');
@@ -1072,8 +1183,8 @@
                 });
                 
                 tg.showAlert('✅ Статус сделки обновлен!');
-                await loadDeals(); // Обновляем данные с сервера
-                openDealDetail(currentDealId); // Перерисовываем экран
+                await loadDeals(); 
+                openDealDetail(currentDealId);
             } catch (e) {
                 tg.showAlert('❌ ' + e.message);
             } finally {
@@ -1112,6 +1223,8 @@
             if (tabName === 'deals') loadDeals();
             if (tabName === 'profile') loadStats();
             if (tabName === 'home') loadBalance();
+            if (tabName === 'withdrawals') loadWithdrawals();
+            if (tabName === 'history') loadHistory();
         }
 
         async function api(path, opts = {}) {
@@ -1190,6 +1303,105 @@
             document.getElementById('stat-done').innerText = deals.filter(d => d.status === 'completed').length;
         }
         function loadStats() { if (window._allDeals) updateStats(window._allDeals); else loadDeals(); }
+
+        // --- НОВЫЕ ФУНКЦИИ ДЛЯ ПРОФИЛЯ ---
+        
+        async function loadWithdrawals() {
+            const listEl = document.getElementById('withdrawals-list');
+            listEl.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Загрузка...</div>';
+            try {
+                const data = await api(`/withdrawals?user_id=${userId}`);
+                listEl.innerHTML = '';
+                if (data.length === 0) {
+                    listEl.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div class="title">Нет заявок</div><div class="sub">Здесь будут отображаться ваши выводы</div></div>';
+                    return;
+                }
+                data.forEach(w => {
+                    const statusMap = {
+                        'pending': { text: '⏳ В обработке', cls: 'status-pending' },
+                        'done': { text: '✅ Выполнено', cls: 'status-done' },
+                        'rejected': { text: '❌ Отклонено', cls: 'status-rejected' }
+                    };
+                    const st = statusMap[w.status] || { text: w.status, cls: '' };
+                    const methodText = { 'sbp': 'СБП', 'card': 'Карта', 'crypto': 'Крипто' }[w.method] || w.method;
+                    
+                    const el = document.createElement('div');
+                    el.className = 'history-item';
+                    el.innerHTML = `
+                        <div class="history-info">
+                            <div class="history-title">Вывод #${w.id} · ${methodText}</div>
+                            <div class="history-date">${formatMoscowTime(w.created_at)}</div>
+                            <span class="history-status ${st.cls}">${st.text}</span>
+                        </div>
+                        <div class="history-amount">${w.amount.toLocaleString('ru-RU')} ₽</div>
+                    `;
+                    listEl.appendChild(el);
+                });
+            } catch (e) {
+                listEl.innerHTML = '<div class="empty-state"><div class="icon">❌</div><div class="title">Ошибка</div><div class="sub">Не удалось загрузить заявки</div></div>';
+            }
+        }
+
+        async function loadHistory() {
+            const listEl = document.getElementById('history-list');
+            listEl.innerHTML = '<div style="text-align:center; padding:40px; color:var(--text-muted);">Загрузка...</div>';
+            try {
+                const [deals, withdrawals] = await Promise.all([
+                    api(`/deals?user_id=${userId}`),
+                    api(`/withdrawals?user_id=${userId}`)
+                ]);
+                
+                let history = [];
+                
+                // Добавляем завершенные сделки
+                deals.filter(d => d.status === 'completed').forEach(d => {
+                    const isBuyer = d.buyer_id === userId;
+                    const amountStr = isBuyer ? `-${d.amount.toLocaleString('ru-RU')}` : `+${d.amount.toLocaleString('ru-RU')}`;
+                    const desc = isBuyer ? `Оплата сделки #${d.id}` : `Получение по сделке #${d.id}`;
+                    history.push({
+                        date: new Date(d.created_at),
+                        title: desc,
+                        amount: `${amountStr} ${d.currency}`,
+                        type: isBuyer ? 'expense' : 'income'
+                    });
+                });
+
+                // Добавляем выводы (только done)
+                withdrawals.filter(w => w.status === 'done').forEach(w => {
+                    history.push({
+                        date: new Date(w.created_at),
+                        title: `Вывод на ${w.method.toUpperCase()}`,
+                        amount: `-${w.amount.toLocaleString('ru-RU')} ₽`,
+                        type: 'expense'
+                    });
+                });
+
+                history.sort((a, b) => b.date - a.date); // Сортировка от новых к старым
+
+                listEl.innerHTML = '';
+                if (history.length === 0) {
+                    listEl.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div class="title">История пуста</div><div class="sub">Здесь будут ваши транзакции</div></div>';
+                    return;
+                }
+
+                history.forEach(h => {
+                    const color = h.type === 'income' ? 'var(--green)' : 'var(--text-main)';
+                    const el = document.createElement('div');
+                    el.className = 'history-item';
+                    el.innerHTML = `
+                        <div class="history-info">
+                            <div class="history-title">${h.title}</div>
+                            <div class="history-date">${formatMoscowTime(h.date.toISOString())}</div>
+                        </div>
+                        <div class="history-amount" style="color: ${color}">${h.amount}</div>
+                    `;
+                    listEl.appendChild(el);
+                });
+
+            } catch (e) {
+                listEl.innerHTML = '<div class="empty-state"><div class="icon">❌</div><div class="title">Ошибка</div><div class="sub">Не удалось загрузить историю</div></div>';
+            }
+        }
 
         loadBalance(); 
         loadDeals();
