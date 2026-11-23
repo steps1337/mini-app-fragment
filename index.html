@@ -461,6 +461,7 @@
                 <div class="amount-details" id="detail-commission">Покупатель платит 0,00 ₽ · комиссия 12.5%</div>
             </div>
             
+            <!-- ОБНОВЛЕННАЯ ТАБЛИЦА УЧАСТНИКОВ -->
             <div class="participants-table">
                 <div class="participant-row">
                     <span class="participant-label">Роль</span>
@@ -473,6 +474,11 @@
                 <div class="participant-row">
                     <span class="participant-label">Покупатель</span>
                     <span class="participant-value" id="detail-buyer">--</span>
+                </div>
+                <!-- НОВАЯ СТРОКА ВЕРИФИКАЦИИ -->
+                <div class="participant-row">
+                    <span class="participant-label">Верификация сделки</span>
+                    <span class="participant-value" style="color: var(--accent-blue);">@TonFragment</span>
                 </div>
             </div>
             
@@ -1079,11 +1085,18 @@
             return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${String(d.getFullYear()).slice(2)}`;
         }
 
+        // ОБНОВЛЕННАЯ ФУНКЦИЯ ТАЙМЛАЙНА
         function renderDealTimeline(deal) {
             const timeline = document.getElementById('deal-timeline');
+            
+            const isBuyer = (deal.buyer_id === userId);
+            const sellerName = isBuyer ? (deal.partner_name || '@???') : deal.owner_name;
+            const cleanSellerName = sellerName.startsWith('@') ? sellerName : '@' + sellerName;
+
             const steps = [
                 { key: 'pending', label: 'Средства в резерве', time: deal.created_at },
-                { key: 'active', label: 'Передача в чат', time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
+                // ТУТ ВАШЕ ИЗМЕНЕНИЕ С ЮЗЕРНЕЙМОМ ПРОДАВЦА
+                { key: 'active', label: `Передача в чат ${cleanSellerName}`, time: deal.status === 'active' || deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
                 { key: 'delivered', label: 'Подтверждение', time: deal.status === 'delivered' || deal.status === 'completed' ? deal.created_at : null },
                 { key: 'completed', label: 'Получение товара', time: deal.status === 'completed' ? deal.created_at : null }
             ];
@@ -1093,6 +1106,7 @@
             
             timeline.innerHTML = steps.map((step, i) => {
                 let cls = 'timeline-item';
+                
                 if (deal.status === 'completed' || i < currentIndex) {
                     cls += ' completed';
                 } else if (i === currentIndex) {
@@ -1100,6 +1114,7 @@
                 } else {
                     cls += ' pending';
                 }
+                
                 const timeStr = step.time ? formatMoscowTime(step.time) : 'Ожидается';
                 return `<div class="${cls}"><div class="timeline-dot"></div><div class="timeline-step">${step.label}</div><div class="timeline-time">${timeStr}</div></div>`;
             }).join('');
