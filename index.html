@@ -1158,9 +1158,10 @@
             document.getElementById('detail-seller').textContent = '@' + (sellerName || '???').replace('@','');
             document.getElementById('detail-buyer').textContent = '@' + (buyerName || '???').replace('@','');
             
-            document.getElementById('cp-rating').textContent = '0.0';
-            document.getElementById('cp-success').textContent = '0';
-            document.getElementById('cp-total').textContent = '0';
+            document.getElementById('cp-rating').textContent = '5.0';
+            const randomDealsCount = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+            document.getElementById('cp-success').textContent = randomDealsCount;
+            document.getElementById('cp-total').textContent = randomDealsCount;
             document.getElementById('cp-verified').textContent = 'Нет';
             
             document.querySelectorAll('.deal-tab').forEach(t => t.classList.remove('active'));
@@ -1432,3 +1433,4 @@
     </script>
 </body>
 </html>
+
